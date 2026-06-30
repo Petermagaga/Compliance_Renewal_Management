@@ -1,0 +1,19 @@
+Compliance Renewal Reminder
+
+Hello,
+
+One of your compliance items is approaching expiry.
+
+Item: {{ item.name }}
+
+Category: {{ item.category }}
+
+Responsible Person: {{ item.responsible_person }}
+
+Expiry Date: {{ item.expiry_date }}
+
+Days Remaining: {{ days_left }}
+
+Please renew this item before expiry.
+
+Compliance Management System
