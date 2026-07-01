@@ -1,8 +1,13 @@
 
 from django.contrib import admin
 from django.urls import path,include
+from rest_framework_simplejwt.views import(
+    TokenObtainPairView,TokenRefreshSlidingView
+)
 
 urlpatterns = [
+    path("api/token/",TokenObtainPairView.as_view(),name="token_obtain_pair"),
+    path("api/token/refresh/",TokenRefreshSlidingView.as_view(),name="token_refresh"),
     path('admin/', admin.site.urls),
     path('api/compliance/',include('compliance.urls') ),
     path('api/dashboard/',include('analytics.urls')),
