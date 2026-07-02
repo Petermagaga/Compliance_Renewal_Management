@@ -132,6 +132,7 @@ STATICFILES_STORAGE = (
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "https://compliance-renewal-management.vercel.app",
 ]
 
 REST_FRAMEWORK = {
