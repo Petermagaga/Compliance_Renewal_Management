@@ -49,6 +49,12 @@ function Login() {
       }}
     >
       <form
+
+        onSubmit={(e) => {
+        e.preventDefault();
+        handleLogin();
+        }}
+
         style={{
           width: "350px",
           display: "flex",
@@ -56,7 +62,7 @@ function Login() {
           gap: "15px",
         }}
       >
-        <h2>Compliance Management Login</h2>
+        <h2>Unibrain Compliance Management Login</h2>
 
         <input
           type="text"
