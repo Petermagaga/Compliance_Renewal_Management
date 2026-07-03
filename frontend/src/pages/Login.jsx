@@ -72,9 +72,22 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button type="submit">
-          Login
+
+        {error && (
+        <p style={{ color: "red" }}>
+            {error}
+        </p>
+        )}
+
+        onSubmit={(e) => {
+        e.preventDefault();
+        handleLogin();
+        }}
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
         </button>
+
       </form>
     </div>
   );
