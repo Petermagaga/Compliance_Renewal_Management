@@ -1,27 +1,44 @@
 import { createContext, useContext, useState } from "react";
 
-// Create the authentication context
 const AuthContext = createContext();
 
-// Provider component
 export function AuthProvider({ children }) {
-  // Access token
-  const [accessToken, setAccessToken] = useState(null);
+  const [accessToken, setAccessTokenState] = useState(
+    localStorage.getItem("access")
+  );
 
-  // Refresh token
-  const [refreshToken, setRefreshToken] = useState(null);
+  const [refreshToken, setRefreshTokenState] = useState(
+    localStorage.getItem("refresh")
+  );
 
-  // Logged-in status
   const isAuthenticated = !!accessToken;
+
+  // Save tokens
+  const login = (access, refresh) => {
+    localStorage.setItem("access", access);
+    localStorage.setItem("refresh", refresh);
+
+    setAccessTokenState(access);
+    setRefreshTokenState(refresh);
+  };
+
+  // Remove tokens
+  const logout = () => {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+
+    setAccessTokenState(null);
+    setRefreshTokenState(null);
+  };
 
   return (
     <AuthContext.Provider
       value={{
         accessToken,
-        setAccessToken,
         refreshToken,
-        setRefreshToken,
         isAuthenticated,
+        login,
+        logout,
       }}
     >
       {children}
@@ -29,7 +46,6 @@ export function AuthProvider({ children }) {
   );
 }
 
-// Custom hook
 export function useAuth() {
   return useContext(AuthContext);
 }

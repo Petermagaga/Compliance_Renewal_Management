@@ -1,9 +1,44 @@
 import { useState } from "react";
+import { useNavigate }  from "react-router-dom";
+
+import api from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
+  const { login } = useAuth();
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+    
+  const handleLogin = async () => {
+    setError("");
+    setLoading(true);
+
+    try {
+        const response = await api.post("/token/", {
+        username,
+        password,
+        });
+
+        login(response.data.access, response.data.refresh);
+
+        navigate("/dashboard");
+    } catch (err) {
+        console.error(err);
+
+        setError("Invalid username or password");
+    } finally {
+        setLoading(false);
+    }
+    };
+
+  
   return (
     <div
       style={{
