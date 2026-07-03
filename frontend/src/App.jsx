@@ -4,7 +4,7 @@ import ComplianceItems from "./pages/ComplianceItems";
 import AddComplianceItem from "./pages/AddComplianceItem";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-
+import ProtectedRoute from "./components/ProtectedRoute";
 function App(){
   return(
     <BrowserRouter>
@@ -12,11 +12,22 @@ function App(){
         {/*Public Route*/}
         <Route path="/" element={<Login />}/>
 
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/compliance" element={<ComplianceItems />}/>
-        <Route path="/add-item" element={<AddComplianceItem />}/>
+        <Route path="/dashboard" 
+        element={
+          <ProtectedRoute>
+          <Dashboard />
+          </ProtectedRoute>} />
+        <Route path="/compliance" 
+        element={
+          <ProtectedRoute>
+          <ComplianceItems />
+          </ProtectedRoute>}/>
+        <Route path="/add-item"
+         element={
+          <ProtectedRoute>
+          <AddComplianceItem />
+          </ProtectedRoute>}/>
 
-        {/**/}
         
         <Route path="*" element={<NotFound />}/>
       </Routes>

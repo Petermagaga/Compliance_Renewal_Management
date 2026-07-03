@@ -85,11 +85,6 @@ function Login() {
         </p>
         )}
 
-        onSubmit={(e) => {
-        e.preventDefault();
-        handleLogin();
-        }}
-
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
