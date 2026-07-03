@@ -1,9 +1,20 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
+
+import { useAuth } from "../context/AuthContext";
 
 function Dashboard() {
   const [stats, setStats] = useState(null);
+  const navigate=useNavigate();
+  const {logout}=useAuth();
+
+  const handleLogout = () => {
+    logout();
+
+    navigate("/", { replace: true });
+  };
+
 
   useEffect(() => {
     api.get("/dashboard/stats/")
@@ -23,6 +34,15 @@ function Dashboard() {
       <h1 className="text-3xl font-bold mb-6">
         Compliance Dashboard
       </h1>
+
+      <div className="mb-6">
+        <button
+          onClick={handleLogout}
+          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+        >
+          Logout
+        </button>
+      </div>
 
       {/* Statistics */}
       <div className="grid grid-cols-4 gap-4 mb-8">
