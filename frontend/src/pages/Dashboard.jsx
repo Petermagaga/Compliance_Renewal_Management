@@ -16,6 +16,9 @@ import {
 
 import StatusPieChart from "../components/charts/StatusPieChart";
 import ExpiryBarChart from "../components/charts/ExpiryBarChart";
+import ComplianceTable from "../components/compliance/ComplianceTable";
+import RemindersPanel from "../components/compliance/RemindersPanel";
+import QuickActions from "../components/compliance/QuickActions";
 
 
 
@@ -91,6 +94,20 @@ return (
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
       <StatusPieChart />
       <ExpiryBarChart />
+    </div>
+
+
+    <div className="grid grid-cols-12 gap-6">
+
+      <div className="col-span-8">
+        <ComplianceTable />
+      </div>
+
+      <div className="col-span-4 space-y-6">
+        <RemindersPanel />
+        <QuickActions />
+      </div>
+
     </div>
 
       {/* Quick Actions */}
