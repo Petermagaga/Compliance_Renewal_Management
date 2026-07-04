@@ -31,98 +31,97 @@ function Dashboard() {
       });
   }, []);
 
-  if (!stats) return <div>Loading...</div>;
+if (!stats) return <div>Loading...</div>;
 
-  return (
-    <MainLayout>
+return (
+  <MainLayout>
 
-      <div className="p-8">
+    <div className="p-8">
 
-        <h1 className="text-3xl font-bold mb-6">
-          Compliance Dashboard
-        </h1>
+      <h1 className="text-3xl font-bold mb-6">
+        Compliance Dashboard
+      </h1>
 
-        <div className="mb-6">
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-          >
-            Logout
-          </button>
-        </div>
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
 
-        {/* Statistics */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <StatCard
+          title="Total Compliance Items"
+          value={stats.total_items}
+          subtitle="All registered items"
+          icon={<FiShield size={24} className="text-white" />}
+          color="bg-brand-green"
+        />
 
-          <div className="p-4 shadow rounded bg-white">
-            <h2>Total Items</h2>
-            <p className="text-2xl font-bold">
-              {stats.total_items}
-            </p>
-          </div>
+        <StatCard
+          title="Expiring Soon (≤ 60 days)"
+          value={stats.expiring_soon}
+          subtitle="Need attention"
+          icon={<FiClock size={24} className="text-white" />}
+          color="bg-brand-yellow"
+        />
 
-          <div className="p-4 shadow rounded bg-white">
-            <h2>Expired</h2>
-            <p className="text-2xl font-bold text-red-600">
-              {stats.expired}
-            </p>
-          </div>
+        <StatCard
+          title="Expired Items"
+          value={stats.expired}
+          subtitle="Requires immediate action"
+          icon={<FiAlertTriangle size={24} className="text-white" />}
+          color="bg-red-500"
+        />
 
-          <div className="p-4 shadow rounded bg-white">
-            <h2>Expiring Soon</h2>
-            <p className="text-2xl font-bold text-yellow-600">
-              {stats.expiring_soon}
-            </p>
-          </div>
-
-          <div className="p-4 shadow rounded bg-white">
-            <h2>Active</h2>
-            <p className="text-2xl font-bold text-green-600">
-              {stats.active}
-            </p>
-          </div>
-
-        </div>
-
-        {/* Quick Actions */}
-        <h2 className="text-2xl font-semibold mb-4">
-          Quick Actions
-        </h2>
-
-        <div className="grid grid-cols-2 gap-4">
-
-          <Link
-            to="/compliance"
-            className="p-5 rounded shadow bg-blue-500 text-white hover:bg-blue-600"
-          >
-            <h3 className="text-lg font-bold">
-              Compliance Items
-            </h3>
-
-            <p>
-              View all permits, licenses and certificates
-            </p>
-          </Link>
-
-          <Link
-            to="/add-item"
-            className="p-5 rounded shadow bg-green-500 text-white hover:bg-green-600"
-          >
-            <h3 className="text-lg font-bold">
-              Add Compliance Item
-            </h3>
-
-            <p>
-              Create a new compliance record
-            </p>
-          </Link>
-
-        </div>
+        <StatCard
+          title="Active / Safe Items"
+          value={stats.active}
+          subtitle="Up to date"
+          icon={<FiCheckCircle size={24} className="text-white" />}
+          color="bg-green-500"
+        />
 
       </div>
 
-    </MainLayout>
-  );
+      {/* Quick Actions */}
+
+      <h2 className="text-2xl font-semibold mb-4">
+        Quick Actions
+      </h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <Link
+          to="/compliance"
+          className="p-5 rounded-xl shadow bg-blue-600 text-white hover:bg-blue-700 transition"
+        >
+          <h3 className="text-lg font-bold">
+            Compliance Items
+          </h3>
+
+          <p>
+            View all permits, licenses and certificates
+          </p>
+
+        </Link>
+
+        <Link
+          to="/add-item"
+          className="p-5 rounded-xl shadow bg-green-600 text-white hover:bg-green-700 transition"
+        >
+          <h3 className="text-lg font-bold">
+            Add Compliance Item
+          </h3>
+
+          <p>
+            Create a new compliance record
+          </p>
+
+        </Link>
+
+      </div>
+
+    </div>
+
+  </MainLayout>
+);
+
 }
 
 export default Dashboard;
