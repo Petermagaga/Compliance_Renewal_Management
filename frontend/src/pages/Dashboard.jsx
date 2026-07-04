@@ -4,6 +4,7 @@ import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import MainLayout from "../components/layout/MainLayout";
 import StatCard from "../components/dashboard/StatCard";
+
 import {
   FiShield,
   FiClock,
@@ -11,6 +12,8 @@ import {
   FiCheckCircle
 } from "react-icons/fi";
 
+import StatusPieChart from "../components/charts/StatusPieChart";
+import ExpiryBarChart from "../components/charts/ExpiryBarChart";
 function Dashboard() {
   const [stats, setStats] = useState(null);
   const navigate = useNavigate();
@@ -78,6 +81,12 @@ return (
         />
 
       </div>
+
+    {/* Charts Section */}
+    <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <StatusPieChart />
+      <ExpiryBarChart />
+    </div>
 
       {/* Quick Actions */}
 
