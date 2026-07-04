@@ -3,6 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import MainLayout from "../components/layout/MainLayout";
+import StatCard from "../components/dashboard/StatCard";
+import {
+  FiShield,
+  FiClock,
+  FiAlertTriangle,
+  FiCheckCircle
+} from "react-icons/fi";
 
 function Dashboard() {
   const [stats, setStats] = useState(null);
