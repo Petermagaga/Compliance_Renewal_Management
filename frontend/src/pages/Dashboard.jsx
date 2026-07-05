@@ -34,17 +34,42 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    api.get("/dashboard/stats/")
-      .then((response) => {
-        setStats(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    fetchDashboardData();
   }, []);
 
-if (!stats) return <div>Loading...</div>;
+  const fetchDashboardData = async () => {
 
+    try {
+
+      const [statsRes, itemsRes] = await Promise.all([
+
+        api.get("/dashboard/stats/"),
+        api.get("/compliance/items/")
+
+      ]);
+
+      setStats(statsRes.data);
+      setItems(itemsRes.data);
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+    }
+
+  };
+
+if (!stats) {
+  return (
+    <MainLayout>
+      <div className="p-8">
+        Loading dashboard...
+      </div>
+    </MainLayout>
+  );
+}
 return (
   <MainLayout>
 
