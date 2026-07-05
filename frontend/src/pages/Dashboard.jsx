@@ -24,6 +24,7 @@ import QuickActions from "../components/compliance/QuickActions";
 
 function Dashboard() {
   const [stats, setStats] = useState(null);
+  const [items, setItems] =useState([]);
   const navigate = useNavigate();
   const { logout } = useAuth();
 
