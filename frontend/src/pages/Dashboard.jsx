@@ -118,19 +118,19 @@ return (
 
     {/* Charts Section */}
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-      <StatusPieChart />
-      <ExpiryBarChart />
+      <StatusPieChart stats={stats} />
+      <ExpiryBarChart items={items} />
     </div>
 
 
     <div className="grid grid-cols-12 gap-6">
 
       <div className="col-span-8">
-        <ComplianceTable />
+        <ComplianceTable  items={items} />
       </div>
 
       <div className="col-span-4 space-y-6">
-        <RemindersPanel />
+        <RemindersPanel items={items} />
         <QuickActions />
       </div>
 
