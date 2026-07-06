@@ -4,21 +4,9 @@ from django.db.models import Count
 from django.utils import timezone
 
 from compliance.models import ComplianceItem
+from .base import BaseAnalyticsService
 
-
-class ChartService:
-
-    def __init__(self, company=None):
-        self.company = company
-        self.today = timezone.now().date()
-
-    def _queryset(self):
-        qs = ComplianceItem.objects.all()
-
-        if self.company:
-            qs = qs.filter(company=self.company)
-
-        return qs
+class ChartService(BaseAnalyticsService):
 
     def get_charts(self):
         return {
@@ -29,8 +17,7 @@ class ChartService:
         }
 
     def status_distribution(self):
-        qs = self._queryset()
-
+        qs = self.queryset
         active = qs.filter(
             expiry_date__gt=self.today + timedelta(days=60)
         ).count()

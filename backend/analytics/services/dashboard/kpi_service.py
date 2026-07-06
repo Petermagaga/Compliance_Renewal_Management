@@ -2,11 +2,11 @@ from datetime import timedelta
 
 from django.db.models import Count
 from django.utils import timezone
-
+from .base import BaseAnalyticsService
 from compliance.models import ComplianceItem
 
 
-class KPIService:
+class KPIService(BaseAnalyticsService):
     """
     Builds all KPI metrics required by the dashboard.
     """
@@ -14,20 +14,8 @@ class KPIService:
     EXPIRING_THRESHOLD_DAYS = 60
     CRITICAL_THRESHOLD_DAYS = 7
 
-    def __init__(self, company=None):
-        self.company = company
-        self.today = timezone.now().date()
-
-    def _queryset(self):
-        qs = ComplianceItem.objects.all()
-
-        if self.company:
-            qs = qs.filter(company=self.company)
-
-        return qs
-
     def get_summary(self):
-        qs = self._queryset()
+        qs = self.queryset
 
         total = qs.count()
 
