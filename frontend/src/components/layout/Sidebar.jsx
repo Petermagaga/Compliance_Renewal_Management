@@ -15,7 +15,7 @@ function Sidebar() {
       
       {/* Logo */}
       <div className="p-6 border-b border-green-800">
-        <h1 className="text-3xl font-bold text-brand-yellow">Unbrain</h1>
+        <h1 className="text-3xl font-bold text-brand-yellow">Unibrain</h1>
         <p className="text-sm text-white">Industries Ltd</p>
       </div>
 
