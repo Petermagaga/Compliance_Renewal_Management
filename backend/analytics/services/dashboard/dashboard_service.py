@@ -13,10 +13,11 @@ class DashboardService:
 
     def __init__(self, company=None):
         self.company = company
-
+        
     def build(self):
+        summary = KPIService(self.company).get_summary(),
         return {
-            "summary": KPIService(self.company).get_summary(),
+            "summary" : summary,
             "charts": ChartService(self.company).get_charts(),
             "recent_items": ActivityService(self.company).recent_items(),
             "upcoming_reminders": ReminderService(self.company).upcoming(),
