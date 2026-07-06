@@ -15,10 +15,13 @@ class DashboardService:
         self.company = company
         
     def build(self):
+        reminder_service = ReminderService(self.company)
         return {
             "summary" : KPIService(self.company).get_summary(),
             "charts": ChartService(self.company).get_charts(),
+            "upcoming_reminders": reminder_service.upcoming(),
+            "critical_count": reminder_service.critical(),
             "recent_items": ActivityService(self.company).recent_items(),
-            "upcoming_reminders": ReminderService(self.company).upcoming(),
             "system_health": HealthService(self.company).calculate(),
         }
+    
