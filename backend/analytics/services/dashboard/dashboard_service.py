@@ -21,7 +21,7 @@ class DashboardService:
             "charts": ChartService(self.company).get_charts(),
             "upcoming_reminders": reminder_service.upcoming(),
             "critical_count": reminder_service.critical(),
-            "recent_items": ActivityService(self.company).recent_items(),
+            "recent_activity": ActivityService(self.company).recent_items(),
             "system_health": HealthService(self.company).calculate(),
         }
     
