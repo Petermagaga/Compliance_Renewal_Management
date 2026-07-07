@@ -1,4 +1,5 @@
 from datetime import timedelta
+from analytics.config import EXPIRING_DAYS, CRITICAL_DAYS
 
 from .base import BaseAnalyticsService
 
@@ -9,9 +10,6 @@ class ReminderService(BaseAnalyticsService):
     and future notification services.
     """
 
-    UPCOMING_DAYS = 60
-    CRITICAL_DAYS = 7
-
     def upcoming(self, limit=5):
         """
         Next compliance items that require attention.
@@ -21,7 +19,7 @@ class ReminderService(BaseAnalyticsService):
             self.queryset
             .filter(
                 expiry_date__gte=self.today,
-                expiry_date__lte=self.today + timedelta(days=self.UPCOMING_DAYS)
+                expiry_date__lte=self.today + timedelta(days=EXPIRING_DAYS)
             )
             .order_by("expiry_date")[:limit]
         )
@@ -52,7 +50,7 @@ class ReminderService(BaseAnalyticsService):
 
         qs = self.queryset.filter(
             expiry_date__gte=self.today,
-            expiry_date__lte=self.today + timedelta(days=self.CRITICAL_DAYS)
+            expiry_date__lte=self.today + timedelta(days=CRITICAL_DAYS)
         )
 
         return qs.count()

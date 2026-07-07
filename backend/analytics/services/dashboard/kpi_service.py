@@ -1,4 +1,5 @@
 from datetime import timedelta
+from analytics.config import EXPIRING_DAYS, CRITICAL_DAYS
 
 from django.db.models import Count
 from django.utils import timezone
@@ -10,10 +11,6 @@ class KPIService(BaseAnalyticsService):
     """
     Builds all KPI metrics required by the dashboard.
     """
-
-    EXPIRING_THRESHOLD_DAYS = 60
-    CRITICAL_THRESHOLD_DAYS = 7
-
     def get_summary(self):
         qs = self.queryset
 
@@ -25,16 +22,16 @@ class KPIService(BaseAnalyticsService):
 
         expiring = qs.filter(
             expiry_date__gte=self.today,
-            expiry_date__lte=self.today + timedelta(days=self.EXPIRING_THRESHOLD_DAYS)
+            expiry_date__lte=self.today + timedelta(days=EXPIRING_DAYS)
         ).count()
 
         active = qs.filter(
-            expiry_date__gt=self.today + timedelta(days=self.EXPIRING_THRESHOLD_DAYS)
+            expiry_date__gt=self.today + timedelta(days=EXPIRING_DAYS)
         ).count()
 
         critical = qs.filter(
             expiry_date__gte=self.today,
-            expiry_date__lte=self.today + timedelta(days=self.CRITICAL_THRESHOLD_DAYS)
+            expiry_date__lte=self.today + timedelta(days=CRITICAL_DAYS)
         ).count()
 
         compliance_health = (
