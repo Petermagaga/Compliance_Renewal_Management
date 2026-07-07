@@ -14,7 +14,7 @@ class DashboardService:
     def __init__(self, company=None):
         self.company = company
         
-    def build(self):
+    def get_dashboard(self):
         reminder_service = ReminderService(self.company)
         return {
             "summary" : KPIService(self.company).get_summary(),
