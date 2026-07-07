@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import DashboardStatsView
+from analytics.views.views import DashboardStatsView
 from analytics.views import DashboardAPIView
 
 urlpatterns = [

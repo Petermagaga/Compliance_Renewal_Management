@@ -38,7 +38,7 @@ class ChartService(BaseAnalyticsService):
         ]
 
     def expiry_ranges(self):
-        qs = self._queryset()
+        qs = self.queryset
 
         buckets = [
             ("0-7", 0, 7),
@@ -63,7 +63,7 @@ class ChartService(BaseAnalyticsService):
         return data
 
     def category_distribution(self):
-        qs = self._queryset()
+        qs = self.queryset
 
         return list(
             qs.values("category")
@@ -72,7 +72,7 @@ class ChartService(BaseAnalyticsService):
         )
 
     def monthly_expiry_trend(self):
-        qs = self._queryset()
+        qs = self.queryset
 
         trend = {}
 

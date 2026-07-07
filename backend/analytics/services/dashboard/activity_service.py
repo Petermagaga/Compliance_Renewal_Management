@@ -1,19 +1,21 @@
-from compliance.models import ComplianceItem, ReminderLog
+from compliance.models import ReminderLog
 
 from .base import BaseAnalyticsService
-
 
 class ActivityService(BaseAnalyticsService):
     """
     Builds a unified business activity timeline.
     """
 
+
     def recent_items(self, limit=5):
         activities = []
 
-        # Recently created compliance items
+        # Recently created compliance items.
+        # self.queryset should already be filtered by company in BaseAnalyticsService.
         items = (
             self.queryset
+            .select_related("department")
             .order_by("-created_at")[:limit]
         )
 
@@ -25,17 +27,17 @@ class ActivityService(BaseAnalyticsService):
                 "timestamp": item.created_at,
             })
 
-        # Recent reminder logs
-        reminders = (
-            ReminderLog.objects
-            .select_related("compliance_item")
-            .order_by("-sent_at")[:limit]
+        # Apply filters before ordering and slicing.
+        reminders = ReminderLog.objects.select_related(
+            "compliance_item"
         )
 
         if self.company:
             reminders = reminders.filter(
                 compliance_item__company=self.company
             )
+
+        reminders = reminders.order_by("-sent_at")[:limit]
 
         for reminder in reminders:
             activities.append({
@@ -45,10 +47,11 @@ class ActivityService(BaseAnalyticsService):
                 "timestamp": reminder.sent_at,
             })
 
-        # Merge and sort newest first
+        # Merge both activity types and return the newest entries.
         activities.sort(
             key=lambda activity: activity["timestamp"],
             reverse=True,
         )
 
         return activities[:limit]
+

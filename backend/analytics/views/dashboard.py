@@ -1,6 +1,9 @@
 from analytics.services.dashboard.dashboard_service import DashboardService
 from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from core.responses import ApiResponse
+from accounts.models import Company
 
 class DashboardAPIView(APIView):
 
@@ -9,9 +12,17 @@ class DashboardAPIView(APIView):
     """
 
     def get(self, request):
-        company=request.user.company
+        if request.user.is_superuser:
+            company=Company.objects.first()
+        else:
+            company=getattr(request.user,"company",None)
+        if company is None:
+            return Response(
+                {"Detail":"No company is assigned to this account"},
+                status=status.HTTP_403_FORBIDDEN
+            )
 
-        dashboard=DashboardService(company).build()
+        dashboard=DashboardService(company).get_dashboard()
 
         return ApiResponse.success(
             data=dashboard,
