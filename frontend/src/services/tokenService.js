@@ -4,27 +4,35 @@ const ACCESS_TOKEN = "access_token";
 const REFRESH_TOKEN = "refresh_token";
 
 class TokenService {
-  getAccessToken() {
-    return storageService.get(ACCESS_TOKEN);
-  }
+    getAccessToken() {
+        return storageService.get(ACCESS_TOKEN);
+    }
 
-  getRefreshToken() {
-    return storageService.get(REFRESH_TOKEN);
-  }
+    getRefreshToken() {
+        return storageService.get(REFRESH_TOKEN);
+    }
 
-  setTokens({ access, refresh }) {
-    storageService.set(ACCESS_TOKEN, access);
-    storageService.set(REFRESH_TOKEN, refresh);
-  }
+    setAccessToken(token) {
+        storageService.set(ACCESS_TOKEN, token);
+    }
 
-  clearTokens() {
-    storageService.remove(ACCESS_TOKEN);
-    storageService.remove(REFRESH_TOKEN);
-  }
+    setRefreshToken(token) {
+        storageService.set(REFRESH_TOKEN, token);
+    }
 
-  hasAccessToken() {
-    return !!this.getAccessToken();
-  }
+    setTokens({ access, refresh }) {
+        this.setAccessToken(access);
+        this.setRefreshToken(refresh);
+    }
+
+    clearTokens() {
+        storageService.remove(ACCESS_TOKEN);
+        storageService.remove(REFRESH_TOKEN);
+    }
+
+    isAuthenticated() {
+        return !!this.getAccessToken();
+    }
 }
 
 export default new TokenService();
