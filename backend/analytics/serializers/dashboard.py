@@ -66,10 +66,24 @@ class ChartsSerializer(serializers.Serializer):
     category_distribution = CategoryDistributionSerializer(many=True)
     monthly_expiry_trend = MonthlyTrendSerializer(many=True)
 
+class ContextSerializer(serializers.Serializer):
+    company = serializers.CharField()
+    generated_at = serializers.DateTimeField()
+    timezone = serializers.CharField()
+
+
+class MetaSerializer(serializers.Serializer):
+    version = serializers.IntegerField()
+    api = serializers.CharField()
+
+
 class DashboardSerializer(serializers.Serializer):
-    summary = SummarySerializer()
-    charts = ChartsSerializer()
-    upcoming_reminders = ReminderSerializer(many=True)
-    critical_count = serializers.IntegerField()
-    recent_activity = ActivitySerializer(many=True)
-    system_health = HealthSerializer()
+    context=ContextSerializer(required=False)
+    summary=SummarySerializer()
+    charts=ChartsSerializer()
+    upcoming_reminders=ReminderSerializer(many=True)
+    critical_count=serializers.IntegerField()
+    recent_activity=ActivitySerializer(many=True)
+    system_health=HealthSerializer()
+    meta=MetaSerializer(required=False)
+

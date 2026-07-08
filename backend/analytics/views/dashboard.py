@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from core.responses import ApiResponse
 from accounts.models import Company
-from serializers.dashboard import DashboardSerializer
+from analytics.serializers.dashboard import DashboardSerializer
 
 class DashboardAPIView(APIView):
 
@@ -24,7 +24,7 @@ class DashboardAPIView(APIView):
             )
 
         dashboard=DashboardService(company).get_dashboard()
-        serializer =DashboardSerializer(dashboard)
+        serializer =DashboardSerializer(instance=dashboard)
         return ApiResponse.success(
             data=serializer.data,
             message="Dashboard loaded successfully"
