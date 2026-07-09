@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser
 
 from accounts.models import Company, Department
 from .managers import UserManager
@@ -14,7 +14,7 @@ ROLE_CHOICES = [
 ]
 
 
-class User(AbstractUser):
+class User(AbstractBaseUser):
 
     email = models.EmailField(
         unique=True
