@@ -109,3 +109,31 @@ class ChangePasswordAPIView(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+class LogoutAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+
+        refresh = request.data.get("refresh")
+
+        try:
+
+            AuthenticationService.logout(refresh)
+
+            return Response(
+                {
+                    "success": True,
+                    "message": "Logged out successfully.",
+                }
+            )
+
+        except Exception as exc:
+
+            return Response(
+                {
+                    "success": False,
+                    "message": str(exc),
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
