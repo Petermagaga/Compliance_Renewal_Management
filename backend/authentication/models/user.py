@@ -73,7 +73,29 @@ class User(AbstractBaseUser,PermissionsMixin):
         """
         Business Validation
         """
+        super().clean()
 
+        if (
+            self.role !=UserRole.SUPER_ADMIN and self.company is None
+        ):
+            
+            raise ValidationError(
+                {
+                    "company":(
+                        "Company is required for"
+                        "non-super-admin users."
+                    )
+                }
+            )
+        
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}".strip()
+    
+    def __str__(self):
+        return self.email
+    
+    
 
 
 
