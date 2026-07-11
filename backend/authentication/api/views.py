@@ -55,3 +55,57 @@ class LoginAPIView(APIView):
                 },
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+        
+class CurrentUserAPIView(APIView):
+    permission_classes=[IsAuthenticated]
+
+    def get(self,request):
+
+        user= AuthenticationService.current_user(request.user)
+        return Response(
+            {
+                "success":True,
+                "data":UserSerializer(user).data,
+            }
+        )
+
+
+class ChangePasswordAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+
+        serializer = ChangePasswordSerializer(
+            data=request.data
+        )
+
+        serializer.is_valid(raise_exception=True)
+
+        try:
+
+            AuthenticationService.change_password(
+                user=request.user,
+                current_password=serializer.validated_data[
+                    "current_password"
+                ],
+                new_password=serializer.validated_data[
+                    "new_password"
+                ],
+            )
+
+            return Response(
+                {
+                    "success": True,
+                    "message": "Password changed successfully.",
+                }
+            )
+
+        except ValueError as exc:
+
+            return Response(
+                {
+                    "success": False,
+                    "message": str(exc),
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
