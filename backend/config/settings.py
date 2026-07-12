@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'accounts',
-    "authentication",
+    
     'cores',
     'compliance',
     'notifications',
