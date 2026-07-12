@@ -6,6 +6,7 @@ from django.contrib.auth.models import(
     AbstractBaseUser,PermissionsMixin
 )
 
+from django.utils import timezone
 from accounts.models import Department,Company
 from django.contrib.auth.models import  (
     AbstractBaseUser,PermissionsMixin
@@ -22,81 +23,55 @@ class UserRole(models.TextChoices):
     VIEWER="viewer","Viewer"
 
 
-class User(AbstractBaseUser,PermissionsMixin):
-    """
-    Identity entity for thee platform
-    """
-    id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
-    email=models.EmailField(unique=True,db_index=True)
 
-    first_name=models.CharField(max_length=100)
-    last_name=models.CharField(max_length=100)
 
-    phone=models.CharField(max_length=30,blank=True)
+class User(AbstractBaseUser, PermissionsMixin):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    email = models.EmailField(unique=True, db_index=True)
 
-    profile_photo=models.ImageField(
-        upload_to="profiles/",blank=True,null=True
+    # Add defaults so migrations don’t prompt
+    first_name = models.CharField(max_length=100, default="", blank=True)
+    last_name = models.CharField(max_length=100, default="", blank=True)
+
+    phone = models.CharField(max_length=30, blank=True)
+
+    profile_photo = models.ImageField(upload_to="profiles/", blank=True, null=True)
+    company = models.ForeignKey(
+        Company, on_delete=models.CASCADE, related_name="users", blank=True, null=True
     )
-    company=models.ForeignKey(Company,on_delete=models.CASCADE,
-                               related_name="users",blank=True,null=True)
-    
+    department = models.ForeignKey(
+        Department, on_delete=models.SET_NULL, related_name="users", blank=True, null=True
+    )
+    role = models.CharField(
+        max_length=40, choices=UserRole.choices, default=UserRole.VIEWER
+    )
 
-    department=models.ForeignKey(Department,on_delete=models.SET_NULL,related_name="users",blank=True,null=True)
-    role=models.CharField(max_length=40,choices=UserRole.choices,default=UserRole.VIEWER,)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
 
-    is_active=models.BooleanField(default=True)
-    is_staff=models.BooleanField(default=False,)
-    is_verified=models.BooleanField(default=False)
-    date_joined=models.DateTimeField(auto_now_add=True)
-    created_at=models.DateTimeField(auto_now_add=True)
-    updated_at=models.DateTimeField(auto_now=True,)
-    objects=UserManager()
+    # Use default instead of auto_now_add for safer migrations
+    date_joined = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-    USERNAME_FIELD="email"
+    objects = UserManager()
 
-    REQUIRED_FIELDS=[
-        "first_name","last_name"
-    ]
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["first_name", "last_name"]
 
     class Meta:
-        ordering=["email"]
-
-        indexes=[
+        ordering = ["email"]
+        indexes = [
             models.Index(fields=["company"]),
             models.Index(fields=["department"]),
             models.Index(fields=["role"]),
             models.Index(fields=["is_active"]),
         ]
 
-    
-    def clean(self):
-        """
-        Business Validation
-        """
-        super().clean()
-
-        if (
-            self.role !=UserRole.SUPER_ADMIN and self.company is None
-        ):
-            
-            raise ValidationError(
-                {
-                    "company":(
-                        "Company is required for"
-                        "non-super-admin users."
-                    )
-                }
-            )
-        
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}".strip()
-    
+
     def __str__(self):
         return self.email
-    
-    
-
-
-
-
