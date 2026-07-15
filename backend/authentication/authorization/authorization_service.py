@@ -1,5 +1,8 @@
 from .permission_matrix import PERMISSION_MATRIX
 from permissions import Permission
+from authorization.tenant_service import (
+    TenantService
+)
 
 class AuthorizationService:
     """
@@ -58,3 +61,27 @@ class AuthorizationService:
             user,
             Permission.COMPLIANCE_DELETE,
         )
+    
+    @staticmethod
+    def can_access_resource(
+        user,
+        permission,
+        resource,
+    ):
+
+        if not AuthorizationService.has_permission(
+            user,
+            permission,
+        ):
+            return False
+
+        if user.is_superuser:
+            return True
+
+        if not TenantService.same_company(
+            user,
+            resource,
+        ):
+            return False
+
+        return True
