@@ -20,4 +20,84 @@ class LifecycleService:
         )
 
         return target_status in allowed
+    
+    @staticmethod
+    def validate_transition(current_status,target_status):
+        if not LifecycleService.can_transition(current_status,target_status):
+            raise InvalidTransitionError(
+                f"Cannot transition"
+                f"from {current_status.value}"
+                f"to {target_status.value}."
+            )
+    @staticmethod
+    def transition(item,target_status,actor=None):
+        """
+        Perform a lifecyle transition.
+        this is the Only supported way to change status.
+
+        """
+        current = ComplianceStatus(item.status)
+
+        LifecycleService.validate_transition(
+            current,target_status,
+        )
+
+        item.status=target_status.value
+
+        item.save(
+            update_fields=[
+                "status",
+                "updated_at"
+            ]
+        )
+        return item
+
+
+    @staticmethod
+    def submit(item, actor=None):
+        return LifecycleService.transition(
+            item,
+            ComplianceStatus.UNDER_REVIEW,
+            actor,
+        )
+
+    @staticmethod
+    def approve(item, actor=None):
+        return LifecycleService.transition(
+            item,
+            ComplianceStatus.APPROVED,
+            actor,
+        )
+
+    @staticmethod
+    def activate(item, actor=None):
+        return LifecycleService.transition(
+            item,
+            ComplianceStatus.ACTIVE,
+            actor,
+        )
+
+    @staticmethod
+    def mark_expiring(item, actor=None):
+        return LifecycleService.transition(
+            item,
+            ComplianceStatus.EXPIRING,
+            actor,
+        )
+
+    @staticmethod
+    def expire(item, actor=None):
+        return LifecycleService.transition(
+            item,
+            ComplianceStatus.EXPIRED,
+            actor,
+        )
+
+    @staticmethod
+    def archive(item, actor=None):
+        return LifecycleService.transition(
+            item,
+            ComplianceStatus.ARCHIVED,
+            actor,
+        )
 
