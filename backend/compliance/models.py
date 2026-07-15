@@ -1,6 +1,6 @@
 from django.db import models
 from accounts.models import Company,Department
-
+from compliance.domain.statuses import ComplianceStatus
 CATEGORY_CHOICES=[
     ('license','License'),
     ('permit','Permit'),
@@ -14,12 +14,6 @@ CHANNEL_CHOICES=[
     ("whatsapp",'WhatApp'),
 ]
 
-STATUS_CHOICES=[
-    ('active','Active'),
-    ('expiring','Expiring'),
-    ('expired','Expired'),
-    ('renewed','Renewed'),
-]
 
 PRIORITY_CHOICES=[
     ("low","Low"),
@@ -38,7 +32,9 @@ class ComplianceItem(models.Model):
 
     responsible_person= models.CharField(max_length=255)
 
-    status=models.CharField(max_length=50,choices=STATUS_CHOICES,default='active')
+    status=models.CharField(max_length=50,
+                            choices=ComplianceStatus.choices(),
+                            default=ComplianceStatus.DRAFT)
     document=models.FileField(upload_to='compliance_docs',blank=True,null=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
