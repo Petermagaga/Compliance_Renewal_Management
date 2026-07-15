@@ -1,7 +1,7 @@
 from authentication.authorization.permissions import (
     Permission,
 )
-
+from authentication.authorization.policies.compliance_policy import ComplianceApprovalPolicy
 from .base import PermissionRequired
 from authentication.authorization.permissions import(Permission)
 from authentication.authorization.authorization_service import (AuthorizationService)
@@ -37,6 +37,10 @@ class CanDeleteCompliance(PermissionRequired):
 
 
 class CanApproveCompliance(PermissionRequired):
-    required_permission = (
-        Permission.COMPLIANCE_APPROVE
-    )
+    required_permission = (Permission.COMPLIANCE_APPROVE)
+
+    def has_object_permission(self,request,view,obj,):
+        return AuthorizationService.authorize(
+            user=request.user,permission=self.required_permission,resource=obj,
+            policy=ComplianceApprovalPolicy(),
+        )

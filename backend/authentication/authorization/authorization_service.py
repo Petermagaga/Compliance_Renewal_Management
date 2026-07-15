@@ -85,3 +85,32 @@ class AuthorizationService:
             return False
 
         return True
+    
+
+    @staticmethod
+    def authorize(
+        user,permission,resource=None,policy=None,):
+
+        if not AuthorizationService.has_permission(
+            user,
+            permission,
+        ):
+            return False
+
+        if resource:
+
+            if not AuthorizationService.can_access_resource(
+                user,
+                permission,
+                resource,
+            ):
+                return False
+
+        if policy:
+
+            return policy.evaluate(
+                user,
+                resource,
+            )
+
+        return True
