@@ -9,6 +9,7 @@ from .querysets import ComplianceQuerySet
 class ComplianceItemViewSet(viewsets.ModelViewSet):
     permission_classes= [IsAuthenticated]
     serializer_class=ComplianceItemSerializer
+    queryset=ComplianceItem.objects.all()
     def get_queryset(self):
         return ComplianceQuerySet.visible_to(self.request.user)
 
@@ -16,5 +17,6 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     serializer_class=ReminderLogSerializer
+    queryset=ReminderLog.objects.all()
     def get_queryset(self):
         return ReminderLog.objects.all()

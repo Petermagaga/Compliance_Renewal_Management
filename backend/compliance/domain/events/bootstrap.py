@@ -1,4 +1,4 @@
-from compliance.domain.events.dispatcher import EventDispatcher
+from compliance.domain.events.dispatcher import dispatcher
 
 from compliance.domain.events.compliance_events import (
     ComplianceExpired,
@@ -9,8 +9,6 @@ from compliance.domain.events.handlers import (
     notify_users,
     update_dashboard,
 )
-
-dispatcher = EventDispatcher()
 
 dispatcher.register(
     ComplianceExpired,

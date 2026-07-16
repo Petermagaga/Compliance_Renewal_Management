@@ -1,6 +1,6 @@
 from datetime import datetime
 from compliance.domain.events.compliance_events import (ComplianceExpired,)
-from compliance.domain.events.bootstrap import (dispatcher)
+from compliance.domain.events.dispatcher import (dispatcher)
 from compliance.domain.statuses import ComplianceStatus
 from compliance.domain.transitions import ALLOWED_TRANSITIONS
 
@@ -62,7 +62,7 @@ class LifecycleService:
                 ComplianceExpired(
                     compliance_item=item,
                     actor=actor,
-                    occurred_at=datetime.utcnow(),
+                    occurred_at=datetime.now(),
                 )
             )
         return item
