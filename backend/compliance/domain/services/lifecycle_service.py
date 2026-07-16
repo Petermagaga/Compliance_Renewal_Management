@@ -3,7 +3,7 @@ from compliance.domain.events.compliance_events import (ComplianceExpired,)
 from compliance.domain.events.dispatcher import (dispatcher)
 from compliance.domain.statuses import ComplianceStatus
 from compliance.domain.transitions import ALLOWED_TRANSITIONS
-
+from audit.services import AuditService,EventStoreService
 from compliance.domain.exceptions import InvalidTransitionError
 
 
@@ -116,3 +116,49 @@ class LifecycleService:
             actor,
         )
 
+    def audit_handler(event):
+
+        AuditService.record(
+
+            actor=event.actor,
+
+            event_type=type(event).__name__,
+
+            entity=event.compliance_item,
+
+            previous_state={
+
+                "status": "previous"
+
+            },
+
+            new_state={
+
+                "status": event.compliance_item.status
+
+            },
+
+        )
+
+
+    def store_event(event):
+
+        EventStoreService.append(
+
+            event_name=type(event).__name__,
+
+            aggregate=event.compliance_item,
+
+            payload={
+
+                "status":
+
+                event.compliance_item.status,
+
+                "actor":
+
+                getattr(event.actor, "id", None),
+
+            },
+
+        )
