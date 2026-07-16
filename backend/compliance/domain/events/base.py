@@ -13,4 +13,3 @@ class DomainEvent:
     actor:Any= None
 
 
-    
