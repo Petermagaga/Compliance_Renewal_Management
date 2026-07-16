@@ -1,7 +1,12 @@
+from datetime import datetime
+from compliance.domain.events.compliance_events import (ComplianceExpired,)
+from compliance.domain.events.bootstrap import (dispatcher)
 from compliance.domain.statuses import ComplianceStatus
 from compliance.domain.transitions import ALLOWED_TRANSITIONS
 
 from compliance.domain.exceptions import InvalidTransitionError
+
+
 
 class LifecycleService:
     """
@@ -50,6 +55,16 @@ class LifecycleService:
                 "updated_at"
             ]
         )
+
+
+        if target_status == ComplianceStatus.EXPIRED:
+            dispatcher.dispatch(
+                ComplianceExpired(
+                    compliance_item=item,
+                    actor=actor,
+                    occurred_at=datetime.utcnow(),
+                )
+            )
         return item
 
 
