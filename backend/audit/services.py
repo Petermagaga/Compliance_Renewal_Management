@@ -1,4 +1,4 @@
-from audit.models import AuditEntry
+from audit.models import AuditEntry,DomainEventRecord
 
 class AuditService:
     @staticmethod
