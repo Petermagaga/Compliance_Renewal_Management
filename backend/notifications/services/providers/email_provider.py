@@ -36,6 +36,9 @@ def send_expiry_email(item, days_left):
 
 class EmailProvider(NotificationProvider):
 
-    """
-    
-    """
+    def send(self,notification):
+            
+        """
+        
+        """
+

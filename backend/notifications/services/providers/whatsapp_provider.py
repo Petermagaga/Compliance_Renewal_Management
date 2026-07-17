@@ -1,5 +1,7 @@
 from twilio.rest import Client
 from django.conf import settings
+from __init__  import NotificationProvider
+
 
 client = Client(
     settings.TWILIO_ACCOUNT_SID,
@@ -59,3 +61,10 @@ Compliance Management System
         print(e)
 
         return False
+    
+
+class WhatsAppProvider(NotificationProvider):
+    def send(self,notification):
+
+        """
+        """
