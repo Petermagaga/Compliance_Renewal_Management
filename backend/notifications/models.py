@@ -1,5 +1,19 @@
 from django.db import models
-from config.settings import
+from django.conf import settings
+
+CHANNEL_CHOICES = [
+    ("email", "Email"),
+    ("whatsapp", "WhatsApp"),
+    ("in_app", "In App"),
+]
+
+
+STATUS_CHOICES = [
+    ("pending", "Pending"),
+    ("sent", "Sent"),
+    ("failed", "Failed"),
+    ("read", "Read"),
+]
 
 class Notification(models.Model):
     recipient=models.ForeignKey(
@@ -9,9 +23,21 @@ class Notification(models.Model):
 
     title=models.CharField(max_length=255)
     message=models.TextField()
-    channel=models.CharField(max_length=255)
-    status=models.CharField(max_length=255)
+    channel=models.CharField(max_length=25,choices=CHANNEL_CHOICES)
+    status=models.CharField(max_length=25,choices=STATUS_CHOICES)
     is_read=models.BooleanField(default=False)
+    sent_at=models.DateTimeField(null=True,blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+
+        ordering=["-created_at"]
     
+    
+    def __str__(self):
+        return f"{self.title} ({self.channel})"
+    
+
+
+
+
