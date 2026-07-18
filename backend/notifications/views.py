@@ -1,11 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from selectors.notification_selector import NotificationSelector
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from .models import Notification
 from .serializers import NotificationSerializer
-
-
+from services.notification_service import NotificationService
+from core.responses import ApiResponse
 class NotificationListAPIView(APIView):
 
     permission_classes = [IsAuthenticated]
@@ -62,11 +62,8 @@ class NotificationReadAPIView(APIView):
 
         )
 
-        notification.is_read = True
+        NotificationService.mark_as_read(notification)
 
-        notification.save(
-            update_fields=["is_read"]
-        )
 
         return ApiResponse.success(
             message="Notification marked as read."
@@ -83,10 +80,8 @@ class NotificationReadAllAPIView(APIView):
         request
     ):
 
-        NotificationSelector.unread(
+        NotificationService.mark_all_as_read(
             request.user
-        ).update(
-            is_read=True
         )
 
         return ApiResponse.success(

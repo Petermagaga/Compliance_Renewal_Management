@@ -1,5 +1,6 @@
 from notifications.models import Notification
 from notifications.services.registry import PROVIDERS
+from notifications.selectors.notification_selector import NotificationSelector
 from time import timezone
 
 class NotificationService:
@@ -60,4 +61,32 @@ class NotificationService:
                 "expiry_date":item.expiry_date,
                 "days_remaining":days_left,
             },
+        )
+    
+    @staticmethod
+    def mark_as_read(notification):
+        """
+        Mark a single notification as read.
+        """
+
+        if notification.is_read:
+            return notification
+
+        notification.is_read = True
+        notification.read_at = timezone.now()  # if you have this field
+        notification.save(
+            update_fields=["is_read", "read_at"]  # remove read_at if you don't have it
+        )
+
+        return notification
+
+    @staticmethod
+    def mark_all_as_read(user):
+        """
+        Mark all unread notifications for a user as read.
+        """
+
+        return NotificationSelector.unread(user).update(
+            is_read=True,
+            # read_at=timezone.now(),  # if your model has it
         )
