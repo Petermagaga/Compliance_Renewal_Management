@@ -1,16 +1,14 @@
 const ENDPOINTS = {
   AUTH: {
-    LOGIN: "/auth/login/",
-    REFRESH: "/auth/token/refresh/",
+    LOGIN: "/api/token/",          // ✅ corrected
+    REFRESH: "/api/token/refresh/", // ✅ corrected
     REGISTER: "/auth/register/",
     CURRENT_USER: "/auth/me/",
   },
 
-  DASHBOARD: "/analytics/dashboard/",
-
-  COMPLIANCE: "/compliance/items/",
-
-  DEPARTMENTS: "/departments/",
+  DASHBOARD: "/api/analytics/dashboard/",   // ✅ add /api prefix
+  COMPLIANCE: "/api/compliance/items/",     // ✅ add /api prefix
+  DEPARTMENTS: "/api/departments/",         // ✅ add /api prefix
 };
 
 export default ENDPOINTS;
