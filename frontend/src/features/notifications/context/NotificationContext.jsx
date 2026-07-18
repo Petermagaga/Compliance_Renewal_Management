@@ -103,3 +103,55 @@ useEffect(() => {
     refresh();
 
 }, []);
+
+
+const value = {
+
+    notifications,
+
+    unreadCount,
+
+    loading,
+
+    fetchNotifications,
+
+    fetchUnreadCount,
+
+    refresh,
+
+    markAsRead,
+
+    markAllAsRead,
+
+};
+
+
+return (
+
+    <NotificationContext.Provider
+        value={value}
+    >
+
+        {children}
+
+    </NotificationContext.Provider>
+
+);
+
+export function useNotifications() {
+
+    const context = useContext(NotificationContext);
+
+    if (!context) {
+
+        throw new Error(
+
+            "useNotifications must be used within NotificationProvider"
+
+        );
+
+    }
+
+    return context;
+
+}
