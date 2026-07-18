@@ -46,4 +46,18 @@ class NotificationService:
         )
         return notification
 
-        
+    @staticmethod
+    def send_compliance_reminder(*,recipient,item,days_left,channel,):
+        return NotificationService.send(
+            recipient=recipient,
+            title="Compliance Reminder",
+            message=f"{item.name} expires in {days_left} days.",
+            channel=channel,
+            metadata={
+                "compliance_item_id":item.id,
+                "item_name":item.name,
+                "category":item.category,
+                "expiry_date":item.expiry_date,
+                "days_remaining":days_left,
+            },
+        )

@@ -1,70 +1,34 @@
 from twilio.rest import Client
 from django.conf import settings
-from __init__  import NotificationProvider
+
+from notifications.services.providers import NotificationProvider
 
 
 client = Client(
     settings.TWILIO_ACCOUNT_SID,
-    settings.TWILIO_AUTH_TOKEN
+    settings.TWILIO_AUTH_TOKEN,
 )
 
 
-def send_whatsapp_notification(item, days_left):
+class WhatsAppProvider(NotificationProvider):
 
-    message_body = f"""
-🔔 COMPLIANCE REMINDER
+    def send(self, notification):
 
-Hello,
+        body = f"""
+{notification.title}
 
-Your compliance item is approaching its expiry date.
-
-━━━━━━━━━━━━━━━━━━
-
-📄 Item:
-{item.name}
-
-📂 Category:
-{item.category}
-
-👤 Responsible:
-{item.responsible_person}
-
-📅 Expiry Date:
-{item.expiry_date}
-
-⏳ Days Remaining:
-{days_left}
-
-━━━━━━━━━━━━━━━━━━
-
-Please renew this compliance item before the expiry date.
-
-Compliance Management System
+{notification.message}
 """
 
-    try:
+        try:
 
-        message = client.messages.create(
-            body=message_body,
-            from_=settings.TWILIO_WHATSAPP_NUMBER,
-            to=settings.TWILIO_TEST_RECIPIENT
-        )
+            client.messages.create(
+                body=body,
+                from_=settings.TWILIO_WHATSAPP_NUMBER,
+                to=notification.recipient.phone_number,
+            )
 
-        print(f"WhatsApp sent successfully.")
-        print(f"Message SID: {message.sid}")
+            return True
 
-        return True
-
-    except Exception as e:
-
-        print("Failed to send WhatsApp message.")
-        print(e)
-
-        return False
-    
-
-class WhatsAppProvider(NotificationProvider):
-    def send(self,notification):
-
-        """
-        """
+        except Exception:
+            return False
