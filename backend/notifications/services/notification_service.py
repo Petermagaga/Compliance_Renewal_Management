@@ -1,6 +1,6 @@
 from notifications.models import Notification
 from notifications.services.registry import PROVIDERS
-
+from time import timezone
 
 class NotificationService:
     """
@@ -14,4 +14,36 @@ class NotificationService:
              message,
              channel,
              metadata=None):
-        raise NotImplementedError
+        notification=Notification.objects.create(
+            recipient=recipient,
+            title=title,
+            message=message,
+            channel=channel,
+            metadata=metadata or {},
+        )
+
+        provider=PROVIDERS.get(channel)
+
+        if provider is None:
+            notification.status = "failed"
+            notification.save(update_fields=["status"])
+            return notification
+        
+        success=provider.send(notification)
+
+        if success:
+            notification.status ="sent"
+            notification.sent_at=timezone.now()
+
+        else:
+            notification.status ="failed"
+        
+        notification.save(
+            update_fields=[
+                "status",
+                "sent_at",
+            ]
+        )
+        return notification
+
+        
