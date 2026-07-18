@@ -1,10 +1,10 @@
-from django.shortcuts import render,get_object_or_404
-from selectors.notification_selector import NotificationSelector
+from django.shortcuts import get_object_or_404
+from notifications.queries.notification_selector import  NotificationSelector
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from .models import Notification
 from .serializers import NotificationSerializer
-from services.notification_service import NotificationService
+from .services.notification_service import NotificationService
 from core.responses import ApiResponse
 class NotificationListAPIView(APIView):
 

@@ -1,6 +1,6 @@
 from notifications.models import Notification
 from notifications.services.registry import PROVIDERS
-from notifications.selectors.notification_selector import NotificationSelector
+from notifications.queries.notification_selector import NotificationSelector
 from time import timezone
 
 class NotificationService:
