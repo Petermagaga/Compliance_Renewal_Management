@@ -5,6 +5,9 @@ import AddComplianceItem from "./pages/AddComplianceItem";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { NotificationProvider } from "./features/notifications/context/NotificationContext";
+import { AuthProvider } from "./context/AuthContext";
+import AppRoutes from "./AppRoutes";
 function App(){
   return(
     <BrowserRouter>
@@ -28,7 +31,16 @@ function App(){
           <AddComplianceItem />
           </ProtectedRoute>}/>
 
-        
+        <AuthProvider>
+
+            <NotificationProvider>
+
+                <AppRoutes />
+
+            </NotificationProvider>
+
+        </AuthProvider>
+
         <Route path="*" element={<NotFound />}/>
       </Routes>
     </BrowserRouter>
