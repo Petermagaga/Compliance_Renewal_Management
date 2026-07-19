@@ -82,12 +82,32 @@ const refresh = async () => {
 
 };
 
+
 const markAsRead = async (id) => {
+    // Save current state in case we need to roll back
+    const previousNotifications = notifications;
+    const previousUnreadCount = unreadCount;
 
-    await notificationService.markAsRead(id);
+    // Update the UI immediately
+    setNotifications((previous) =>
+        previous.map((notification) =>
+            notification.id === id
+                ? { ...notification, is_read: true }
+                : notification
+        )
+    );
 
-    await refresh();
+    setUnreadCount((previous) => Math.max(previous - 1, 0));
 
+    try {
+        await notificationService.markAsRead(id);
+    } catch (error) {
+        // Restore previous state if the request fails
+        setNotifications(previousNotifications);
+        setUnreadCount(previousUnreadCount);
+
+        console.error("Failed to mark notification as read:", error);
+    }
 };
 
 const markAllAsRead = async () => {
