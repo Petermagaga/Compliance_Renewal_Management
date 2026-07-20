@@ -1,68 +1,65 @@
 import {
-
+    FiMail,
+    FiPlusCircle,
+    FiRefreshCw,
     FiClock,
-
 } from "react-icons/fi";
 
-function ActivityItem({
+function ActivityItem({ activity }) {
 
-    activity,
+    const getIcon = () => {
 
-}) {
+        switch (activity.type) {
+
+            case "reminder":
+                return <FiMail className="text-blue-500" size={18} />;
+
+            case "created":
+                return <FiPlusCircle className="text-green-500" size={18} />;
+
+            case "renewed":
+                return <FiRefreshCw className="text-purple-500" size={18} />;
+
+            default:
+                return <FiClock className="text-gray-400" size={18} />;
+
+        }
+
+    };
 
     return (
 
-        <div
-            className="
-                flex
-                justify-between
-                items-start
-                border-b
-                border-gray-100
-                pb-4
-            "
-        >
+        <div className="flex gap-4">
 
-            <div>
+            {/* Timeline Icon */}
 
-                <p
-                    className="
-                        font-medium
-                        text-gray-800
-                    "
-                >
+            <div className="mt-1">
+
+                {getIcon()}
+
+            </div>
+
+            {/* Content */}
+
+            <div className="flex-1">
+
+                <h4 className="font-semibold text-gray-800">
 
                     {activity.title}
 
-                </p>
+                </h4>
 
-                <p
-                    className="
-                        text-sm
-                        text-gray-500
-                        mt-1
-                    "
-                >
+                <p className="text-sm text-gray-500">
 
                     {activity.description}
 
                 </p>
 
-            </div>
+                <p className="text-xs text-gray-400 mt-2">
 
-            <div
-                className="
-                    flex
-                    items-center
-                    gap-2
-                    text-xs
-                    text-gray-400
-                "
-            >
+                    {new Date(activity.timestamp).toLocaleString()}
 
-                <FiClock />
-
-                {activity.time}
+                </p>
 
             </div>
 
