@@ -1,14 +1,44 @@
 import { useNotifications } from "../context/NotificationContext";
+import NotificationCard from "./NotificationCard";
 
 function NotificationDropdown() {
 
     const {
-
         notifications,
-
         loading,
-
+        markAsRead,
+        markAllAsRead,
     } = useNotifications();
+
+    if (loading) {
+
+        return (
+
+            <div
+                className="
+                    absolute
+                    right-0
+                    mt-2
+                    w-96
+                    bg-white
+                    rounded-xl
+                    shadow-lg
+                    border
+                    z-50
+                "
+            >
+
+                <div className="p-6 text-center">
+
+                    Loading notifications...
+
+                </div>
+
+            </div>
+
+        );
+
+    }
 
     return (
 
@@ -26,7 +56,15 @@ function NotificationDropdown() {
             "
         >
 
-            <div className="p-4 border-b">
+            <div
+                className="
+                    flex
+                    justify-between
+                    items-center
+                    p-4
+                    border-b
+                "
+            >
 
                 <h3 className="font-semibold">
 
@@ -34,27 +72,68 @@ function NotificationDropdown() {
 
                 </h3>
 
+                <button
+                    onClick={markAllAsRead}
+                    className="
+                        text-sm
+                        text-blue-600
+                        hover:underline
+                    "
+                >
+
+                    Mark all
+
+                </button>
+
             </div>
 
-            {loading && (
+            {notifications.length === 0 ? (
 
-                <p className="p-4">
+                <div className="p-6 text-center text-gray-500">
 
-                    Loading...
+                    You're all caught up 🎉
 
-                </p>
+                </div>
+
+            ) : (
+
+                <div
+                    className="
+                        max-h-96
+                        overflow-y-auto
+                    "
+                >
+
+                    {notifications.map((notification) => (
+
+                        <NotificationCard
+                            key={notification.id}
+                            notification={notification}
+                            onRead={markAsRead}
+                        />
+
+                    ))}
+
+                </div>
 
             )}
 
-            {!loading && notifications.length === 0 && (
+            <div className="border-t p-3">
 
-                <p className="p-4">
+                <button
+                    className="
+                        w-full
+                        text-blue-600
+                        hover:underline
+                        text-sm
+                    "
+                >
 
-                    No notifications.
+                    View All Notifications
 
-                </p>
+                </button>
 
-            )}
+            </div>
 
         </div>
 
