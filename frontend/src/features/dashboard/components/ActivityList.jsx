@@ -8,15 +8,15 @@ function ActivityList({
 
     return (
 
-        <div className="space-y-4">
+        <div className="space-y-6">
 
             {
 
-                activities.map(activity => (
+                activities.map((activity,index)=>(
 
                     <ActivityItem
 
-                        key={activity.id}
+                        key={index}
 
                         activity={activity}
 

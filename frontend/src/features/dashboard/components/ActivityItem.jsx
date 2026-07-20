@@ -1,3 +1,4 @@
+import { formatDateTime } from "../../../utils/date";
 import {
     FiMail,
     FiPlusCircle,
@@ -60,6 +61,12 @@ function ActivityItem({ activity }) {
                     {new Date(activity.timestamp).toLocaleString()}
 
                 </p>
+
+<p>
+
+    {formatDateTime(activity.timestamp)}
+
+</p>
 
             </div>
 
