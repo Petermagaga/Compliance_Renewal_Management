@@ -1,4 +1,8 @@
 import { Clock } from "lucide-react";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+
 
 function NotificationCard({
     notification,
@@ -67,13 +71,27 @@ function NotificationCard({
                 "
             >
 
-                <Clock size={14} />
 
-                <span className="ml-1">
 
-                    {notification.created_at}
+            <div
+                className="
+                    flex
+                    items-center
+                    mt-3
+                    text-xs
+                    text-gray-400
+                "
+            >
+                <Clock size={14} className="mr-1" />
 
+                <span
+                    title={dayjs(notification.created_at).format(
+                        "DD MMM YYYY, HH:mm"
+                    )}
+                >
+                    {dayjs(notification.created_at).fromNow()}
                 </span>
+            </div>
 
             </div>
 
