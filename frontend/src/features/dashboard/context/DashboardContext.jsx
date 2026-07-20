@@ -9,25 +9,13 @@ import dashboardService from "../services/dashboardService";
 
 const DashboardContext = createContext(null);
 
-    export function DashboardProvider({ children }) {
+export function DashboardProvider({ children }) {
 
-        const [dashboard, setDashboard] = useState(null);
+    const [dashboard, setDashboard] = useState(null);
 
-        const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
-        const [error, setError] = useState(null);
-
-        return (
-
-            <DashboardContext.Provider value={{}}>
-
-                {children}
-
-            </DashboardContext.Provider>
-
-        );
-
-    }
+    const [error, setError] = useState(null);
 
     const fetchDashboard = async () => {
 
@@ -64,30 +52,13 @@ const DashboardContext = createContext(null);
 
         fetchDashboard();
 
-    }
-
-    useEffect(() => {
-
-        fetchDashboard();
-
-    }, []);
-
-
-    const value = {
-
-        dashboard,
-
-        loading,
-
-        error,
-
-        refresh,
-
     };
 
+
+    
     return (
 
-        <DashboardContext.Provider value={value}>
+        <DashboardContext.Provider value={{}}>
 
             {children}
 
@@ -95,21 +66,4 @@ const DashboardContext = createContext(null);
 
     );
 
-
-    export function useDashboard() {
-
-        const context = useContext(DashboardContext);
-
-        if (!context) {
-
-            throw new Error(
-
-                "useDashboard must be used within DashboardProvider"
-
-            );
-
-        }
-
-        return context;
-
-    }
+}
