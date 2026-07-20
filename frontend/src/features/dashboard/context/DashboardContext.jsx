@@ -54,8 +54,24 @@ export function DashboardProvider({ children }) {
 
     };
 
+    useEffect(() => {
 
-    
+        fetchDashboard();
+
+    }, []);
+
+    const value = {
+
+        dashboard,
+
+        loading,
+
+        error,
+
+        refresh,
+
+    };
+
     return (
 
         <DashboardContext.Provider value={{}}>
