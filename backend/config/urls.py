@@ -13,4 +13,3 @@ urlpatterns = [
     path('api/analytics/',include('analytics.urls')),
     path("api/notifications/",include("notifications.urls"))
 ]
-
