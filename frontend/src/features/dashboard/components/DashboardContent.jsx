@@ -3,7 +3,7 @@ import KPISection from "./KPISection";
 import ChartsSection from "./ChartsSection";
 import ComplianceSection from "./ComplianceSection";
 import ActivitySection from "./ActivitySection";
-import SystemHealthCard from "./SystemHealthCard";
+import SystemHealthCard from "../../components/SystemHealthCard";
 import QuickActionsSection from "./QuickActionsSection";
 
 function DashboardContent() {

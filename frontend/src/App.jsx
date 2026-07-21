@@ -7,7 +7,7 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { NotificationProvider } from "./features/notifications/context/NotificationContext";
 import { AuthProvider } from "./context/AuthContext";
-import AppRoutes from "./AppRoutes";
+import AppRoutes from "./routes/AppRoutes";
 function App(){
   return(
     <BrowserRouter>

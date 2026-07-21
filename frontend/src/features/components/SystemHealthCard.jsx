@@ -1,13 +1,10 @@
-import DashboardSection from "./DashboardSection";
-
 import HealthBadge from "./HealthBadge";
+
+import DashboardSection from "../dashboard/components/DashboardSection";
 
 import HealthProgressBar from "./HealthProgressBar";
 
 import HealthBreakdown from "./HealthBreakdown";
-
-import { useDashboard } from "../context/DashboardContext";
-
 function SystemHealthCard() {
 
     const {

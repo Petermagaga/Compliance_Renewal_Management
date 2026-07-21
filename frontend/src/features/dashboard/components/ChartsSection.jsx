@@ -25,3 +25,5 @@ function ChartsSection(){
     );
 
 }
+
+export default ChartsSection;
