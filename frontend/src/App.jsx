@@ -1,4 +1,4 @@
-import{ BrowserRouter,Routes, Route} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import ComplianceItems from "./pages/ComplianceItems";
 import AddComplianceItem from "./pages/AddComplianceItem";
@@ -7,43 +7,48 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { NotificationProvider } from "./features/notifications/context/NotificationContext";
 import { AuthProvider } from "./context/AuthContext";
-import AppRoutes from "./routes/AppRoutes";
-function App(){
-  return(
-    <BrowserRouter>
-      <Routes>
-        {/*Public Route*/}
-        <Route path="/" element={<Login />}/>
 
-        <Route path="/dashboard" 
-        element={
-          <ProtectedRoute>
-          <Dashboard />
-          </ProtectedRoute>} />
-        <Route path="/compliance" 
-        element={
-          <ProtectedRoute>
-          <ComplianceItems />
-          </ProtectedRoute>}/>
-        <Route path="/add-item"
-         element={
-          <ProtectedRoute>
-          <AddComplianceItem />
-          </ProtectedRoute>}/>
+function App() {
+  return (
+    <AuthProvider>
+      <NotificationProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Public Route */}
+            <Route path="/" element={<Login />} />
 
-        <AuthProvider>
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
 
-            <NotificationProvider>
+            <Route
+              path="/compliance"
+              element={
+                <ProtectedRoute>
+                  <ComplianceItems />
+                </ProtectedRoute>
+              }
+            />
 
-                <AppRoutes />
+            <Route
+              path="/add-item"
+              element={
+                <ProtectedRoute>
+                  <AddComplianceItem />
+                </ProtectedRoute>
+              }
+            />
 
-            </NotificationProvider>
-
-        </AuthProvider>
-
-        <Route path="*" element={<NotFound />}/>
-      </Routes>
-    </BrowserRouter>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </NotificationProvider>
+    </AuthProvider>
   );
 }
 

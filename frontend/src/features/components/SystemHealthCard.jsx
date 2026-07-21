@@ -4,7 +4,8 @@ import DashboardSection from "../dashboard/components/DashboardSection";
 
 import HealthProgressBar from "./HealthProgressBar";
 
-import HealthBreakdown from "./HealthBreakdown";
+import HealthBreakdown from "./HeathBreakdown";
+
 function SystemHealthCard() {
 
     const {
