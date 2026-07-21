@@ -15,8 +15,8 @@ export function AuthProvider({ children }) {
 
   // Save tokens
   const login = (access, refresh) => {
-    localStorage.setItem("access", access);
-    localStorage.setItem("refresh", refresh);
+    localStorage.setItem("access_token", access);
+    localStorage.setItem("refresh_token", refresh);
 
     setAccessTokenState(access);
     setRefreshTokenState(refresh);
@@ -24,8 +24,8 @@ export function AuthProvider({ children }) {
 
   // Remove tokens
   const logout = () => {
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
 
     setAccessTokenState(null);
     setRefreshTokenState(null);
