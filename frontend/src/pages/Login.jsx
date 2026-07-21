@@ -1,44 +1,39 @@
 import { useState } from "react";
-import { useNavigate }  from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-
   const { login } = useAuth();
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-    
   const handleLogin = async () => {
     setError("");
     setLoading(true);
 
     try {
-        const response = await api.post("/token/", {
-        username,
+      const response = await api.post("/token/", {
+        email,      // ✅ backend expects "email"
         password,
-        });
+      });
 
-        login(response.data.access, response.data.refresh);
-
-        navigate("/dashboard");
+      login(response.data.access, response.data.refresh);
+      navigate("/dashboard");
     } catch (err) {
-        console.error(err);
-
-        setError("Invalid username or password");
+      console.error(err);
+      setError("Invalid Email or password");
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-    };
+  };
 
-  
   return (
     <div
       style={{
@@ -49,12 +44,10 @@ function Login() {
       }}
     >
       <form
-
         onSubmit={(e) => {
-        e.preventDefault();
-        handleLogin();
+          e.preventDefault();
+          handleLogin();
         }}
-
         style={{
           width: "350px",
           display: "flex",
@@ -65,10 +58,10 @@ function Login() {
         <h2>Unibrain Compliance Management Login</h2>
 
         <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          type="email"   // ✅ better to use "email" type for validation
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
@@ -78,17 +71,11 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-
-        {error && (
-        <p style={{ color: "red" }}>
-            {error}
-        </p>
-        )}
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
-
       </form>
     </div>
   );
