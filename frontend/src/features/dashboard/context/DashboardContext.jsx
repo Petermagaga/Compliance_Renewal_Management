@@ -74,11 +74,13 @@ export function DashboardProvider({ children }) {
 
     return (
 
-        <DashboardContext.Provider value={{}}>
 
+
+
+        <DashboardContext.Provider value={value}>
             {children}
-
         </DashboardContext.Provider>
+
 
     );
 
