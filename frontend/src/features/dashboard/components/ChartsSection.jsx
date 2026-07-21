@@ -1,4 +1,6 @@
 import { useDashboard } from "../context/DashboardContext";
+import ExpiryBarChart from "../../../components/charts/ExpiryBarChart"
+import StatusPieChart from "../../../components/charts/StatusPieChart"
 
 function ChartsSection(){
 
