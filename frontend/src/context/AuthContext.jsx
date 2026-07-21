@@ -4,11 +4,11 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [accessToken, setAccessTokenState] = useState(
-    localStorage.getItem("access")
+    localStorage.getItem("access_token")
   );
 
   const [refreshToken, setRefreshTokenState] = useState(
-    localStorage.getItem("refresh")
+    localStorage.getItem("refresh_token")
   );
 
   const isAuthenticated = !!accessToken;

@@ -6,7 +6,7 @@ import {
 } from "react";
 
 import notificationService from "../services/notificationService";
-
+import { useAuth } from "../../../context/AuthContext";
 const NotificationContext = createContext(null);
 
 export function NotificationProvider({ children }) {
@@ -14,13 +14,15 @@ export function NotificationProvider({ children }) {
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  const { isAuthenticated } = useAuth();   // ✅ check auth state
+
   const fetchNotifications = async () => {
     try {
       setLoading(true);
       const response = await notificationService.getNotifications();
       setNotifications(response.data);
     } catch (error) {
-      console.error(error);
+      console.error("Failed to fetch notifications:", error);
     } finally {
       setLoading(false);
     }
@@ -31,7 +33,7 @@ export function NotificationProvider({ children }) {
       const response = await notificationService.getUnreadCount();
       setUnreadCount(response.data.unread);
     } catch (error) {
-      console.error(error);
+      console.error("Failed to fetch unread count:", error);
     }
   };
 
@@ -60,13 +62,20 @@ export function NotificationProvider({ children }) {
   };
 
   const markAllAsRead = async () => {
-    await notificationService.markAllAsRead();
-    await refresh();
+    try {
+      await notificationService.markAllAsRead();
+      await refresh();
+    } catch (error) {
+      console.error("Failed to mark all as read:", error);
+    }
   };
 
+  // ✅ only refresh when authenticated
   useEffect(() => {
-    refresh();
-  }, []);
+    if (isAuthenticated) {
+      refresh();
+    }
+  }, [isAuthenticated]);
 
   const value = {
     notifications,

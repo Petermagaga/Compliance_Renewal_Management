@@ -6,7 +6,17 @@ from "../features/dashboard/context/DashboardContext";
 import DashboardContent
 from "../features/dashboard/components/DashboardContent";
 
+
+
+
+
 function Dashboard() {
+
+    const { refresh } = useNotifications();
+    useEffect(() => {
+    refresh();
+    }, []);
+
 
     return (
 
