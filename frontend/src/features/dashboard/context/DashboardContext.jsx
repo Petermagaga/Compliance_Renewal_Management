@@ -28,7 +28,7 @@ export function DashboardProvider({ children }) {
             const response =
                 await dashboardService.getDashboard();
 
-            setDashboard(response.data);
+            setDashboard(response.data.data);
 
         }
 
