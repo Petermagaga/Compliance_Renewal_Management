@@ -2,6 +2,9 @@
 
 import Dashboard from "../../pages/Dashboard";
 
+import CompliancePage
+from "../../pages/CompliancePage";
+
 export const routeRegistry = [
 
     {
@@ -40,5 +43,75 @@ export const routeRegistry = [
         ],
 
     },
+
+
+
+
+{
+    id:"compliance",
+
+    path:"/compliance",
+
+    element:CompliancePage,
+
+    title:"Compliance Items",
+
+    icon:"shield",
+
+    layout:"dashboard",
+
+    protected:true,
+
+    showInSidebar:true,
+
+    roles:[
+
+        "administrator",
+
+        "manager",
+
+        "compliance_officer"
+
+    ],
+
+    breadcrumb:[
+
+        "Dashboard",
+
+        "Compliance"
+
+    ]
+
+}
+,
+
+{
+
+    id:"reports",
+
+    path:"/reports",
+
+    element:ReportsPage,
+
+    title:"Reports",
+
+    icon:"chart",
+
+    layout:"dashboard",
+
+    protected:true,
+
+    showInSidebar:true,
+
+    roles:[
+
+        "administrator",
+
+        "manager"
+
+    ]
+
+}
+
 
 ];
