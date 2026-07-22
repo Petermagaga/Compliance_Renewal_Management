@@ -28,7 +28,7 @@ export const routeRegistry = [
 
         layout: "dashboard",
 
-        protected: true,
+        requiresAuth: true,
 
         roles: [
 
@@ -64,11 +64,11 @@ export const routeRegistry = [
 
     title:"Compliance Items",
 
-    icon:"shield",
+    icon:FiShield,
 
     layout:"dashboard",
 
-    protected:true,
+    requiresAuth:true,
 
     showInSidebar:true,
 
@@ -103,11 +103,11 @@ export const routeRegistry = [
 
     title:"Reports",
 
-    icon:"chart",
+    icon:FiBarChart2,
 
     layout:"dashboard",
 
-    protected:true,
+    requiresAuth:true,
 
     showInSidebar:true,
 
@@ -124,7 +124,24 @@ export const routeRegistry = [
         "Reports"
     ]
 
-}
+},
+
+
+        {
+            id: "login",
+
+            path: "/login",
+
+            component: Login,
+
+            title: "Login",
+
+            layout: "auth",
+
+            requiresAuth: false,
+
+            showInSidebar: false,
+        }
 
 
 ];
