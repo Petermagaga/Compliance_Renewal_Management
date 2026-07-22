@@ -6,12 +6,17 @@ import {
 } from "react";
 
 import dashboardService from "../services/dashboardService";
+import complianceService from  "../services/complianceService";
 
 const DashboardContext = createContext(null);
+
+
 
 export function DashboardProvider({ children }) {
 
     const [dashboard, setDashboard] = useState(null);
+
+    const [complianceItems, setComplianceItems] = useState([]);
 
     const [loading, setLoading] = useState(true);
 
@@ -27,13 +32,15 @@ export function DashboardProvider({ children }) {
 
             const response =
                 await dashboardService.getDashboard();
+            
+            console.log(response);
 
             setDashboard(response.data);
-
+            
             const complianceResponse =
                 await complianceService.getItems();
-
-            setComplianceItems(complianceResponse.data);
+            console.log(complianceResponse);
+            setComplianceItems(complianceResponse);
 
         }
 
@@ -79,10 +86,12 @@ export function DashboardProvider({ children }) {
 
         systemHealth: dashboard?.system_health,
 
-        complianceItems: [], // temporary
+        complianceItems, // temporary
 
         loading,
+
         error,
+
         refresh,
     };
 
