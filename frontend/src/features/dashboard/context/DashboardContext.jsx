@@ -60,17 +60,28 @@ export function DashboardProvider({ children }) {
 
     }, []);
 
-    const value = {
 
+    const value = {
         dashboard,
 
+        summary: dashboard?.summary,
+
+        charts: dashboard?.charts,
+
+        reminders: dashboard?.upcoming_reminders ?? [],
+
+        recentActivity: dashboard?.recent_activity ?? [],
+
+        systemHealth: dashboard?.system_health,
+
+        complianceItems: [], // temporary
+
         loading,
-
         error,
-
         refresh,
-
     };
+
+
 
     return (
 
