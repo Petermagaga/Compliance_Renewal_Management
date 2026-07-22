@@ -1,79 +1,70 @@
-import {
-  FiGrid,
-  FiFileText,
-  FiPlusSquare,
-  FiFolder,
-  FiUsers,
-  FiBell,
-  FiBarChart2,
-  FiSettings
-} from "react-icons/fi";
+import { navigationRegistry } from "../../app/navigation/navigationRegistry";
+import SidebarItem from "./SidebarItem";
 
 function Sidebar() {
-  return (
-    <div className="w-64 h-screen bg-brand-dark text-white flex flex-col fixed">
-      
-      {/* Logo */}
-      <div className="p-6 border-b border-green-800">
-        <h1 className="text-3xl font-bold text-brand-yellow">Unibrain</h1>
-        <p className="text-sm text-white">Industries Ltd</p>
-      </div>
+    return (
+        <aside
+            className="
+                w-64
+                h-screen
+                bg-brand-dark
+                text-white
+                flex
+                flex-col
+                fixed
+                left-0
+                top-0
+                shadow-lg
+            "
+        >
+            {/* Logo */}
+            <div className="p-6 border-b border-green-800">
+                <h1 className="text-3xl font-bold text-brand-yellow">
+                    Unibrain
+                </h1>
 
-      {/* Menu */}
-      <div className="flex-1 py-6">
-        <ul className="space-y-3 px-4">
+                <p className="text-sm text-gray-300">
+                    Industries Ltd
+                </p>
+            </div>
 
-          <li className="bg-brand-yellow text-black rounded-lg px-4 py-3 flex items-center gap-3 cursor-pointer">
-            <FiGrid />
-            Dashboard
-          </li>
+            {/* Navigation */}
+            <nav
+                className="
+                    flex-1
+                    overflow-y-auto
+                    py-6
+                "
+            >
+                <ul className="space-y-2 px-4">
+                    {navigationRegistry.map((item) => (
+                        <li key={item.id}>
+                            <SidebarItem {...item} />
+                        </li>
+                    ))}
+                </ul>
+            </nav>
 
-          <li className="px-4 py-3 flex items-center gap-3 hover:bg-green-800 rounded-lg cursor-pointer">
-            <FiFileText />
-            Compliance Items
-          </li>
+            {/* Footer */}
+            <div className="p-4 border-t border-green-800">
+                <div
+                    className="
+                        bg-green-800
+                        rounded-xl
+                        p-4
+                    "
+                >
+                    <p className="font-semibold">
+                        Peter Magaga
+                    </p>
 
-          <li className="px-4 py-3 flex items-center gap-3 hover:bg-green-800 rounded-lg cursor-pointer">
-            <FiPlusSquare />
-            Add Compliance Item
-          </li>
-
-          <li className="px-4 py-3 flex items-center gap-3 hover:bg-green-800 rounded-lg cursor-pointer">
-            <FiFolder />
-            Documents
-          </li>
-
-          <li className="px-4 py-3 flex items-center gap-3 hover:bg-green-800 rounded-lg cursor-pointer">
-            <FiUsers />
-            Departments
-          </li>
-
-          <li className="px-4 py-3 flex items-center gap-3 hover:bg-green-800 rounded-lg cursor-pointer">
-            <FiBell />
-            Reminders
-          </li>
-
-          <li className="px-4 py-3 flex items-center gap-3 hover:bg-green-800 rounded-lg cursor-pointer">
-            <FiBarChart2 />
-            Reports
-          </li>
-
-          <li className="px-4 py-3 flex items-center gap-3 hover:bg-green-800 rounded-lg cursor-pointer">
-            <FiSettings />
-            Settings
-          </li>
-        </ul>
-      </div>
-
-      {/* Footer */}
-      <div className="p-4 border-t border-green-800">
-        <div className="bg-green-800 rounded-xl p-4">
-          <p className="font-semibold">Peter Magaga</p>
-          <p className="text-sm text-gray-300">Administrator</p>
-        </div>
-      </div>
-    </div>
-  );
+                    <p className="text-sm text-gray-300">
+                        Administrator
+                    </p>
+                </div>
+            </div>
+        </aside>
+    );
 }
 
 export default Sidebar;

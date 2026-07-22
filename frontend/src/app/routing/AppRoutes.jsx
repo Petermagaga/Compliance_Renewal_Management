@@ -24,7 +24,7 @@ function AppRoutes() {
 
                 routeRegistry.map(route => {
 
-                    const Component = route.element;
+                    const Component = route.Component;
 
                     return (
 
@@ -36,7 +36,7 @@ function AppRoutes() {
 
                             element={
 
-                                route.protected ?
+                                route.requiresAuth ?
 
                                 (
 
@@ -61,6 +61,8 @@ function AppRoutes() {
                         />
 
                     );
+
+                    
 
                 })
 

@@ -7,6 +7,12 @@ from "../../pages/CompliancePage";
 
 import ReportsPage from "../../pages/ReportsPage";
 
+import {
+    FiGrid,
+    FiShield,
+    FiBarChart2,
+} from "react-icons/fi";
+
 export const routeRegistry = [
 
     {
@@ -14,11 +20,11 @@ export const routeRegistry = [
 
         path: "/dashboard",
 
-        element: Dashboard,
+        component: Dashboard,
 
         title: "Dashboard",
 
-        icon: "dashboard",
+        icon: FiGrid,
 
         layout: "dashboard",
 
@@ -111,6 +117,11 @@ export const routeRegistry = [
 
         "manager"
 
+    ],
+
+    breadcrumb: [
+        "Dashboard",
+        "Reports"
     ]
 
 }
