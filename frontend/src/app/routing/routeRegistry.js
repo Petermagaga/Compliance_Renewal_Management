@@ -5,6 +5,8 @@ import Dashboard from "../../pages/Dashboard";
 import CompliancePage
 from "../../pages/CompliancePage";
 
+import ReportsPage from "../../pages/ReportsPage";
+
 export const routeRegistry = [
 
     {
