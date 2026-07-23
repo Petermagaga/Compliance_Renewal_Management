@@ -13,7 +13,7 @@ function Login() {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
+  
   const handleLogin = async () => {
     setError("");
     setLoading(true);
@@ -24,7 +24,15 @@ function Login() {
         password,
       });
 
-      login(response.data.access, response.data.refresh);
+
+      const result = response.data.data;
+
+      login(
+          result.access,
+          result.refresh,
+          result.user
+      );
+
       navigate("/dashboard");
     } catch (err) {
       console.error(err);
