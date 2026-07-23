@@ -55,13 +55,13 @@ function Sidebar() {
                         p-4
                     "
                 >
-                    <p className="font-semibold">
-                        Peter Magaga
-                    </p>
+                <p className="font-semibold">
+                    {user?.full_name}
+                </p>
 
-                    <p className="text-sm text-gray-300">
-                        Administrator
-                    </p>
+                <p className="text-sm text-gray-300">
+                    {user?.role}
+                </p>
                 </div>
             </div>
         </aside>
