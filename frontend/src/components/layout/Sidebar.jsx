@@ -2,7 +2,14 @@ import { navigationRegistry } from "../../app/navigation/navigationRegistry";
 import SidebarItem from "./SidebarItem";
 import { useAuth } from "../../context/AuthContext";
 function Sidebar() {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate("/", { replace: true });
+    };
+
     return (
         <aside
             className="
@@ -62,6 +69,14 @@ function Sidebar() {
                 <p className="text-sm text-gray-300">
                     {user?.role}
                 </p>
+
+                <button
+                    onClick={handleLogout}
+                    className="mt-4 w-full rounded-lg bg-red-600 py-2 text-sm hover:bg-red-700"
+                >
+                    Logout
+                </button>
+
                 </div>
             </div>
         </aside>

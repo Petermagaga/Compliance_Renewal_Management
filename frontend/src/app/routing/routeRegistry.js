@@ -1,93 +1,147 @@
 // app/routing/routeRegistry.js
 
-import {
-    FiHome,
-    FiFileText,
-    FiPlusCircle,
-    FiBell,
-    FiClock,
-    FiBarChart2,
-    FiSettings,
-} from "react-icons/fi";
-
 import Dashboard from "../../pages/Dashboard";
-import ComplianceItems from "../../pages/ComplianceItems";
-import AddComplianceItem from "../../pages/AddComplianceItem";
-import Notifications from "../../pages/Notifications";
-import Reminders from "../../pages/Reminders";
-import Reports from "../../pages/Reports";
-import Settings from "../../pages/Settings";
+
+import CompliancePage
+from "../../pages/CompliancePage";
+
+import ReportsPage from "../../pages/ReportsPage";
+
+import {
+    FiGrid,
+    FiShield,
+    FiBarChart2,
+} from "react-icons/fi";
 
 export const routeRegistry = [
 
     {
         id: "dashboard",
-        title: "Dashboard",
+
         path: "/dashboard",
-        Component: Dashboard,
-        icon: FiHome,
+
+        component: Dashboard,
+
+        title: "Dashboard",
+
+        icon: FiGrid,
+
+        layout: "dashboard",
+
         requiresAuth: true,
+
+        roles: [
+
+            "administrator",
+
+            "manager",
+
+            "compliance_officer",
+
+            "viewer"
+
+        ],
+
         showInSidebar: true,
+
+        breadcrumb: [
+
+            "Dashboard"
+
+        ],
+
     },
 
-    {
-        id: "compliance",
-        title: "Compliance Items",
-        path: "/compliance",
-        Component: ComplianceItems,
-        icon: FiFileText,
-        requiresAuth: true,
-        showInSidebar: true,
-    },
 
-    {
-        id: "add-compliance",
-        title: "Add Compliance",
-        path: "/add-item",
-        Component: AddComplianceItem,
-        icon: FiPlusCircle,
-        requiresAuth: true,
-        showInSidebar: true,
-    },
 
-    {
-        id: "notifications",
-        title: "Notifications",
-        path: "/notifications",
-        Component: Notifications,
-        icon: FiBell,
-        requiresAuth: true,
-        showInSidebar: true,
-    },
 
-    {
-        id: "reminders",
-        title: "Reminders",
-        path: "/reminders",
-        Component: Reminders,
-        icon: FiClock,
-        requiresAuth: true,
-        showInSidebar: true,
-    },
+{
+    id:"compliance",
 
-    {
-        id: "reports",
-        title: "Reports",
-        path: "/reports",
-        Component: Reports,
-        icon: FiBarChart2,
-        requiresAuth: true,
-        showInSidebar: true,
-    },
+    path:"/compliance",
 
-    {
-        id: "settings",
-        title: "Settings",
-        path: "/settings",
-        Component: Settings,
-        icon: FiSettings,
-        requiresAuth: true,
-        showInSidebar: true,
-    },
+    element:CompliancePage,
+
+    title:"Compliance Items",
+
+    icon:FiShield,
+
+    layout:"dashboard",
+
+    requiresAuth:true,
+
+    showInSidebar:true,
+
+    roles:[
+
+        "administrator",
+
+        "manager",
+
+        "compliance_officer"
+
+    ],
+
+    breadcrumb:[
+
+        "Dashboard",
+
+        "Compliance"
+
+    ]
+
+}
+,
+
+{
+
+    id:"reports",
+
+    path:"/reports",
+
+    element:ReportsPage,
+
+    title:"Reports",
+
+    icon:FiBarChart2,
+
+    layout:"dashboard",
+
+    requiresAuth:true,
+
+    showInSidebar:true,
+
+    roles:[
+
+        "administrator",
+
+        "manager"
+
+    ],
+
+    breadcrumb: [
+        "Dashboard",
+        "Reports"
+    ]
+
+},
+
+
+        {
+            id: "login",
+
+            path: "/login",
+
+            component: Login,
+
+            title: "Login",
+
+            layout: "auth",
+
+            requiresAuth: false,
+
+            showInSidebar: false,
+        }
+
 
 ];
