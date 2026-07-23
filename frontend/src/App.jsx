@@ -1,92 +1,23 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
-import ComplianceItems from "./pages/ComplianceItems";
-import AddComplianceItem from "./pages/AddComplianceItem";
-import Login from "./pages/Login";
-import NotFound from "./pages/NotFound";
-import ProtectedRoute from "./components/ProtectedRoute";
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./app/routing/AppRoutes";
 import { NotificationProvider } from "./features/notifications/context/NotificationContext";
 
 function App() {
-  return (
-      <NotificationProvider>
-        <BrowserRouter>
-          <Routes>
-            {/* Public Route */}
-            <Route path="/" element={<Login />} />
 
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
+    return (
 
-            <Route
-              path="/compliance"
-              element={
-                <ProtectedRoute>
-                  <ComplianceItems />
-                </ProtectedRoute>
-              }
-            />
+        <NotificationProvider>
 
-            <Route
-              path="/add-item"
-              element={
-                <ProtectedRoute>
-                  <AddComplianceItem />
-                </ProtectedRoute>
-              }
-            />
+            <BrowserRouter>
 
+                <AppRoutes />
 
-            <Route
-                path="/notifications"
-                element={
-                    <ProtectedRoute>
-                        <NotificationsPage />
-                    </ProtectedRoute>
-                }
-            />
+            </BrowserRouter>
 
-            <Route
-                path="/reminders"
-                element={
-                    <ProtectedRoute>
-                        <RemindersPage />
-                    </ProtectedRoute>
-                }
-            />
+        </NotificationProvider>
 
-            <Route
-                path="/reports"
-                element={
-                    <ProtectedRoute>
-                        <ReportsPage />
-                    </ProtectedRoute>
-                }
-            />
+    );
 
-            <Route
-            
-            path="/settings"
-            element={
-                <ProtectedRoute>
-                    <SettingsPage />
-                </ProtectedRoute>
-            }
-            
-            />
-
-
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </NotificationProvider>
-  );
 }
 
 export default App;
