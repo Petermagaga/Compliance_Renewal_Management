@@ -11,6 +11,11 @@ export function AuthProvider({ children }) {
     localStorage.getItem("refresh_token")
   );
 
+  const [user, setUser] = useState(() => {
+      const stored = localStorage.getItem("user");
+      return stored ? JSON.parse(stored) : null;
+  });
+
   const isAuthenticated = !!accessToken;
 
   // Save tokens

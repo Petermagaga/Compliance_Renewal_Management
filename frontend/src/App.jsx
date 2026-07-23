@@ -6,11 +6,9 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { NotificationProvider } from "./features/notifications/context/NotificationContext";
-import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-    <AuthProvider>
       <NotificationProvider>
         <BrowserRouter>
           <Routes>
@@ -44,11 +42,50 @@ function App() {
               }
             />
 
+
+            <Route
+                path="/notifications"
+                element={
+                    <ProtectedRoute>
+                        <NotificationsPage />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/reminders"
+                element={
+                    <ProtectedRoute>
+                        <RemindersPage />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/reports"
+                element={
+                    <ProtectedRoute>
+                        <ReportsPage />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+            
+            path="/settings"
+            element={
+                <ProtectedRoute>
+                    <SettingsPage />
+                </ProtectedRoute>
+            }
+            
+            />
+
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </NotificationProvider>
-    </AuthProvider>
   );
 }
 
