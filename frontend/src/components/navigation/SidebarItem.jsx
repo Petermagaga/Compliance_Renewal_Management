@@ -7,6 +7,7 @@ function SidebarItem({
     path,
 
     icon: Icon,
+    badge,
 
 }) {
 
@@ -15,10 +16,11 @@ function SidebarItem({
         <NavLink
 
             to={path}
+            aria-label={title}
 
             className={({ isActive }) =>
 
-                `flex items-center gap-3 px-4 py-3 rounded-lg transition
+                `flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 font-semibold text-sm
 
                 ${isActive
 
@@ -32,13 +34,22 @@ function SidebarItem({
 
         >
 
-            <Icon size={18} />
+            <Icon size={18} 
+            className="flex-shrink-0"
+            />
 
             <span>
 
                 {title}
 
             </span>
+
+            {badge && (
+                <span className="ml-auto ...">
+                    {badge}
+                </span>
+            
+            )}
 
         </NavLink>
 

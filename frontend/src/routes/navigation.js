@@ -1,47 +1,57 @@
 import {
-    LayoutDashboard,
-    ShieldCheck,
-    Building2,
-    FileText,
-    Bell,
-    Settings,
-} from "lucide-react";
+    FiHome,
+    FiFileText,
+    FiPlusCircle,
+    FiBell,
+    FiClock,
+    FiBarChart2,
+    FiSettings
+} from "react-icons/fi";
 
-export const navigation = [
+const navigation = [
 
     {
-        name: "Dashboard",
+        title: "Dashboard",
         path: "/dashboard",
-        icon: LayoutDashboard,
+        icon: FiHome
     },
 
     {
-        name: "Compliance",
+        title: "Compliance Items",
         path: "/compliance",
-        icon: ShieldCheck,
+        icon: FiFileText
     },
 
     {
-        name: "Departments",
-        path: "/departments",
-        icon: Building2,
+        title: "Add Compliance",
+        path: "/add-item",
+        icon: FiPlusCircle
     },
 
     {
-        name: "Reports",
-        path: "/reports",
-        icon: FileText,
-    },
-
-    {
-        name: "Notifications",
+        title: "Notifications",
         path: "/notifications",
-        icon: Bell,
+        icon: FiBell
     },
 
     {
-        name: "Settings",
-        path: "/settings",
-        icon: Settings,
+        title: "Reminders",
+        path: "/reminders",
+        icon: FiClock
     },
+
+    {
+        title: "Reports",
+        path: "/reports",
+        icon: FiBarChart2
+    },
+
+    {
+        title: "Settings",
+        path: "/settings",
+        icon: FiSettings
+    }
+
 ];
+
+export default navigation;
