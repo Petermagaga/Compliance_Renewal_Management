@@ -3,54 +3,92 @@ import { createContext, useContext, useState } from "react";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [accessToken, setAccessTokenState] = useState(
-    localStorage.getItem("access_token")
-  );
 
-  const [refreshToken, setRefreshTokenState] = useState(
-    localStorage.getItem("refresh_token")
-  );
+    const [accessToken, setAccessToken] = useState(
+        localStorage.getItem("access_token")
+    );
 
-  const [user, setUser] = useState(() => {
-      const stored = localStorage.getItem("user");
-      return stored ? JSON.parse(stored) : null;
-  });
+    const [refreshToken, setRefreshToken] = useState(
+        localStorage.getItem("refresh_token")
+    );
 
-  const isAuthenticated = !!accessToken;
+    const [user, setUser] = useState(() => {
 
-  // Save tokens
-  const login = (access, refresh) => {
-    localStorage.setItem("access_token", access);
-    localStorage.setItem("refresh_token", refresh);
+        const stored = localStorage.getItem("user");
 
-    setAccessTokenState(access);
-    setRefreshTokenState(refresh);
-  };
+        return stored ? JSON.parse(stored) : null;
 
-  // Remove tokens
-  const logout = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
+    });
 
-    setAccessTokenState(null);
-    setRefreshTokenState(null);
-  };
+    const isAuthenticated = !!accessToken;
 
-  return (
-    <AuthContext.Provider
-      value={{
-        accessToken,
-        refreshToken,
-        isAuthenticated,
-        login,
-        logout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+    const login = (access, refresh, user) => {
+
+        localStorage.setItem("access_token", access);
+
+        localStorage.setItem("refresh_token", refresh);
+
+        localStorage.setItem(
+            "user",
+            JSON.stringify(user)
+        );
+
+        setAccessToken(access);
+
+        setRefreshToken(refresh);
+
+        setUser(user);
+
+    };
+
+    const logout = () => {
+
+        localStorage.removeItem("access_token");
+
+        localStorage.removeItem("refresh_token");
+
+        localStorage.removeItem("user");
+
+        setAccessToken(null);
+
+        setRefreshToken(null);
+
+        setUser(null);
+
+    };
+
+    return (
+
+        <AuthContext.Provider
+
+            value={{
+
+                accessToken,
+
+                refreshToken,
+
+                user,
+
+                isAuthenticated,
+
+                login,
+
+                logout,
+
+            }}
+
+        >
+
+            {children}
+
+        </AuthContext.Provider>
+
+    );
+
 }
 
 export function useAuth() {
-  return useContext(AuthContext);
+
+    return useContext(AuthContext);
+
 }
