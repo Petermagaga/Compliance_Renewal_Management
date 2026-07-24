@@ -1,7 +1,3 @@
-// app/navigation/navigationRegistry.js
-
-import { routeRegistry } from "../routing/routeRegistry";
-
 export const navigationRegistry = routeRegistry
     .filter(route => route.showInSidebar)
     .map(route => ({
@@ -10,4 +6,6 @@ export const navigationRegistry = routeRegistry
         path: route.path,
         icon: route.icon,
         roles: route.roles,
+        badge: route.badge,
+        children: route.children || [],
     }));

@@ -243,13 +243,13 @@ export const routeRegistry = [
 
 {
 
-    id:"reports",
+    id:"addcompliance",
 
-    path:"/reports",
+    path:"/addcompliance",
 
-    Component:ReportsPage,
+    Component: AddComplianceItem,
 
-    title:"Reports",
+    title:"Add Compliance",
 
     icon:FiBarChart2,
 
@@ -269,7 +269,7 @@ export const routeRegistry = [
 
     breadcrumb: [
         "Dashboard",
-        "Reports"
+        "Add Compliance"
     ]
 
 },
