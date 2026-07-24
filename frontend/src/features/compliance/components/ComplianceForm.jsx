@@ -78,6 +78,125 @@ function ComplianceForm({
 
             {/* Fields go here */}
 
+<TextField
+
+    label="Compliance Name"
+
+    name="name"
+
+    value={form.name}
+
+    onChange={handleChange}
+
+/>
+
+<SelectField
+
+    label="Category"
+
+    name="category"
+
+    value={form.category}
+
+    onChange={handleChange}
+
+    options={[
+
+        {
+
+            value: "license",
+
+            label: "License",
+
+        },
+
+        {
+
+            value: "certificate",
+
+            label: "Certificate",
+
+        },
+
+        {
+
+            value: "permit",
+
+            label: "Permit",
+
+        },
+
+        {
+
+            value: "insurance",
+
+            label: "Insurance",
+
+        },
+
+    ]}
+
+/>
+
+<DateField
+
+    label="Issue Date"
+
+    name="issue_date"
+
+    value={form.issue_date}
+
+    onChange={handleChange}
+
+/>
+
+<DateField
+
+    label="Expiry Date"
+
+    name="expiry_date"
+
+    value={form.expiry_date}
+
+    onChange={handleChange}
+
+/>
+
+<DateField
+
+    label="Expiry Date"
+
+    name="expiry_date"
+
+    value={form.expiry_date}
+
+    onChange={handleChange}
+
+/>
+
+<DateField
+
+    label="Expiry Date"
+
+    name="expiry_date"
+
+    value={form.expiry_date}
+
+    onChange={handleChange}
+
+/>
+
+<DateField
+
+    label="Expiry Date"
+
+    name="expiry_date"
+
+    value={form.expiry_date}
+
+    onChange={handleChange}
+
+/>
         </form>
 
     );
