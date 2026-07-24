@@ -59,7 +59,7 @@ function SummaryCard({ item }) {
 
                     <p className="font-semibold">
 
-                        {item.department}
+                        {item.department_name}
 
                     </p>
 
