@@ -1,11 +1,96 @@
 import { useEffect, useState } from "react";
 import complianceService from "../services/complianceService";
-
+import { useComplianceFilters } from "../context/ComplianceFilterContext";
 export function useCompliance() {
 
     const [items, setItems] = useState([]);
 
     const [loading, setLoading] = useState(true);
+
+
+    const {
+
+        search,
+
+        status,
+
+        priority,
+
+        category,
+
+        department,
+
+    } = useComplianceFilters();
+
+
+    const filteredItems = items.filter(item => {
+
+        const matchesSearch =
+
+            (item.name ?? "")
+
+                .toLowerCase()
+
+                .includes(search.toLowerCase())
+
+            ||
+
+            (item.responsible_person
+
+                ?? "") .toLowerCase()
+
+                .includes(search.toLowerCase())
+
+            ||
+
+            (item.department
+
+                ?? "") .toLowerCase()
+
+                .includes(search.toLowerCase());
+
+        const matchesStatus =
+
+            !status ||
+
+            item.status === status;
+
+        const matchesPriority =
+
+            !priority ||
+
+            item.priority === priority;
+
+        const matchesCategory =
+
+            !category ||
+
+            item.category === category;
+
+        const matchesDepartment =
+
+            !department ||
+
+            item.department === department;
+
+        return (
+
+            matchesSearch &&
+
+            matchesStatus &&
+
+            matchesPriority &&
+
+            matchesCategory &&
+
+            matchesDepartment
+
+        );
+
+    });
+
+
+
 
     const fetchItems = async () => {
 
@@ -15,9 +100,10 @@ export function useCompliance() {
 
             setItems(response.data);
 
-        }
+        }catch (error) {
+            console.error("Failed to fetch compliance items:", error);
 
-        finally {
+        }finally {
 
             setLoading(false);
 
@@ -41,9 +127,11 @@ export function useCompliance() {
 
     return {
 
-        items,
+        filteredItems,
 
         loading,
+
+        items,
 
         deleteItem,
 

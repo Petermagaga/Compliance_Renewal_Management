@@ -50,23 +50,89 @@ function ComplianceToolbar() {
 
             </div>
 
-            <select className="border rounded-lg px-4">
+            <select
 
-                <option>Status</option>
+                value={status}
+
+                onChange={(e) => setStatus(e.target.value)}
+
+            >
+
+                <option value="">All Status</option>
+
+                <option value="active">
+
+                    Active
+
+                </option>
+
+                <option value="expiring">
+
+                    Expiring
+
+                </option>
+
+                <option value="expired">
+
+                    Expired
+
+                </option>
 
             </select>
 
-            <select className="border rounded-lg px-4">
+            <select
 
-                <option>Category</option>
+                value={priority}
+
+                onChange={(e) =>
+
+                    setPriority(e.target.value)
+
+                }
+
+            >
+
+                <option value="">
+
+                    All Priorities
+
+                </option>
+
+                <option value="low">
+
+                    Low
+
+                </option>
+
+                <option value="medium">
+
+                    Medium
+
+                </option>
+
+                <option value="high">
+
+                    High
+
+                </option>
+
+                <option value="critical">
+
+                    Critical
+
+                </option>
 
             </select>
 
-            <select className="border rounded-lg px-4">
+        <button
 
-                <option>Priority</option>
+            onClick={clearFilters}
 
-            </select>
+        >
+
+            Reset Filters
+
+        </button>
 
         </div>
 
