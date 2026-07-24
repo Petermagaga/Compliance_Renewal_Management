@@ -12,7 +12,8 @@ import NotificationPage from "../../pages/Notifications";
 import ReminderPage from  "../../pages/Reminders";
 
 import Settings from "../../pages/Settings";
-
+import ComplianceDetails from "../../pages/ComplianceDetails";
+import EditCompliance from "../../pages/EditCompliance";
 
 import {
     FiGrid,
