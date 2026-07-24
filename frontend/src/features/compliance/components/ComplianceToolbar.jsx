@@ -2,6 +2,34 @@ import { FiSearch } from "react-icons/fi";
 
 function ComplianceToolbar() {
 
+
+    const {
+
+        search,
+
+        status,
+
+        category,
+
+        priority,
+
+        department,
+
+        setSearch,
+
+        setStatus,
+
+        setCategory,
+
+        setPriority,
+
+        setDepartment,
+
+        clearFilters,
+
+    } = useComplianceFilters();
+
+
     return (
 
         <div className="bg-white rounded-xl shadow p-4 mb-6 flex gap-4">
@@ -10,13 +38,15 @@ function ComplianceToolbar() {
 
                 <FiSearch className="absolute left-3 top-3 text-gray-400" />
 
-                <input
+            <input
 
-                    className="w-full border rounded-lg pl-10 pr-4 py-2"
+                value={search}
 
-                    placeholder="Search compliance items..."
+                onChange={(e) => setSearch(e.target.value)}
 
-                />
+                placeholder="Search..."
+
+            />
 
             </div>
 
