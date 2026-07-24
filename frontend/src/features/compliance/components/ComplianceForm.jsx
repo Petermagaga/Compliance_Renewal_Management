@@ -162,13 +162,14 @@ function ComplianceForm({
 
 />
 
+
 <DateField
 
-    label="Expiry Date"
+    label="Priority"
 
-    name="expiry_date"
+    name="priority"
 
-    value={form.expiry_date}
+    value={form.priority}
 
     onChange={handleChange}
 
@@ -176,23 +177,11 @@ function ComplianceForm({
 
 <DateField
 
-    label="Expiry Date"
+    label="Status"
 
-    name="expiry_date"
+    name="status"
 
-    value={form.expiry_date}
-
-    onChange={handleChange}
-
-/>
-
-<DateField
-
-    label="Expiry Date"
-
-    name="expiry_date"
-
-    value={form.expiry_date}
+    value={form.status}
 
     onChange={handleChange}
 
