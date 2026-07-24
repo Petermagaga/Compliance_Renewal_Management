@@ -172,6 +172,75 @@ export const routeRegistry = [
 ,
 
 
+
+{
+
+    id:"reminders",
+
+    path:"/reminder",
+
+    Component:ReminderPage,
+
+    title:"Reminder",
+
+    icon:FiBarChart2,
+
+    layout:"dashboard",
+
+    requiresAuth:true,
+
+    showInSidebar:true,
+
+    roles:[
+
+        "administrator",
+
+        "reminder"
+
+    ],
+
+    breadcrumb: [
+        "Dashboard",
+        "Reports"
+    ]
+
+},
+
+
+{
+
+    id:"notifications",
+
+    path:"/notifications",
+
+    Component:NotificationPage,
+
+    title:"Notifications",
+
+    icon:FiBarChart2,
+
+    layout:"dashboard",
+
+    requiresAuth:true,
+
+    showInSidebar:true,
+
+    roles:[
+
+        "administrator",
+
+        "manager"
+
+    ],
+
+    breadcrumb: [
+        "Dashboard",
+        "Notifications"
+    ]
+
+},
+
+
         {
             id: "login",
 
