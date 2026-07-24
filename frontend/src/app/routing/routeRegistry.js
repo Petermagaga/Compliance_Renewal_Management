@@ -241,6 +241,40 @@ export const routeRegistry = [
 },
 
 
+{
+
+    id:"reports",
+
+    path:"/reports",
+
+    Component:ReportsPage,
+
+    title:"Reports",
+
+    icon:FiBarChart2,
+
+    layout:"dashboard",
+
+    requiresAuth:true,
+
+    showInSidebar:true,
+
+    roles:[
+
+        "administrator",
+
+        "manager"
+
+    ],
+
+    breadcrumb: [
+        "Dashboard",
+        "Reports"
+    ]
+
+},
+
+
         {
             id: "login",
 
