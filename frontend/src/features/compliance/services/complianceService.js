@@ -6,9 +6,25 @@ const complianceService = {
         return api.get("/compliance/items/");
     },
 
+    getItem(id) {
+        return api.get(`/compliance/items/${id}/`);
+    },
+
+    createItem(data) {
+        return api.post("/compliance/items/", data);
+    },
+
+    updateItem(id, data) {
+        return api.put(`/compliance/items/${id}/`, data);
+    },
+
+    patchItem(id, data) {
+        return api.patch(`/compliance/items/${id}/`, data);
+    },
+
     deleteItem(id) {
         return api.delete(`/compliance/items/${id}/`);
-    },
+    }
 
 };
 
