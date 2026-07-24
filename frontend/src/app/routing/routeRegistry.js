@@ -134,7 +134,7 @@ export const routeRegistry = [
     },
 
     {
-        id:"settings",
+        id:"Settings",
 
         path:"/settings",
 
@@ -175,9 +175,9 @@ export const routeRegistry = [
 
     {
 
-        id:"reminders",
+        id:"Reminders",
 
-        path:"/reminder",
+        path:"/reminders",
 
         Component:ReminderPage,
 
@@ -245,7 +245,7 @@ export const routeRegistry = [
 
         id:"addcompliance",
 
-        path:"/addcompliance",
+        path:"/add-item",
 
         Component: AddComplianceItem,
 
