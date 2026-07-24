@@ -208,6 +208,30 @@ export const routeRegistry = [
 
 
     {
+        id: "compliance-details",
+
+        path: "/compliance/:id",
+
+        Component: ComplianceDetails,
+
+        requiresAuth: true,
+
+        showInSidebar: false,
+    },
+
+    {
+        id: "edit-compliance",
+
+        path: "/compliance/:id/edit",
+
+        Component: EditCompliance,
+
+        requiresAuth: true,
+
+        showInSidebar: false,
+    },
+
+    {
 
         id:"notifications",
 
