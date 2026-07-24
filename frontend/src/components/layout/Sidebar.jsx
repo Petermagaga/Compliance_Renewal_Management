@@ -1,5 +1,5 @@
 import { navigationRegistry } from "../../app/navigation/navigationRegistry";
-import SidebarItem from "./SidebarItem";
+import SidebarItem from "../navigation/SidebarItem";
 import { useAuth } from "../../context/AuthContext";
 function Sidebar() {
     const { user, logout } = useAuth();

@@ -62,217 +62,217 @@ export const routeRegistry = [
 
 
 
-{
-    id:"compliance",
+    {
+        id:"compliance",
 
-    path:"/compliance",
+        path:"/compliance",
 
-    Component:CompliancePage,
+        Component:CompliancePage,
 
-    title:"Compliance Items",
+        title:"Compliance Items",
 
-    icon:FiShield,
+        icon:FiShield,
 
-    layout:"dashboard",
+        layout:"dashboard",
 
-    requiresAuth:true,
+        requiresAuth:true,
 
-    showInSidebar:true,
+        showInSidebar:true,
 
-    roles:[
+        roles:[
 
-        "administrator",
+            "administrator",
 
-        "manager",
+            "manager",
 
-        "compliance_officer"
+            "compliance_officer"
 
-    ],
+        ],
 
-    breadcrumb:[
+        breadcrumb:[
 
-        "Dashboard",
+            "Dashboard",
 
-        "Compliance"
+            "Compliance"
 
-    ]
+        ]
 
-}
-,
+    }
+    ,
 
-{
+    {
 
-    id:"reports",
+        id:"reports",
 
-    path:"/reports",
+        path:"/reports",
 
-    Component:ReportsPage,
+        Component:ReportsPage,
 
-    title:"Reports",
+        title:"Reports",
 
-    icon:FiBarChart2,
+        icon:FiBarChart2,
 
-    layout:"dashboard",
+        layout:"dashboard",
 
-    requiresAuth:true,
+        requiresAuth:true,
 
-    showInSidebar:true,
+        showInSidebar:true,
 
-    roles:[
+        roles:[
 
-        "administrator",
+            "administrator",
 
-        "manager"
+            "manager"
 
-    ],
+        ],
 
-    breadcrumb: [
-        "Dashboard",
-        "Reports"
-    ]
+        breadcrumb: [
+            "Dashboard",
+            "Reports"
+        ]
 
-},
+    },
 
-{
-    id:"settings",
+    {
+        id:"settings",
 
-    path:"/settings",
+        path:"/settings",
 
-    Component:Settings,
+        Component:Settings,
 
-    title:"settings",
+        title:"settings",
 
-    icon:FiShield,
+        icon:FiShield,
 
-    layout:"dashboard",
+        layout:"dashboard",
 
-    requiresAuth:true,
+        requiresAuth:true,
 
-    showInSidebar:true,
+        showInSidebar:true,
 
-    roles:[
+        roles:[
 
-        "administrator",
+            "administrator",
 
-        "manager",
+            "manager",
 
-        "compliance_officer"
+            "compliance_officer"
 
-    ],
+        ],
 
-    breadcrumb:[
+        breadcrumb:[
 
-        "Dashboard",
+            "Dashboard",
 
-        "settings"
+            "settings"
 
-    ]
+        ]
 
-}
-,
+    }
+    ,
 
 
 
-{
+    {
 
-    id:"reminders",
+        id:"reminders",
 
-    path:"/reminder",
+        path:"/reminder",
 
-    Component:ReminderPage,
+        Component:ReminderPage,
 
-    title:"Reminder",
+        title:"Reminder",
 
-    icon:FiBarChart2,
+        icon:FiBarChart2,
 
-    layout:"dashboard",
+        layout:"dashboard",
 
-    requiresAuth:true,
+        requiresAuth:true,
 
-    showInSidebar:true,
+        showInSidebar:true,
 
-    roles:[
+        roles:[
 
-        "administrator",
+            "administrator",
 
-        "reminder"
+            "reminder"
 
-    ],
+        ],
 
-    breadcrumb: [
-        "Dashboard",
-        "Reports"
-    ]
+        breadcrumb: [
+            "Dashboard",
+            "Reports"
+        ]
 
-},
+    },
 
 
-{
+    {
 
-    id:"notifications",
+        id:"notifications",
 
-    path:"/notifications",
+        path:"/notifications",
 
-    Component:NotificationPage,
+        Component:NotificationPage,
 
-    title:"Notifications",
+        title:"Notifications",
 
-    icon:FiBarChart2,
+        icon:FiBarChart2,
 
-    layout:"dashboard",
+        layout:"dashboard",
 
-    requiresAuth:true,
+        requiresAuth:true,
 
-    showInSidebar:true,
+        showInSidebar:true,
 
-    roles:[
+        roles:[
 
-        "administrator",
+            "administrator",
 
-        "manager"
+            "manager"
 
-    ],
+        ],
 
-    breadcrumb: [
-        "Dashboard",
-        "Notifications"
-    ]
+        breadcrumb: [
+            "Dashboard",
+            "Notifications"
+        ]
 
-},
+    },
 
 
-{
+    {
 
-    id:"addcompliance",
+        id:"addcompliance",
 
-    path:"/addcompliance",
+        path:"/addcompliance",
 
-    Component: AddComplianceItem,
+        Component: AddComplianceItem,
 
-    title:"Add Compliance",
+        title:"Add Compliance",
 
-    icon:FiBarChart2,
+        icon:FiBarChart2,
 
-    layout:"dashboard",
+        layout:"dashboard",
 
-    requiresAuth:true,
+        requiresAuth:true,
 
-    showInSidebar:true,
+        showInSidebar:true,
 
-    roles:[
+        roles:[
 
-        "administrator",
+            "administrator",
 
-        "manager"
+            "manager"
 
-    ],
+        ],
 
-    breadcrumb: [
-        "Dashboard",
-        "Add Compliance"
-    ]
+        breadcrumb: [
+            "Dashboard",
+            "Add Compliance"
+        ]
 
-},
+    },
 
 
         {

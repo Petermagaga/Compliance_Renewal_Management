@@ -20,11 +20,18 @@ function SidebarItem({
 
             className={({ isActive }) =>
 
-                `flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 font-semibold text-sm
+                `    flex items-center
+                     gap-3
+                     px-4
+                     py-3
+                     rounded-xl
+                     transition-all
+                     duration-200
+                     font-medium
 
                 ${isActive
 
-                    ? "bg-brand-yellow text-black"
+                    ? "bg-brand-yellow text-black shadow"
 
                     : "text-white hover:bg-green-800"
 
