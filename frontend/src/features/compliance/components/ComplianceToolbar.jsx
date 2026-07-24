@@ -32,6 +32,20 @@ function ComplianceToolbar() {
 
     return (
 
+        <>
+        <ComplianceToolbar/>
+
+            <div className="flex items-center justify-between mb-4">
+                <p className="text-gray-500">
+                    Showing
+                    <span className="font-semibold"> {filteredItems.length}</span>
+                    {" "}of
+                    <span className="font-semibold"> {items.length}</span>
+                    {" "}compliance items
+                </p>
+            </div>
+
+
         <div className="bg-white rounded-xl shadow p-4 mb-6 flex gap-4">
 
             <div className="relative flex-1">
@@ -135,7 +149,13 @@ function ComplianceToolbar() {
         </button>
 
         </div>
+            <ComplianceTable
+                items={filteredItems}
+                loading={loading}
+            />    
 
+
+    </>
     );
 
 }
