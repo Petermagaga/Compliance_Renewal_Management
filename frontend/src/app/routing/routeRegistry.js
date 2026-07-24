@@ -6,6 +6,13 @@ import CompliancePage
 from "../../pages/CompliancePage";
 
 import ReportsPage from "../../pages/ReportsPage";
+import AddComplianceItem from "../../pages/AddComplianceItem";
+
+import NotificationPage from "../../pages/Notifications";
+import ReminderPage from  "../../pages/Reminders";
+
+import Settings from "../../pages/Settings";
+
 
 import {
     FiGrid,
@@ -20,7 +27,7 @@ export const routeRegistry = [
 
         path: "/dashboard",
 
-        component: Dashboard,
+        Component: Dashboard,
 
         title: "Dashboard",
 
@@ -60,7 +67,7 @@ export const routeRegistry = [
 
     path:"/compliance",
 
-    element:CompliancePage,
+    Component:CompliancePage,
 
     title:"Compliance Items",
 
@@ -99,7 +106,7 @@ export const routeRegistry = [
 
     path:"/reports",
 
-    element:ReportsPage,
+    Component:ReportsPage,
 
     title:"Reports",
 
@@ -126,13 +133,51 @@ export const routeRegistry = [
 
 },
 
+{
+    id:"settings",
+
+    path:"/settings",
+
+    Component:Settings,
+
+    title:"settings",
+
+    icon:FiShield,
+
+    layout:"dashboard",
+
+    requiresAuth:true,
+
+    showInSidebar:true,
+
+    roles:[
+
+        "administrator",
+
+        "manager",
+
+        "compliance_officer"
+
+    ],
+
+    breadcrumb:[
+
+        "Dashboard",
+
+        "settings"
+
+    ]
+
+}
+,
+
 
         {
             id: "login",
 
             path: "/login",
 
-            component: Login,
+            Component: Login,
 
             title: "Login",
 

@@ -1,6 +1,6 @@
 import MainLayout from "../components/layout/MainLayout";
 
-function Reports() {
+function Settings() {
 
     return (
 
