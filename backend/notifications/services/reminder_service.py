@@ -56,6 +56,19 @@ class ReminderService:
         ).days
 
 
-    def run(self):
+    def should_send(self,days_remaining):
+        return days_remaining in REMINDER_DAYS
 
-        raise NotImplementedError
+    
+
+    def run(self):
+        items= self.get_expiring_items()
+
+        for item in items:
+            days =self.calculate_days_remaining(item)
+            if self.should_send(days):
+                print(
+                   f"{item.name} expires in {days} days" 
+                )
+
+        
