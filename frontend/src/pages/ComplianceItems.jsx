@@ -42,7 +42,7 @@ function ComplianceItems() {
                                          <td>{item.priority}</td> 
                                          <td> 
                                             <button
-                                              onClick={() => deleteItem(item.id)} 
+                                              onClick={() => openDeleteModal(item)} 
                                               className="bg-red-500 text-white px-2 py-1 rounded" > 
                                               Delete </button> 
                                               </td> 
@@ -50,6 +50,21 @@ function ComplianceItems() {
                                         ))} 
                                     </tbody> 
                                 </table> 
+
+
+                                <ComplianceDeleteModal
+
+                                open={showDeleteModal}
+
+                                item={selectedItem}
+
+                                loading={deleting}
+
+                                onClose={closeDeleteModal}
+
+                                onConfirm={confirmDelete}
+
+                            />
                                 </div> 
                                 );
                              }
