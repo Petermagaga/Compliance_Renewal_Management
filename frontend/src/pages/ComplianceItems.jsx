@@ -4,27 +4,61 @@ import StatusBadge from "../features/compliance/components/badges/StatusBadge";
 import PriorityBadge from "../features/compliance/components/badges/PriorityBadge";
 import ComplianceDeleteModal from "../features/compliance/components/modals/ComplianceDeleteModal";
 
-function ComplianceItems() { 
-    const [items, setItems] = useState([]);
-     useEffect(() => { fetchItems(); }, []);
 
+
+function ComplianceItems() {
+
+    // State
+    const [items, setItems] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleting, setDeleting] = useState(false);
 
+    // Load items
+    useEffect(() => {
+        fetchItems();
+    }, []);
 
-     const fetchItems = () => {
-         api.get("/compliance/items/") 
-         .then((res) => setItems(res.data))
-         .catch((err) => console.error(err)); };
-          const deleteItem = async (id) => { 
-            try { 
-                await api.delete(`/compliance/items/${id}/`); 
-                fetchItems(); 
-            } catch (error) {
-                 console.error(error); 
-                } }; 
-            return ( 
+    // Fetch items
+    const fetchItems = () => {
+        api.get("/compliance/items/")
+            .then((res) => setItems(res.data))
+            .catch((err) => console.error(err));
+    };
+
+    // Open modal
+    const openDeleteModal = (item) => {
+        setSelectedItem(item);
+        setShowDeleteModal(true);
+    };
+
+    // Close modal
+    const closeDeleteModal = () => {
+        setSelectedItem(null);
+        setShowDeleteModal(false);
+    };
+
+    // Delete item
+    const confirmDelete = async () => {
+        if (!selectedItem) return;
+
+        try {
+            setDeleting(true);
+
+            await api.delete(`/compliance/items/${selectedItem.id}/`);
+
+            fetchItems();
+            closeDeleteModal();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setDeleting(false);
+        }
+    };
+
+    return (
+
+
                 <div className="p-8"> 
                 <h1 className="text-3xl font-bold mb-6">Compliance Items</h1> 
                 
@@ -74,8 +108,11 @@ function ComplianceItems() {
 
                             />
                                 </div> 
-                                );
-                             }
-                             
-                             
-                             export default ComplianceItems;
+
+
+
+    );
+}
+
+
+
