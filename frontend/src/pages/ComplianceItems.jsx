@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react"; 
 import api from "../services/api";
+import StatusBadge from "../features/compliance/components/badges/StatusBadge";
+import PriorityBadge from "../features/compliance/components/badges/PriorityBadge";
+import ComplianceDeleteModal from "../features/compliance/components/modals/ComplianceDeleteModal";
 
 function ComplianceItems() { 
     const [items, setItems] = useState([]);
      useEffect(() => { fetchItems(); }, []);
+
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deleting, setDeleting] = useState(false);
+
 
      const fetchItems = () => {
          api.get("/compliance/items/") 
@@ -38,8 +46,8 @@ function ComplianceItems() {
                                          <td>{item.name}</td> 
                                          <td>{item.category}</td> 
                                          <td>{item.expiry_date}</td> 
-                                         <td>{item.status}</td> 
-                                         <td>{item.priority}</td> 
+                                         <td><StatusBadge status={item.status} /></td> 
+                                         <td><PriorityBadge priority={item.priority} /></td> 
                                          <td> 
                                             <button
                                               onClick={() => openDeleteModal(item)} 

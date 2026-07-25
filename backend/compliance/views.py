@@ -4,12 +4,13 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import ReminderLogSerializer,ComplianceItemSerializer
 from .models import ComplianceItem,ReminderLog
 from .querysets import ComplianceQuerySet
-
+from .pagination import CompliancePagination    
 
 class ComplianceItemViewSet(viewsets.ModelViewSet):
     permission_classes= [IsAuthenticated]
     serializer_class=ComplianceItemSerializer
     queryset=ComplianceItem.objects.all()
+    pagination_class=CompliancePagination
     def get_queryset(self):
         return ComplianceQuerySet.visible_to(self.request.user)
 
