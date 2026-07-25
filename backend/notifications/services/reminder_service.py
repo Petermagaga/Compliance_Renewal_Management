@@ -1,7 +1,7 @@
 # notifications/services/reminder_service.py
 from compliance.models import ComplianceItem, ReminderLog
 from datetime import date
-
+from notifications.models import Notification
 
 REMINDER_DAYS = [
 
@@ -60,6 +60,21 @@ class ReminderService:
         return days_remaining in REMINDER_DAYS
 
     
+    def create_notification(self,item,days_remainig):
+        users = item.company.users.all()
+
+        for user in users:
+            Notification.objects.create(
+                recipient=user,
+                title="Compliance Reminder",
+
+                message=(
+                    f"{item.name} expires in"
+                    f"{days_remainig} day(s)."
+                ),
+                channel="in_app",
+                status="pending",
+            )
 
     def run(self):
         items= self.get_expiring_items()

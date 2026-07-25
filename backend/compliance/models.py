@@ -1,6 +1,8 @@
 from django.db import models
 from accounts.models import Company,Department
 from compliance.domain.statuses import ComplianceStatus
+from authentication.models import User
+
 CATEGORY_CHOICES=[
     ('license','License'),
     ('permit','Permit'),
@@ -29,9 +31,7 @@ class ComplianceItem(models.Model):
     category=models.CharField(choices=CATEGORY_CHOICES,max_length=50)
     issue_date=models.DateField()
     expiry_date=models.DateField()
-
-    responsible_person= models.CharField(max_length=255)
-
+    responsible_person = models.CharField(max_length=255)
     status=models.CharField(max_length=50,
                             choices=ComplianceStatus.choices(),
                             default=ComplianceStatus.DRAFT)

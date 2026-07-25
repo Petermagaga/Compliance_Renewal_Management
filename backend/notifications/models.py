@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-
 CHANNEL_CHOICES = [
     ("email", "Email"),
     ("whatsapp", "WhatsApp"),
