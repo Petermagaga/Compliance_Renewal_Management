@@ -69,7 +69,7 @@ class ReminderService:
 
         for user in users:
 
-            Notification.objects.create(
+            Notification.objects.get_or_create(
 
                 recipient=user,
 
@@ -87,7 +87,21 @@ class ReminderService:
                 sent_at=timezone.now()
 
             )
+        ReminderLog.objects.get_or_create(
 
+            compliance_item=item,
+
+            days_before=days_remaining,
+
+            channel="in_app",
+
+            defaults={
+
+                "status": "sent"
+
+            }
+
+        )
 
     def run(self):
 
