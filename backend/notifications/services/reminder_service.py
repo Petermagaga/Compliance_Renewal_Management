@@ -4,7 +4,7 @@ from datetime import date
 from notifications.models import Notification
 from django.utils import timezone
 from notifications.services.providers.email_provider import (EmailProvider)
-
+from notifications.services.notification_service import NotificationService
 
 REMINDER_DAYS = [
 
@@ -70,36 +70,16 @@ class ReminderService:
         users = item.company.users.all()
 
         for user in users:
-
-            notification,created=Notification.objects.get_or_create(
-
+            NotificationService.send_compliance_reminder(
                 recipient=user,
 
-                title="Compliance Reminder",
+                item=item,
 
-                
-                message=
-                    f"{item.name} expires in "
-                    f"{days_remaining} day(s).",
+                days_left=days_remaining,
 
-                channel="email", 
-
-                defaults={
-                    "status": "pending",
-                    "sent_at": timezone.now()
-                }
-
-
-
+                channel="email",
             )
-            if created:
-                success=EmailProvider().send(notification)
-                if success:
-                    notification.status="sent"
-                    notification.sent_at=timezone.now()
-                else:
-                    notification.status="failed"
-                notification.save()
+
 
         ReminderLog.objects.get_or_create(
 
@@ -111,7 +91,7 @@ class ReminderService:
 
             defaults={
 
-                "status": "sent" if success else "failed",
+                "status": "sent" ,
 
             }
 
