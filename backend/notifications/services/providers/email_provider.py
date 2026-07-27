@@ -20,6 +20,9 @@ class EmailProvider(NotificationProvider):
             "title": notification.title,
             "message": notification.message,
             "recipient": notification.recipient,
+            "item": item,
+            "days_remaining": days_remaining,
+            "dashboard_url": "https://frontpage-gnzt.onrender.com/",
         }
 
         html = render_to_string(
