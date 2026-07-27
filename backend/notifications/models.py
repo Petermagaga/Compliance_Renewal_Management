@@ -23,6 +23,7 @@ class Notification(models.Model):
     title=models.CharField(max_length=255)
     message=models.TextField()
     channel=models.CharField(max_length=25,choices=CHANNEL_CHOICES)
+    metadata=models.JSONField(default=dict,blank=True)
     status=models.CharField(max_length=25,choices=STATUS_CHOICES)
     is_read=models.BooleanField(default=False)
     sent_at=models.DateTimeField(null=True,blank=True)

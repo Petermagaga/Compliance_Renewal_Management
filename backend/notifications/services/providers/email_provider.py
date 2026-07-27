@@ -17,13 +17,10 @@ class EmailProvider(NotificationProvider):
 
         item = None
 
-        item_id = metadata.get("compliance_item_id")
-
-        if item_id:
-            try:
-                item = ComplianceItem.objects.get(id=item_id)
-            except ComplianceItem.DoesNotExist:
-                item = None
+        if metadata.get("compliance_item_id"):
+            item=ComplianceItem.objects.get(
+                id=metadata["compliance_item_id"]
+            )
 
         context = {
             "title": notification.title,
@@ -32,7 +29,13 @@ class EmailProvider(NotificationProvider):
             "item": item,
             "days_left": metadata.get("days_remaining"),
             "dashboard_url": "https://frontpage-gnzt.onrender.com/",
+            "logo_url":"https://res.cloudinary.com/cz2q5slp/image/upload/f_auto,q_auto/logo_jiuujm"
         }
+
+        print(metadata)
+        print(item)
+        print(metadata.get("days_remaining"))
+        
 
         html = render_to_string(
             "emails/notification.html",
