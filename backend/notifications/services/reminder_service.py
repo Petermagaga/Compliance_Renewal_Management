@@ -77,20 +77,23 @@ class ReminderService:
 
                 title="Compliance Reminder",
 
-                message=(
+                
+                message=
                     f"{item.name} expires in "
-                    f"{days_remaining} day(s)."
-                ),
+                    f"{days_remaining} day(s).",
 
-                channel="in_app",
+                channel="email", 
 
-                status="pending",
+                defaults={
+                    "status": "pending",
+                    "sent_at": timezone.now()
+                }
 
-                sent_at=timezone.now()
+
 
             )
             if created:
-                success=EmailProvider().send(item,user,days_remaining,)
+                success=EmailProvider().send(notification)
                 if success:
                     notification.status="sent"
                     notification.sent_at=timezone.now()

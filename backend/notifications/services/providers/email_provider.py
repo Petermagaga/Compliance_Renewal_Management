@@ -16,7 +16,7 @@ class EmailProvider(NotificationProvider):
             "title": notification.title,
             "message": notification.message,
             "recipient": notification.recipient,
-            "metadata": notification.metadata,
+  
         }
 
         html = render_to_string(
