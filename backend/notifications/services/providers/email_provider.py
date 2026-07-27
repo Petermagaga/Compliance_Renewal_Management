@@ -10,13 +10,16 @@ resend.api_key = settings.RESEND_API_KEY
 
 class EmailProvider(NotificationProvider):
 
-    def send(self, notification):
+    def send(self, notification,item=None,days_remaining=None):
+
+        print("========== EMAIL PROVIDER ==========")
+        print(notification.recipient.email)
+        print(notification.title)
 
         context = {
             "title": notification.title,
             "message": notification.message,
             "recipient": notification.recipient,
-  
         }
 
         html = render_to_string(
@@ -31,7 +34,7 @@ class EmailProvider(NotificationProvider):
 
         try:
 
-            resend.Emails.send({
+            response = resend.Emails.send({
                 "from": "Compliance System <onboarding@resend.dev>",
                 "to": [notification.recipient.email],
                 "subject": notification.title,
@@ -39,8 +42,13 @@ class EmailProvider(NotificationProvider):
                 "text": text,
             })
 
+            print(response)
+
             return True
 
         except Exception as exc:
-            print(f"Error sending email: {exc}")
+
+            print("EMAIL ERROR")
+            print(exc)
+
             return False

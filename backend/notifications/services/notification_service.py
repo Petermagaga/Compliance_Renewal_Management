@@ -20,7 +20,7 @@ class NotificationService:
             title=title,
             message=message,
             channel=channel,
-            metadata=metadata or {},
+            status="pending",
         )
 
         provider=PROVIDERS.get(channel)

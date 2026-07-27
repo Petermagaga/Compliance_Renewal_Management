@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+    margin:0;
+    padding:20px;
+    background:#f5f7fb;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    background:#ffffff;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
+.header{
+    background:linear-gradient(
+        135deg,
+        #006B2E,
+        #0B8A3B
+    );
+    text-align:center;
+    padding:35px;
+}
+
+.header img{
+    max-width:240px;
+    width:100%;
+    height:auto;
+    margin-bottom:15px;
+}
+
+.header h1{
+    color:white;
+    margin:0;
+    font-size:30px;
+    font-weight:700;
+}
+
+.header p{
+    color:#F4D03F;
+    font-size:18px;
+    margin-top:12px;
+    margin-bottom:0;
+}
+
+/* ===========================
+   CONTENT
+=========================== */
+
+.content{
+    padding:35px;
+}
+
+.message{
+    font-size:16px;
+    color:#444;
+    line-height:1.7;
+}
+
+/* ===========================
+   INFO BOX
+=========================== */
+
+.info-box{
+    background:#f8fff8;
+    border-left:5px solid #0B8A3B;
+    padding:18px;
+    margin:25px 0;
+    border-radius:6px;
+    color:#444;
+}
+
+/* ===========================
+   STATUS BADGES
+=========================== */
+
+.badge{
+    padding:8px 15px;
+    border-radius:20px;
+    font-weight:bold;
+    display:inline-block;
+    margin-bottom:20px;
+    letter-spacing:1px;
+}
+
+.badge-urgent{
+    background:#dc3545;
+    color:white;
+}
+
+.badge-upcoming{
+    background:#F4D03F;
+    color:#333;
+}
+
+.badge-reminder{
+    background:#0B8A3B;
+    color:white;
+}
+
+/* ===========================
+   SUMMARY CARD
+=========================== */
+
+.summary-card{
+    background:linear-gradient(
+        135deg,
+        #ffffff,
+        #f9fbf9
+    );
+    border:1px solid #e8e8e8;
+    border-left:6px solid #D4AF37;
+    border-radius:10px;
+    padding:25px;
+    margin-bottom:30px;
+}
+
+.summary-title{
+    color:#006B2E;
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.summary-item{
+    background:#fafafa;
+    border-radius:8px;
+    padding:15px;
+}
+
+.summary-label{
+    font-size:12px;
+    color:#777;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:6px;
+}
+
+.summary-value{
+    font-size:16px;
+    font-weight:bold;
+    color:#333;
+}
+
+/* ===========================
+   TABLE
+=========================== */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th{
+    background:#0B8A3B;
+    color:white;
+    text-align:left;
+    padding:12px;
+    width:35%;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #e5e5e5;
+}
+
+tr:nth-child(even){
+    background:#fafafa;
+}
+
+/* ===========================
+   WARNING
+=========================== */
+
+.warning{
+    background:#fff8e6;
+    border-left:5px solid #D4AF37;
+    padding:20px;
+    margin-top:25px;
+    border-radius:6px;
+    color:#444;
+    line-height:1.6;
+}
+
+/* ===========================
+   BUTTON
+=========================== */
+
+.button{
+    display:inline-block;
+    margin-top:30px;
+    padding:15px 30px;
+    background:#0B8A3B;
+    color:white !important;
+    text-decoration:none;
+    border-radius:6px;
+    font-weight:bold;
+    font-size:15px;
+}
+
+.button:hover{
+    background:#006B2E;
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+
+.footer{
+    background:#f7f7f7;
+    padding:25px;
+    text-align:center;
+    font-size:13px;
+    color:#666;
+    border-top:3px solid #D4AF37;
+}
+
+.footer strong{
+    color:#006B2E;
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:600px){
+
+    .content{
+        padding:20px;
+    }
+
+    .header{
+        padding:25px;
+    }
+
+    .header h1{
+        font-size:24px;
+    }
+
+    table{
+        font-size:14px;
+    }
+
+    .summary-grid{
+        grid-template-columns:1fr;
+    }
+
+    .button{
+        display:block;
+        text-align:center;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <img src="{{ logo_url }}" alt="Unibrain Industries Logo">
+
+        <h1>Compliance Reminder System</h1>
+
+        <p>Unibrain Industries Ltd</p>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <p class="message">
+            Hello,
+        </p>
+
+        <p class="message">
+            One of your compliance items is approaching its expiry date.
+            Please review the information below and take the necessary action.
+        </p>
+
+        <div class="info-box">
+            This is an automated compliance reminder from
+            <strong>Unibrain Industries Ltd</strong>.
+            Please review the item below and complete renewal activities before the expiry date.
+        </div>
+
+        <!-- STATUS BADGE -->
+
+        {% if days_left <= 7 %}
+
+            <span class="badge badge-urgent">
+                URGENT
+            </span>
+
+        {% elif days_left <= 30 %}
+
+            <span class="badge badge-upcoming">
+                UPCOMING
+            </span>
+
+        {% else %}
+
+            <span class="badge badge-reminder">
+                REMINDER
+            </span>
+
+        {% endif %}
+
+        <!-- EXECUTIVE SUMMARY CARD -->
+
+        <div class="summary-card">
+
+            <div class="summary-title">
+                Compliance Summary
+            </div>
+
+            <div class="summary-grid">
+
+                <div class="summary-item">
+                    <div class="summary-label">
+                        Compliance Item
+                    </div>
+                    <div class="summary-value">
+                        {{ item.name }}
+                    </div>
+                </div>
+
+                <div class="summary-item">
+                    <div class="summary-label">
+                        Status
+                    </div>
+                    <div class="summary-value">
+
+                        {% if days_left <= 7 %}
+                            Urgent
+                        {% elif days_left <= 30 %}
+                            Upcoming
+                        {% else %}
+                            Reminder
+                        {% endif %}
+
+                    </div>
+                </div>
+
+                <div class="summary-item">
+                    <div class="summary-label">
+                        Expiry Date
+                    </div>
+                    <div class="summary-value">
+                        {{ item.expiry_date|date:"d F Y" }}
+                    </div>
+                </div>
+
+                <div class="summary-item">
+                    <div class="summary-label">
+                        Days Remaining
+                    </div>
+                    <div class="summary-value">
+                        {{ days_left }} Days
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- DETAILS TABLE -->
+
+        <table>
+
+            <tr>
+                <th>Compliance Item</th>
+                <td>{{ item.name }}</td>
+            </tr>
+
+            <tr>
+                <th>Category</th>
+                <td>{{ item.category }}</td>
+            </tr>
+
+            <tr>
+                <th>Responsible Person</th>
+                <td>{{ item.responsible_person }}</td>
+            </tr>
+
+            <tr>
+                <th>Expiry Date</th>
+                <td>{{ item.expiry_date|date:"d F Y" }}</td>
+            </tr>
+
+            <tr>
+                <th>Days Remaining</th>
+                <td>
+                    <strong>{{ days_left }} Days</strong>
+                </td>
+            </tr>
+
+        </table>
+
+        <!-- WARNING -->
+
+        <div class="warning">
+
+            <strong>Action Required</strong>
+
+            <br><br>
+
+            Please renew this compliance item before expiry to avoid
+            penalties, operational interruptions, audit findings,
+            certification issues, or regulatory non-compliance.
+
+        </div>
+
+        <!-- CTA -->
+
+        <a href="{{ frontend_dashboard_url }}" class="button">
+            Open Compliance Dashboard
+        </a>
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        <strong>Unibrain Industries Ltd</strong>
+
+        <br>
+
+        Developing Agro-Industry Value Chains
+
+        <br><br>
+
+        Compliance Management System
+
+        <br>
+
+        © {% now "Y" %} Unibrain Industries Ltd. All Rights Reserved.
+
+    </div>
+
+</div>
+
+</body>
+</html>
