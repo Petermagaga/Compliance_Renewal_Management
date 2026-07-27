@@ -41,5 +41,6 @@ class EmailProvider(NotificationProvider):
 
             return True
 
-        except Exception:
+        except Exception as exc:
+            print(f"Error sending email: {exc}")
             return False
