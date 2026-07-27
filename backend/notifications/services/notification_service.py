@@ -1,7 +1,7 @@
 from notifications.models import Notification
 from notifications.services.registry import PROVIDERS
 from notifications.queries.notification_selector import NotificationSelector
-from time import timezone
+from django.utils import timezone
 
 class NotificationService:
     """
