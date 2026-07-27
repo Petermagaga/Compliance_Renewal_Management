@@ -70,15 +70,32 @@ class ReminderService:
         users = item.company.users.all()
 
         for user in users:
-            NotificationService.send_compliance_reminder(
-                recipient=user,
 
-                item=item,
+            if user.phone:
 
-                days_left=days_remaining,
+                NotificationService.send_compliance_reminder(
 
-                channel="email",
-            )
+                    recipient=user,
+
+                    item=item,
+
+                    days_left=days_remaining,
+
+                    channel="whatsapp",
+
+                )
+
+
+            for channel in ["email","whatsapp"]:
+                NotificationService.send_compliance_reminder(
+                    recipient=user,
+
+                    item=item,
+
+                    days_left=days_remaining,
+
+                    channel=channel,
+                )
 
 
         ReminderLog.objects.get_or_create(
