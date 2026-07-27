@@ -2,6 +2,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 
 import resend
+from compliance.models import ComplianceItem
 
 from notifications.services.providers import NotificationProvider
 
@@ -10,18 +11,24 @@ resend.api_key = settings.RESEND_API_KEY
 
 class EmailProvider(NotificationProvider):
 
-    def send(self, notification,item=None,days_remaining=None):
+    def send(self, notification,item,):
 
         print("========== EMAIL PROVIDER ==========")
         print(notification.recipient.email)
         print(notification.title)
+
+        metadata=notification.metadata
+        item=ComplianceItem.objects.get(
+            id=metadata["compliance_item_id"]
+        )
+
 
         context = {
             "title": notification.title,
             "message": notification.message,
             "recipient": notification.recipient,
             "item": item,
-            "days_remaining": days_remaining,
+            "days_left": metadata["days_remaining"],
             "dashboard_url": "https://frontpage-gnzt.onrender.com/",
         }
 
