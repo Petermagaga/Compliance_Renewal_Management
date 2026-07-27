@@ -21,6 +21,7 @@ class NotificationService:
             message=message,
             channel=channel,
             status="pending",
+            metadata=metadata or {},
         )
 
         provider=PROVIDERS.get(channel)
@@ -58,7 +59,7 @@ class NotificationService:
                 "compliance_item_id":item.id,
                 "item_name":item.name,
                 "category":item.category,
-                "expiry_date":item.expiry_date,
+                "expiry_date":item.expiry_date.isoformat(),
                 "days_remaining":days_left,
             },
         )
