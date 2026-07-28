@@ -2,7 +2,7 @@ from notifications.models import Notification
 from notifications.services.registry import PROVIDERS
 from notifications.queries.notification_selector import NotificationSelector
 from django.utils import timezone
-
+from audit.services import ActivityService
 class NotificationService:
     """
     Central service responsible for creating and
@@ -36,6 +36,32 @@ class NotificationService:
         if success:
             notification.status ="sent"
             notification.sent_at=timezone.now()
+
+            ActivityService.log(
+
+                activity_type="email_sent",
+
+                title="Email Reminder Sent",
+
+                description=notification.message,
+
+                user=recipient,
+
+            )
+            
+            if channel == "whatsapp":
+
+                ActivityService.log(
+
+                    activity_type="whatsapp_sent",
+
+                    title="WhatsApp Reminder Sent",
+
+                    description=notification.message,
+
+                    user=recipient,
+
+                )
 
         else:
             notification.status ="failed"
