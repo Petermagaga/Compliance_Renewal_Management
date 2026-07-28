@@ -1,5 +1,7 @@
 from audit.models import AuditEntry,DomainEventRecord
 
+from audit.models import Activity
+
 class AuditService:
     @staticmethod
     def record(actor,event_type,entity,previous_state,
@@ -43,4 +45,28 @@ class EventStoreService:
 
         )
 
+
+
+class ActivityService:
+
+    @staticmethod
+    def log(
+        *,
+        activity_type,
+        title,
+        description,
+        user=None,
+    ):
+
+        Activity.objects.create(
+
+            user=user,
+
+            activity_type=activity_type,
+
+            title=title,
+
+            description=description,
+
+        )
 
