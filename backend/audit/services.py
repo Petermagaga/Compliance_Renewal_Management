@@ -13,7 +13,7 @@ class AuditService:
             entity_type=entity.__class__.__name__,
             entity_id=entity.pk,
             previous_state=previous_state or {},
-            new_state=new_state,
+            new_state=new_state or {},
             metadata=metadata or {},
         )
     
