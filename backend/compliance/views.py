@@ -15,6 +15,51 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return ComplianceQuerySet.visible_to(self.request.user)
 
+    def perform_create(self, serializer):
+
+        item = serializer.save()
+
+        ActivityService.log(
+
+            activity_type="created",
+
+            title="Compliance Item Created",
+
+            description=item.name,
+
+            user=self.request.user,
+
+        )
+
+    def perform_update(self, serializer):
+
+        item = serializer.save()
+
+        ActivityService.log(
+
+            activity_type="updated",
+
+            title="Compliance Item Updated",
+
+            description=item.name,
+
+            user=self.request.user,
+        )
+
+    def perform_destroy(self, instance):
+
+        ActivityService.log(
+
+            activity_type="deleted",
+
+            title="Compliance Item Deleted",
+
+            description=instance.name,
+
+            user=self.request.user,
+        )
+
+        instance.delete()
 
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
