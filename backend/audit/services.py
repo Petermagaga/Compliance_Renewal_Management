@@ -4,15 +4,15 @@ from audit.models import Activity
 
 class AuditService:
     @staticmethod
-    def record(actor,event_type,entity,previous_state,
-               new_state,metadata=None):
+    def record(actor,event_type,entity,previous_state=None,
+               new_state=None,metadata=None):
         
         return AuditEntry.objects.create(
             actor=actor,
             event_type=event_type,
             entity_type=entity.__class__.__name__,
             entity_id=entity.pk,
-            previous_state=previous_state,
+            previous_state=previous_state or {},
             new_state=new_state,
             metadata=metadata or {},
         )
