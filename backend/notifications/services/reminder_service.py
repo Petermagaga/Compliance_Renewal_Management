@@ -5,7 +5,8 @@ from notifications.models import Notification
 from django.utils import timezone
 from notifications.services.providers.email_provider import (EmailProvider)
 from notifications.services.notification_service import NotificationService
-from audit.services import AuditService
+from audit.services import AuditService,ActivityService
+
 REMINDER_DAYS = [
 
     90,
@@ -88,21 +89,27 @@ class ReminderService:
                     channel=channel,
                 )
 
-                AuditService.record(
-                    actor=user,
-
-                    event_type="email_sent",
-
-                    entity=item,
-
-                    metadata={
-                        "title": "Compliance Reminder Sent",
-                        "channel": "Email",
-                        "item": item.name,
-                        "days_remaining": days_remaining,
-                    },
+                ActivityService.log(
+                    activity_type="email_sent",
+                    title="Compliance Reminder Email Sent",
+                    description=(
+                        f"Reminder email sent for "
+                        f"{item.name} "
+                        f"({days_remaining} day(s) remaining)"
+                    ),
+                    user=user,
                 )
 
+                if channel == "whatsapp":
+                    ActivityService.log(
+                        activity_type="whatsapp_sent",
+                        title="WhatsApp Reminder Sent",
+                        description=(
+                            f"WhatsApp reminder sent for "
+                            f"{item.name}"
+                        ),
+                        user=user,
+                    )
 
                 AuditService.record(
                     actor=user,
