@@ -7,6 +7,7 @@ from .serializers import NotificationSerializer
 from .services.notification_service import NotificationService
 from core.responses import ApiResponse
 from .pagination import NotificationPagination
+from django.db.models import Count
 
 class NotificationListAPIView(APIView):
 
@@ -141,4 +142,51 @@ class NotificationDeleteAPIView(APIView):
 
         return ApiResponse.success(
             message="Notification deleted."
+        )
+
+
+
+
+class NotificationStatsAPIView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        notifications = Notification.objects.filter(
+            recipient=request.user
+        )
+
+        data = {
+
+            "total": notifications.count(),
+
+            "unread": notifications.filter(
+                is_read=False
+            ).count(),
+
+            "email": notifications.filter(
+                channel="email"
+            ).count(),
+
+            "whatsapp": notifications.filter(
+                channel="whatsapp"
+            ).count(),
+
+            "in_app": notifications.filter(
+                channel="in_app"
+            ).count(),
+
+            "sent": notifications.filter(
+                status="sent"
+            ).count(),
+
+            "failed": notifications.filter(
+                status="failed"
+            ).count(),
+
+        }
+
+        return ApiResponse.success(
+            data=data
         )
