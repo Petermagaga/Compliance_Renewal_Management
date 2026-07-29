@@ -12,6 +12,7 @@ class NotificationSerializer(serializers.ModelSerializer):
             "message",
             "channel",
             "status",
+            "metadata",
             "is_read",
             "created_at",
             "sent_at",

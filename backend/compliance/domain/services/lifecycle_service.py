@@ -91,6 +91,7 @@ class LifecycleService:
             ComplianceStatus.ACTIVE,
             actor,
         )
+    
 
     @staticmethod
     def mark_expiring(item, actor=None):
