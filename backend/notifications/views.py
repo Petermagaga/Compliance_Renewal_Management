@@ -6,6 +6,8 @@ from .models import Notification
 from .serializers import NotificationSerializer
 from .services.notification_service import NotificationService
 from core.responses import ApiResponse
+from .pagination import NotificationPagination
+
 class NotificationListAPIView(APIView):
 
     permission_classes = [IsAuthenticated]
