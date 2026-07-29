@@ -190,3 +190,20 @@ class NotificationStatsAPIView(APIView):
         return ApiResponse.success(
             data=data
         )
+
+class NotificationDeleteReadAPIView(APIView):
+
+    permission_classes=[IsAuthenticated]
+
+    def delete(self,request):
+        deleted,_=Notification.objects.filter(
+            recipient=request.user,
+            is_read=True,
+        ).delete()
+
+        return ApiResponse.succes(
+            data={
+                "deleted":deleted,
+            },
+            message="Read notifications deleted"
+        )

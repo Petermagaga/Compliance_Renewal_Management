@@ -5,6 +5,8 @@ from .views import (
     NotificationUnreadAPIView,
     NotificationReadAPIView,
     NotificationReadAllAPIView,
+    NotificationStatsAPIView
+
 )
 
 urlpatterns = [
@@ -32,4 +34,12 @@ urlpatterns = [
         NotificationReadAllAPIView.as_view(),
         name="notification-read-all",
     ),
+
+
+    path(
+        "stats/",
+        NotificationStatsAPIView.as_view(),
+        name="notification-stats",
+    ),
+
 ]
