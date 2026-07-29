@@ -40,6 +40,14 @@ class NotificationListAPIView(APIView):
                 is_read=False
             )
 
+        paginator=NotificationPagination()
+
+        page=paginator.paginate_queryset(
+            notifications,
+            request,
+        )
+
+
 
         serializer = NotificationSerializer(
             notifications,
