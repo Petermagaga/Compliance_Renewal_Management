@@ -12,9 +12,32 @@ class NotificationListAPIView(APIView):
 
     def get(self, request):
 
+
         notifications = NotificationSelector.for_user(
             request.user
         )
+
+        channel = request.GET.get("channel")
+
+        if channel:
+            notifications = notifications.filter(
+                channel=channel
+            )
+
+        status = request.GET.get("status")
+
+        if status:
+            notifications = notifications.filter(
+                status=status
+            )
+
+        unread = request.GET.get("unread")
+
+        if unread == "true":
+            notifications = notifications.filter(
+                is_read=False
+            )
+
 
         serializer = NotificationSerializer(
             notifications,
@@ -87,3 +110,5 @@ class NotificationReadAllAPIView(APIView):
         return ApiResponse.success(
             message="All notifications marked as read."
         )
+
+
