@@ -48,14 +48,13 @@ class NotificationListAPIView(APIView):
         )
 
 
-
         serializer = NotificationSerializer(
-            notifications,
+            page,
             many=True
         )
 
-        return ApiResponse.success(
-            data=serializer.data
+        return paginator.get_paginated_response(
+            serializer.data
         )
     
 
