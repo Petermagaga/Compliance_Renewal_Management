@@ -112,3 +112,24 @@ class NotificationReadAllAPIView(APIView):
         )
 
 
+class NotificationDeleteAPIView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+
+        notification = get_object_or_404(
+
+            Notification,
+
+            pk=pk,
+
+            recipient=request.user,
+
+        )
+
+        notification.delete()
+
+        return ApiResponse.success(
+            message="Notification deleted."
+        )
