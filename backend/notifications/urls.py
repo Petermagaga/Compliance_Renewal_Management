@@ -5,7 +5,9 @@ from .views import (
     NotificationUnreadAPIView,
     NotificationReadAPIView,
     NotificationReadAllAPIView,
-    NotificationStatsAPIView
+    NotificationStatsAPIView,
+    NotificationDeleteReadAPIView,
+    NotificationDeleteAPIView
 
 )
 
@@ -40,6 +42,19 @@ urlpatterns = [
         "stats/",
         NotificationStatsAPIView.as_view(),
         name="notification-stats",
+    ),
+
+
+    path(
+        "read/",
+        NotificationDeleteReadAPIView.as_view(),
+        name="notification-delete-read",
+    ),
+
+    path(
+        "<int:pk>/",
+        NotificationDeleteAPIView.as_view(),
+        name="notification-delete",
     ),
 
 ]
