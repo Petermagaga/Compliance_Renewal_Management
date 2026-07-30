@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import notificationService from "../../services/notificationService";
+import { useCallback, useEffect, useState } from "react";
+import notificationService from "../services/notificationService";
+
 export default function useNotifications(filters = {}) {
 
     const [notifications, setNotifications] = useState([]);
@@ -10,16 +11,85 @@ export default function useNotifications(filters = {}) {
 
     const [loading, setLoading] = useState(true);
 
-    async function loadNotifications() {
+    const [error, setError] = useState(null);
+
+    const [pagination, setPagination] = useState({
+        count: 0,
+        next: null,
+        previous: null,
+    });
+
+    const loadNotifications = useCallback(async () => {
+
+        const response =
+            await notificationService.getAll(filters);
+
+        const payload = response.data?.data;
+
+        if (Array.isArray(payload)) {
+
+            setNotifications(payload);
+
+            setPagination({
+                count: payload.length,
+                next: null,
+                previous: null,
+            });
+
+            return;
+        }
+
+        setNotifications(payload?.results || []);
+
+        setPagination({
+            count: payload?.count || 0,
+            next: payload?.next || null,
+            previous: payload?.previous || null,
+        });
+
+    }, [JSON.stringify(filters)]);
+
+    const loadStats = useCallback(async () => {
+
+        const response =
+            await notificationService.getStats();
+
+        setStats(response.data?.data || null);
+
+    }, []);
+
+    const loadUnread = useCallback(async () => {
+
+        const response =
+            await notificationService.getUnreadCount();
+
+        setUnreadCount(
+            response.data?.data?.unread || 0
+        );
+
+    }, []);
+
+    const refresh = useCallback(async () => {
 
         setLoading(true);
+        setError(null);
 
         try {
 
-            const response =
-                await notificationService.getAll(filters);
+            await Promise.all([
+                loadNotifications(),
+                loadStats(),
+                loadUnread(),
+            ]);
 
-            setNotifications(response.data.data);
+        } catch (err) {
+
+            console.error(
+                "Failed to load notifications:",
+                err
+            );
+
+            setError(err);
 
         } finally {
 
@@ -27,98 +97,61 @@ export default function useNotifications(filters = {}) {
 
         }
 
-    }
+    }, [
+        loadNotifications,
+        loadStats,
+        loadUnread,
+    ]);
 
-    async function loadStats() {
-
-        const response =
-            await notificationService.getStats();
-
-        setStats(response.data.data);
-
-    }
-
-    async function loadUnread() {
-
-        const response =
-            await notificationService.getUnreadCount();
-
-        setUnreadCount(response.data.data.unread);
-
-    }
-
-    async function refresh() {
-
-        await Promise.all([
-
-            loadNotifications(),
-
-            loadStats(),
-
-            loadUnread(),
-
-        ]);
-
-    }
-
-    async function markRead(id) {
+    const markRead = async (id) => {
 
         await notificationService.markRead(id);
 
-        refresh();
+        await refresh();
 
-    }
+    };
 
-    async function markAllRead() {
+    const markAllRead = async () => {
 
         await notificationService.markAllRead();
 
-        refresh();
+        await refresh();
 
-    }
+    };
 
-    async function remove(id) {
+    const remove = async (id) => {
 
         await notificationService.delete(id);
 
-        refresh();
+        await refresh();
 
-    }
+    };
 
-    async function clearRead() {
+    const clearRead = async () => {
 
         await notificationService.deleteRead();
 
-        refresh();
+        await refresh();
 
-    }
+    };
 
     useEffect(() => {
 
         refresh();
 
-    }, [JSON.stringify(filters)]);
+    }, [refresh]);
 
     return {
-
         notifications,
-
         stats,
-
         unreadCount,
-
+        pagination,
         loading,
-
+        error,
         refresh,
-
         markRead,
-
         markAllRead,
-
         remove,
-
         clearRead,
-
     };
-
 }
