@@ -1,7 +1,7 @@
 import { FiMenu, FiBell } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";  
-import NotificacationBell from "../notifications/NotificationBell";
 
+import NotificationBell from "../notifications/NotificationBell";
 function Topbar() {
   const { user } = useAuth();
 
@@ -52,7 +52,7 @@ function Topbar() {
 
       <div className="flex items-center gap-4">
           
-          <NotificacationBell />
+          <NotificationBell />
 
       <div className="border rounded-lg px-4 py-2">
           {formattedDate}

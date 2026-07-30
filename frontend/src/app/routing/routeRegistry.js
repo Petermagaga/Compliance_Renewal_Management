@@ -14,6 +14,8 @@ import ReminderPage from  "../../pages/Reminders";
 import Settings from "../../pages/Settings";
 import ComplianceDetails from "../../pages/ComplianceDetails";
 import EditCompliance from "../../pages/EditCompliance";
+import NotificationCenter
+    from "../../pages/NotificationCenter";
 
 import {
     FiGrid,
@@ -263,6 +265,37 @@ export const routeRegistry = [
             "Notifications"
         ]
 
+    },
+
+
+
+    {
+        id: "notifications",
+
+        path: "/notifications",
+
+        Component: NotificationCenter,
+
+        title: "Notifications",
+
+        icon: FiBell,
+
+        layout: "dashboard",
+
+        requiresAuth: true,
+
+        showInSidebar: true,
+
+        roles: [
+            "administrator",
+            "manager",
+            "compliance_officer",
+        ],
+
+        breadcrumb: [
+            "Dashboard",
+            "Notifications",
+        ],
     },
 
 
