@@ -3,4 +3,6 @@ from .views import ActivityViewSet
 
 router=DefaultRouter()
 
-router.register("activities", ActivityViewSet)
+router.register("activities", ActivityViewSet,basename="activity")
+
+urlpatterns = router.urls

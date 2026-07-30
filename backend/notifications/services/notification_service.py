@@ -38,31 +38,12 @@ class NotificationService:
             notification.sent_at=timezone.now()
 
             ActivityService.log(
-
-                activity_type="email_sent",
-
-                title="Email Reminder Sent",
-
+                activity_type=f"{channel}_sent",
+                title=f"{channel.title()} Reminder Sent",
                 description=notification.message,
-
                 user=recipient,
-
             )
             
-            if channel == "whatsapp":
-
-                ActivityService.log(
-
-                    activity_type="whatsapp_sent",
-
-                    title="WhatsApp Reminder Sent",
-
-                    description=notification.message,
-
-                    user=recipient,
-
-                )
-
         else:
             notification.status ="failed"
         
