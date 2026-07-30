@@ -25,7 +25,9 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
 
             title="Compliance Item Created",
 
-            description=item.name,
+            description=(f"{item.name} was added to the compliance registry"
+
+            ),
 
             user=self.request.user,
 
@@ -46,20 +48,6 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
             user=self.request.user,
         )
 
-    def perform_destroy(self, instance):
-
-        ActivityService.log(
-
-            activity_type="deleted",
-
-            title="Compliance Item Deleted",
-
-            description=instance.name,
-
-            user=self.request.user,
-        )
-
-        instance.delete()
 
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]

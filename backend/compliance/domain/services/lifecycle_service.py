@@ -3,7 +3,7 @@ from compliance.domain.events.compliance_events import (ComplianceExpired,)
 from compliance.domain.events.dispatcher import (dispatcher)
 from compliance.domain.statuses import ComplianceStatus
 from compliance.domain.transitions import ALLOWED_TRANSITIONS
-from audit.services import AuditService,EventStoreService
+from audit.services import AuditService,EventStoreService,ActivityService
 from compliance.domain.exceptions import InvalidTransitionError
 
 
@@ -54,6 +54,16 @@ class LifecycleService:
                 "status",
                 "updated_at"
             ]
+        )
+
+        ActivityService.log(
+            activity_type="updated",
+            title="Compliance Status Changed",
+            description=(
+                f"{item.name} changed to "
+                f"{target_status.label}."
+            ),
+            user=actor,
         )
 
 
