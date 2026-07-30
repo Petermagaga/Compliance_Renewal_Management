@@ -46,7 +46,14 @@ class NotificationService:
             
         else:
             notification.status ="failed"
-        
+
+            ActivityService.log(
+                activity_type=f"{channel}_failed",
+                title=f"{channel.title()} Reminder Failed",
+                description=notification.message,
+                user=recipient,
+            )
+
         notification.save(
             update_fields=[
                 "status",

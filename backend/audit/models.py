@@ -80,6 +80,9 @@ class Activity(models.Model):
 
         ("expired", "Expired"),
 
+        ("email_failed", "Email Failed"),
+        
+        ("whatsapp_failed", "WhatsApp Failed"),
     ]
 
     user = models.ForeignKey(

@@ -1,24 +1,30 @@
-from authentication.models import User
-from compliance.models import ComplianceItem
-from notifications.models import Notification
-from notifications.services.providers.whatsapp_provider import WhatsAppProvider
 
-user = User.objects.first()
-item = ComplianceItem.objects.first()
+from twilio.rest import Client
+from django.conf import settings
 
-notification = Notification.objects.create(
-    recipient=user,
-    title="Compliance Reminder",
-    message=f"{item.name} expires soon.",
-    channel="whatsapp",
-    status="pending",
-    metadata={
-        "compliance_item_id": item.id,
-        "item_name": item.name,
-        "category": item.category,
-        "expiry_date": str(item.expiry_date),
-        "days_remaining": 4,
-    }
-)
+from notifications.services.providers import NotificationProvider
 
-WhatsAppProvider().send(notification)
+
+class WhatsAppProvider(NotificationProvider):
+
+    def send(self, notification):
+
+        body = f"""
+{notification.title}
+
+{notification.message}
+"""
+
+        try:
+
+            Client.messages.create(
+                body=body,
+                from_=f"whatsapp:{settings.TWILIO_WHATSAPP_NUMBER}",
+                to=f"whatsapp:{notification.recipient.phone}",
+            )
+
+            return True
+
+        except Exception as exc:
+            print(exc)
+            return False
