@@ -1,30 +1,101 @@
-import { Bell } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { FiBell } from "react-icons/fi";
 
+import useNotifications from "../../hooks/useNotifications";
 import NotificationBadge from "./NotificationBadge";
+import NotificationDropdown from "./NotificationDropdown";
 
-export default function NotificationBell({
+function NotificationBell() {
 
-    unreadCount,
+    const [open, setOpen] = useState(false);
 
-    onClick,
+    const containerRef = useRef(null);
 
-}) {
+    const {
+        notifications,
+        unreadCount,
+        loading,
+        markRead,
+        remove,
+    } = useNotifications();
+
+    useEffect(() => {
+
+        const handleOutsideClick = (event) => {
+
+            if (
+                containerRef.current &&
+                !containerRef.current.contains(
+                    event.target
+                )
+            ) {
+
+                setOpen(false);
+
+            }
+
+        };
+
+        document.addEventListener(
+            "mousedown",
+            handleOutsideClick
+        );
+
+        return () => {
+
+            document.removeEventListener(
+                "mousedown",
+                handleOutsideClick
+            );
+
+        };
+
+    }, []);
 
     return (
-
-        <button
-            onClick={onClick}
-            className="notification-bell"
+        <div
+            ref={containerRef}
+            className="relative"
         >
 
-            <Bell size={22} />
+            <button
+                type="button"
+                onClick={() =>
+                    setOpen((previous) => !previous)
+                }
+                aria-label="Notifications"
+                className="
+                    relative
+                    flex
+                    h-10
+                    w-10
+                    items-center
+                    justify-center
+                    rounded-xl
+                    text-gray-600
+                    hover:bg-gray-100
+                    hover:text-gray-900
+                "
+            >
+                <FiBell size={21} />
 
-            <NotificationBadge
-                count={unreadCount}
-            />
+                <NotificationBadge
+                    count={unreadCount}
+                />
+            </button>
 
-        </button>
+            {open && (
+                <NotificationDropdown
+                    notifications={notifications}
+                    loading={loading}
+                    onRead={markRead}
+                    onDelete={remove}
+                    onClose={() => setOpen(false)}
+                />
+            )}
 
+        </div>
     );
-
 }
+
+export default NotificationBell;
