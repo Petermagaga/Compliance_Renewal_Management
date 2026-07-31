@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import StatusBadge from "../features/compliance/components/badges/StatusBadge";
 import PriorityBadge from "../features/compliance/components/badges/PriorityBadge";
-import ComplianceDeleteModal from "../features/compliance/components/modals/ComplianceDeleteModal";
-
-
+import ComplianceDeleteModal from "../features/compliance/components/ComplianceDeleteModal";
 
 function ComplianceItems() {
 
