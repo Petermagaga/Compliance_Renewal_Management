@@ -1,34 +1,85 @@
 function StatCard({
-  title,
-  value,
-  subtitle,
-  icon,
-  color,
+    title,
+    value,
+    subtitle,
+    icon,
+    color = "bg-brand-green",
 }) {
-  return (
-    <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-      <div className="flex justify-between items-start">
-        
-        <div>
-          <h3 className="text-gray-500 text-sm mb-2">
-            {title}
-          </h3>
+    return (
+        <article
+            className="
+                rounded-2xl
+                border
+                border-slate-200
+                bg-white
+                p-5
+                shadow-sm
+                transition
+                duration-200
+                hover:-translate-y-0.5
+                hover:shadow-md
+            "
+        >
 
-          <h2 className="text-4xl font-bold mb-2">
-            {value}
-          </h2>
+            <div className="flex items-start justify-between gap-4">
 
-          <p className="text-sm text-gray-400">
-            {subtitle}
-          </p>
-        </div>
+                <div className="min-w-0">
 
-        <div className={`w-14 h-14 rounded-full flex items-center justify-center ${color}`}>
-          {icon}
-        </div>
-      </div>
-    </div>
-  );
+                    <p
+                        className="
+                            text-sm
+                            font-medium
+                            text-slate-500
+                        "
+                    >
+                        {title}
+                    </p>
+
+                    <p
+                        className="
+                            mt-2
+                            text-3xl
+                            font-bold
+                            tracking-tight
+                            text-slate-900
+                        "
+                    >
+                        {value}
+                    </p>
+
+                    {subtitle && (
+                        <p
+                            className="
+                                mt-1
+                                text-xs
+                                text-slate-400
+                            "
+                        >
+                            {subtitle}
+                        </p>
+                    )}
+
+                </div>
+
+                <div
+                    className={`
+                        flex
+                        h-11
+                        w-11
+                        flex-shrink-0
+                        items-center
+                        justify-center
+                        rounded-xl
+                        ${color}
+                    `}
+                >
+                    {icon}
+                </div>
+
+            </div>
+
+        </article>
+    );
 }
 
 export default StatCard;
