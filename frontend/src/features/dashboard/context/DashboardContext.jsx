@@ -6,11 +6,9 @@ import {
 } from "react";
 
 import dashboardService from "../services/dashboardService";
-import complianceService from  "../services/complianceService";
+import complianceService from "../services/complianceService";
 
 const DashboardContext = createContext(null);
-
-
 
 export function DashboardProvider({ children }) {
 
@@ -27,42 +25,71 @@ export function DashboardProvider({ children }) {
         try {
 
             setLoading(true);
-
             setError(null);
 
             const response =
                 await dashboardService.getDashboard();
-            
-            console.log(response);
 
-            setDashboard(response.data);
-            
+            console.log(
+                "Dashboard API response:",
+                response
+            );
+
+            const dashboardData =
+                response.data?.data;
+
+            setDashboard(
+                dashboardData || null
+            );
+
             const complianceResponse =
                 await complianceService.getItems();
-            console.log(complianceResponse);
-            setComplianceItems(complianceResponse);
 
-        }
+            console.log(
+                "Compliance API response:",
+                complianceResponse
+            );
 
-        catch (err) {
+            const complianceData =
+                complianceResponse.data;
 
-            console.error(err);
+            // Support both:
+            // [...]
+            // and { results: [...] }
+
+            if (Array.isArray(complianceData)) {
+
+                setComplianceItems(
+                    complianceData
+                );
+
+            } else {
+
+                setComplianceItems(
+                    complianceData?.results || []
+                );
+
+            }
+
+        } catch (err) {
+
+            console.error(
+                "Dashboard loading failed:",
+                err
+            );
 
             setError(err);
 
-        }
-
-        finally {
+        } finally {
 
             setLoading(false);
 
         }
-
     };
 
-    const refresh = () => {
+    const refresh = async () => {
 
-        fetchDashboard();
+        await fetchDashboard();
 
     };
 
@@ -72,59 +99,57 @@ export function DashboardProvider({ children }) {
 
     }, []);
 
-
     const value = {
+
         dashboard,
 
-        summary: dashboard?.summary,
+        summary:
+            dashboard?.summary ?? null,
 
-        charts: dashboard?.charts,
+        charts:
+            dashboard?.charts ?? null,
 
-        reminders: dashboard?.upcoming_reminders ?? [],
+        reminders:
+            dashboard?.upcoming_reminders ?? [],
 
-        recentActivity: dashboard?.recent_activity ?? [],
+        recentActivity:
+            dashboard?.recent_activity ?? [],
 
-        systemHealth: dashboard?.system_health,
+        systemHealth:
+            dashboard?.system_health ?? null,
 
-        complianceItems, // temporary
+        criticalCount:
+            dashboard?.critical_count ?? 0,
+
+        complianceItems,
 
         loading,
 
         error,
 
         refresh,
+
     };
 
-
-
     return (
-
-
-
-
         <DashboardContext.Provider value={value}>
             {children}
         </DashboardContext.Provider>
-
-
     );
-
 }
 
 export function useDashboard() {
 
-    const context = useContext(DashboardContext);
+    const context =
+        useContext(DashboardContext);
 
     if (!context) {
 
         throw new Error(
-
             "useDashboard must be used within DashboardProvider"
-
         );
 
     }
 
     return context;
-
 }

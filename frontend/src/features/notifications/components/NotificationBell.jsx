@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Bell } from "lucide-react";
-import { useNotifications } from "../context/NotificationContext";
+import useNotifications from "../../../auth/hooks/useNotifications";
 import NotificationDropdown from "./NotificationDropdown";
 
 function NotificationBell() {

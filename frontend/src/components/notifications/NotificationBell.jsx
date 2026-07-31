@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { FiBell } from "react-icons/fi";
 
-import useNotifications from "../../hooks/useNotifications";
+import useNotifications from "../../auth/hooks/useNotifications";
 import NotificationBadge from "./NotificationBadge";
 import NotificationDropdown from "./NotificationDropdown";
 

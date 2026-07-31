@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import notificationService from "../services/notificationService";
 
+import notificationService from "../../services/notificationService";
 export default function useNotifications(filters = {}) {
 
     const [notifications, setNotifications] = useState([]);
