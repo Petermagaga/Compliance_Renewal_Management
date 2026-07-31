@@ -8,10 +8,12 @@ import ActivitySection from "../features/dashboard/components/ActivitySection";
 import SystemHealthCard from "../features/dashboard/components/SystemHealthCard";
 import QuickActionsSection from "../features/dashboard/components/QuickActionsSection";
 
+import { DashboardProvider } from "../features/dashboard/context/DashboardContext";
+
 function Dashboard() {
     return (
         <MainLayout>
-
+            <DashboardProvider>
             <main className="min-h-screen bg-slate-50">
 
                 <div className="mx-auto max-w-[1600px] p-6 lg:p-8">
@@ -63,7 +65,7 @@ function Dashboard() {
                 </div>
 
             </main>
-
+            </DashboardProvider>
         </MainLayout>
     );
 }

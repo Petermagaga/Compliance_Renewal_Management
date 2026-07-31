@@ -1,4 +1,4 @@
-import { useDashboard } from "../context/DashboardContext";
+import {useDashboard} from "../hooks/useDashboard";
 import ExpiryBarChart from "../../../components/charts/ExpiryBarChart"
 import StatusPieChart from "../../../components/charts/StatusPieChart"
 
