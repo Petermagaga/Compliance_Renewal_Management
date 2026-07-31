@@ -2,18 +2,18 @@
 
 import Dashboard from "../../pages/Dashboard";
 
-import CompliancePage
-from "../../pages/CompliancePage";
 
-import ReportsPage from "../../pages/ReportsPage";
+
+import ComplianceItems from "../../pages/ComplianceItems";
+import Reports from "../../pages/Reports";
 import AddComplianceItem from "../../pages/AddComplianceItem";
 
 import NotificationPage from "../../pages/Notifications";
 import ReminderPage from  "../../pages/Reminders";
 
 import Settings from "../../pages/Settings";
-import ComplianceDetails from "../../pages/ComplianceDetails";
-import EditCompliance from "../../pages/EditCompliance";
+import ComplianceDetails from "../../features/compliance/pages/ComplianceDetails";
+import EditCompliance from "../../features/compliance/pages/EditCompliance";
 import NotificationCenter
     from "../../pages/NotificationCenter";
 
@@ -70,7 +70,7 @@ export const routeRegistry = [
 
         path:"/compliance",
 
-        Component:CompliancePage,
+        Component:ComplianceItems,
 
         title:"Compliance Items",
 
@@ -109,7 +109,7 @@ export const routeRegistry = [
 
         path:"/reports",
 
-        Component:ReportsPage,
+        Component:Reports,
 
         title:"Reports",
 

@@ -5,8 +5,9 @@ import MainLayout from "../components/layout/MainLayout";
 import NotificationFilters from "../components/notifications/NotificationFilters";
 import NotificationList from "../components/notifications/NotificationList";
 import NotificationStats from "../components/notifications/NotificationStats";
-import useNotifications from "../hooks/useNotifications";
 
+import useNotifications from "../hooks/useNotifications";
+import useNotifications
 function NotificationCenter() {
 
     const [activeFilter, setActiveFilter] =
