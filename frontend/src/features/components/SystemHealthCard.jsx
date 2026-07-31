@@ -3,7 +3,7 @@ import HealthBadge from "./HealthBadge";
 import DashboardSection from "../dashboard/components/DashboardSection";
 
 import HealthProgressBar from "./HealthProgressBar";
-import { useDashboard } from "../dashboard/context/DashboardContext";
+import {useDashboard} from "../dashboard/hooks/useDashboard";
 import HealthBreakdown from "./HeathBreakdown";
 
 function SystemHealthCard() {

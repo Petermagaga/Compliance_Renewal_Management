@@ -6,8 +6,7 @@ from "../../../components/compliance/ComplianceTable";
 import RemindersPanel
 from "../../../components/compliance/RemindersPanel";
 
-import { useDashboard }
-from "../context/DashboardContext";
+import {useDashboard} from "../hooks/useDashboard";
 
 function ComplianceSection() {
 

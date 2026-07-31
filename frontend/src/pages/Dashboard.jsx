@@ -5,7 +5,7 @@ import KPISection from "../features/dashboard/components/KPISection";
 import ChartsSection from "../features/dashboard/components/ChartsSection";
 import ComplianceSection from "../features/dashboard/components/ComplianceSection";
 import ActivitySection from "../features/dashboard/components/ActivitySection";
-import SystemHealthCard from "../features/dashboard/components/SystemHealthCard";
+import SystemHealthCard from "../features/components/SystemHealthCard";
 import QuickActionsSection from "../features/dashboard/components/QuickActionsSection";
 
 import { DashboardProvider } from "../features/dashboard/context/DashboardContext";

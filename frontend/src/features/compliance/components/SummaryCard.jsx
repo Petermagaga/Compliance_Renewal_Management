@@ -1,6 +1,5 @@
 import StatusBadge from "./StatusBadge";
-import PriorityBadge from "./PriorityBadge";
-
+import PriorityBadge from "./badges/PriorityBadge";
 function SummaryCard({ item }) {
 
     return (

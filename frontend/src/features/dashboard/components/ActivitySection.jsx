@@ -1,4 +1,4 @@
-import { useDashboard } from "../context/DashboardContext";
+import {useDashboard} from "../hooks/useDashboard";
 
 import DashboardSection from "./DashboardSection";
 import ActivityList from "./ActivityList";
