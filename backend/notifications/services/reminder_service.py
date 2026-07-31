@@ -7,6 +7,17 @@ from notifications.services.providers.email_provider import (EmailProvider)
 from notifications.services.notification_service import NotificationService
 from audit.services import AuditService,ActivityService
 
+def format_expiry_message(item,days_left):
+    if days_left==0:
+        return f"{item.name} expires today,"
+
+    if days_left==1:
+        return f"{item.name} expires in 1 day. "
+
+    return f"{item.name} expires  in {days_left} days."
+    
+
+
 REMINDER_DAYS = [
 
     90,
@@ -107,23 +118,29 @@ class ReminderService:
 
         )
 
+
     def run(self):
 
         items = self.get_expiring_items()
 
         for item in items:
 
-            days = self.calculate_days_remaining(item)
+            items=self.get_expiring_items()
 
-            if self.should_send(days):
+            for item in items:
+                days_left = self.calculate_days_remaining(item)
 
-                print(
-                    f"{item.name} expires "
-                      f"in {days} days"
+                if not self.should_send(days_left):
+                    continue
+
+                message=format_expiry_message(
+                    item,days_left
                 )
+
+                print(message)
 
                 self.create_notifications(
                     item,
-                    days
+                    days_left
                 )
         
