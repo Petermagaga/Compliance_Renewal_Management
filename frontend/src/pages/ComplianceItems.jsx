@@ -112,5 +112,5 @@ function ComplianceItems() {
     );
 }
 
-
+export default ComplianceItems;
 

@@ -12,8 +12,7 @@ import {
 
 } from "./routeRegistry";
 
-import ProtectedRoute from "./ProtectedRoute";
-
+import ProtectedRoute from "../../components/ProtectedRoute"
 function AppRoutes() {
 
     return (
