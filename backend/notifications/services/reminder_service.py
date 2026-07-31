@@ -118,7 +118,8 @@ class ReminderService:
             if self.should_send(days):
 
                 print(
-                    f"{item.name} expires in {days} days"
+                    f"{item.name} expires "
+                      f"in {days} days"
                 )
 
                 self.create_notifications(
