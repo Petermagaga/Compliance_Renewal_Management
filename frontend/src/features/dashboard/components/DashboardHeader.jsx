@@ -1,73 +1,118 @@
-import { FiRefreshCw } from "react-icons/fi";
-import { useDashboard } from "../context/DashboardContext";
+import { Link } from "react-router-dom";
+import {
+    FiPlus,
+    FiArrowRight,
+} from "react-icons/fi";
 
 function DashboardHeader() {
-
-    const {
-        loading,
-        refresh,
-    } = useDashboard();
-
     return (
-
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-
-            {/* Left Side */}
+        <div
+            className="
+                flex
+                flex-col
+                gap-5
+                lg:flex-row
+                lg:items-end
+                lg:justify-between
+            "
+        >
 
             <div>
 
-                <h1 className="text-3xl font-bold text-gray-900">
+                <p
+                    className="
+                        text-sm
+                        font-semibold
+                        uppercase
+                        tracking-wider
+                        text-brand-green
+                    "
+                >
+                    Overview
+                </p>
 
+                <h1
+                    className="
+                        mt-1
+                        text-3xl
+                        font-bold
+                        tracking-tight
+                        text-slate-900
+                        lg:text-4xl
+                    "
+                >
                     Compliance Dashboard
-
                 </h1>
 
-                <p className="text-gray-500 mt-1">
-
-                    Monitor compliance health, upcoming renewals and recent activity.
-
+                <p
+                    className="
+                        mt-2
+                        max-w-2xl
+                        text-sm
+                        leading-6
+                        text-slate-500
+                        lg:text-base
+                    "
+                >
+                    Monitor compliance health, upcoming renewals,
+                    critical risks and recent operational activity.
                 </p>
 
             </div>
 
-            {/* Right Side */}
+            <div className="flex flex-wrap gap-3">
 
-            <button
+                <Link
+                    to="/compliance"
+                    className="
+                        inline-flex
+                        items-center
+                        gap-2
+                        rounded-xl
+                        border
+                        border-slate-200
+                        bg-white
+                        px-4
+                        py-2.5
+                        text-sm
+                        font-semibold
+                        text-slate-700
+                        shadow-sm
+                        transition
+                        hover:border-brand-green
+                        hover:text-brand-green
+                    "
+                >
+                    View Compliance
+                    <FiArrowRight size={16} />
+                </Link>
 
-                onClick={refresh}
+                <Link
+                    to="/add-item"
+                    className="
+                        inline-flex
+                        items-center
+                        gap-2
+                        rounded-xl
+                        bg-brand-green
+                        px-4
+                        py-2.5
+                        text-sm
+                        font-semibold
+                        text-white
+                        shadow-sm
+                        transition
+                        hover:brightness-95
+                    "
+                >
+                    <FiPlus size={17} />
+                    Add Compliance
+                </Link>
 
-                disabled={loading}
-
-                className="
-                    flex
-                    items-center
-                    gap-2
-                    px-5
-                    py-3
-                    rounded-lg
-                    bg-brand-green
-                    text-white
-                    hover:opacity-90
-                    disabled:opacity-50
-                    transition
-                "
-
-            >
-
-                <FiRefreshCw
-                    className={loading ? "animate-spin" : ""}
-                />
-
-                {loading
-                    ? "Refreshing..."
-                    : "Refresh Dashboard"}
-
-            </button>
+            </div>
 
         </div>
-
     );
-
 }
 
 export default DashboardHeader;
