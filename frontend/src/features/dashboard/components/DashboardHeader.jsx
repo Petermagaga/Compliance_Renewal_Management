@@ -27,6 +27,7 @@ function DashboardHeader() {
                         tracking-wider
                         text-brand-green
                     "
+
                 >
                     Overview
                 </p>
@@ -42,6 +43,8 @@ function DashboardHeader() {
                     "
                 >
                     Compliance Dashboard
+
+                    Here's today's compliance summary.
                 </h1>
 
                 <p

@@ -25,9 +25,9 @@ function Login() {
       });
 
       console.log(response.data);
-
+      console.log(response.data);
       const result = response.data;
-
+      console.log(response.data);
       login(
           result.access,
           result.refresh,

@@ -21,8 +21,8 @@ function ComplianceSection() {
     return (
 
         <DashboardSection
-            title="Compliance Overview"
-            subtitle="Items requiring attention"
+            title="Compliance Workspace"
+            subtitle="Monitor your latest compliance items and upcoming renewals."
         >
 
             <div className="space-y-6">
