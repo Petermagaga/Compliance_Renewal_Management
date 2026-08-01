@@ -24,7 +24,8 @@ function AppRoutes() {
                 routeRegistry.map(route => {
 
                     const Component = route.Component;
-
+                    
+                    console.log(routeRegistry);
                     return (
 
                         <Route
