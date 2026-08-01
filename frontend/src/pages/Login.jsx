@@ -20,12 +20,13 @@ function Login() {
 
     try {
       const response = await api.post("/token/", {
-        email,      // ✅ backend expects "email"
+        email,     
         password,
       });
 
+      console.log(response.data);
 
-      const result = response.data.data;
+      const result = response.data;
 
       login(
           result.access,

@@ -1,4 +1,5 @@
 import MainLayout from "../components/layout/MainLayout";
+import Reports from "./Reports";
 
 function NotificationsPage() {
 

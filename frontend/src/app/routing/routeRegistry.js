@@ -245,7 +245,7 @@ export const routeRegistry = [
         showInSidebar: false,
     },
 
-    /** 
+    
     {
 
         id:"notifications",
@@ -278,7 +278,7 @@ export const routeRegistry = [
         ]
 
     },
-**/
+
 
 
     {
