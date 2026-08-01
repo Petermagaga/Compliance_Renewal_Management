@@ -14,8 +14,8 @@ function ActivitySection() {
     if (loading) {
         return (
             <DashboardSection
-                title="Recent Activity"
-                subtitle="What's happening across your compliance workspace."
+                title="Activity Feed"
+                subtitle="Recent compliance events across your organization."
             >
                 <ActivitySkeleton />
             </DashboardSection>
