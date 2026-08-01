@@ -2,7 +2,7 @@
 
 import Dashboard from "../../pages/Dashboard";
 
-
+import Login from "../../pages/Login"
 
 import ComplianceItems from "../../pages/ComplianceItems";
 import Reports from "../../pages/Reports";
@@ -21,6 +21,7 @@ import {
     FiGrid,
     FiShield,
     FiBarChart2,
+    FiBell
 } from "react-icons/fi";
 
 export const routeRegistry = [
