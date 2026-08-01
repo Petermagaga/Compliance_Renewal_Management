@@ -2,6 +2,7 @@ import { navigationRegistry } from "../../app/navigation/navigationRegistry";
 import SidebarItem from "../navigation/SidebarItem";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+
 function Sidebar() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();

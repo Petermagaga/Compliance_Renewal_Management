@@ -1,5 +1,4 @@
 import { routeRegistry } from "../routing/routeRegistry";
-
 export const navigationRegistry = routeRegistry
     .filter(route => route.showInSidebar)
     .map(route => ({

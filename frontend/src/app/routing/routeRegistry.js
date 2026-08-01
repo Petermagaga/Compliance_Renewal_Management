@@ -63,6 +63,7 @@ export const routeRegistry = [
 
     },
 
+    
 
 
 
@@ -136,6 +137,15 @@ export const routeRegistry = [
         ]
 
     },
+
+
+    {
+        id: "home",
+        path: "/",
+        Component: Login,
+        requiresAuth: false,
+    },
+
 
     {
         id:"Settings",
@@ -235,6 +245,7 @@ export const routeRegistry = [
         showInSidebar: false,
     },
 
+    /** 
     {
 
         id:"notifications",
@@ -267,7 +278,7 @@ export const routeRegistry = [
         ]
 
     },
-
+**/
 
 
     {
