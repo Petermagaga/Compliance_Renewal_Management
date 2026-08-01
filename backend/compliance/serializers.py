@@ -62,7 +62,7 @@ class ComplianceItemSerializer(serializers.ModelSerializer):
 
         if obj.responsible_person:
 
-            return obj.responsible_person.full_name
+            return obj.responsible_person
 
         return None
 

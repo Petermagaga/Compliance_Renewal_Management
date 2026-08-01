@@ -12,13 +12,22 @@ export function AuthProvider({ children }) {
         localStorage.getItem("refresh_token")
     );
 
-    const [user, setUser] = useState(() => {
 
+
+    const [user, setUser] = useState(() => {
         const stored = localStorage.getItem("user");
 
-        return stored ? JSON.parse(stored) : null;
+        if (!stored || stored === "undefined") {
+            return null;
+        }
 
-    });
+        try {
+            return JSON.parse(stored);
+        } catch {
+            return null;
+        }
+    });    
+
 
     const isAuthenticated = !!accessToken;
 
