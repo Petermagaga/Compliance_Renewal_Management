@@ -26,7 +26,11 @@ const notificationService = {
         );
 
         return response.data;
-    }
+    },
+
+    async deleteNotification(id) {
+            return api.delete(`/notifications/${id}/`);
+        },
 
 };
 

@@ -1,59 +1,68 @@
 import { Clock } from "lucide-react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import getNotificationIcon from "../utils/getNotificationIcon";
+
 dayjs.extend(relativeTime);
 
-
 function NotificationCard({
+
     notification,
+
     onRead,
+
 }) {
 
     return (
 
         <button
             onClick={() => onRead(notification.id)}
-            className={`
+            className="
+                group
+                flex
                 w-full
-                text-left
-                p-4
+                gap-4
                 border-b
-                hover:bg-gray-50
+                border-slate-100
+                p-5
+                text-left
                 transition
-                ${!notification.is_read
-                    ? "bg-blue-50"
-                    : ""
-                }
-            `}
+                duration-300
+                hover:bg-slate-50
+            "
         >
 
-            <div className="flex justify-between items-start">
+            {/* Icon */}
 
-                <div>
+            <div
+                className="
+                    relative
+                    flex
+                    h-11
+                    w-11
+                    flex-shrink-0
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-slate-100
+                "
+            >
 
-                    <h4 className="font-medium">
-
-                        {notification.title}
-
-                    </h4>
-
-                    <p className="text-sm text-gray-600 mt-1">
-
-                        {notification.message}
-
-                    </p>
-
-                </div>
+                {getNotificationIcon(notification.type)}
 
                 {!notification.is_read && (
 
                     <span
                         className="
-                            w-2
-                            h-2
+                            absolute
+                            -top-1
+                            -right-1
+                            h-3
+                            w-3
                             rounded-full
-                            bg-blue-600
-                            mt-2
+                            bg-green-500
+                            ring-2
+                            ring-white
                         "
                     />
 
@@ -61,37 +70,49 @@ function NotificationCard({
 
             </div>
 
-            <div
-                className="
-                    flex
-                    items-center
-                    mt-3
-                    text-xs
-                    text-gray-400
-                "
-            >
+            {/* Content */}
 
+            <div className="flex-1">
 
-
-            <div
-                className="
-                    flex
-                    items-center
-                    mt-3
-                    text-xs
-                    text-gray-400
-                "
-            >
-                <Clock size={14} className="mr-1" />
-
-                <span
-                    title={dayjs(notification.created_at).format(
-                        "DD MMM YYYY, HH:mm"
-                    )}
+                <h4
+                    className="
+                        text-sm
+                        font-semibold
+                        text-slate-900
+                    "
                 >
+                    {notification.title}
+                </h4>
+
+                <p
+                    className="
+                        mt-1
+                        text-sm
+                        leading-relaxed
+                        text-slate-500
+                    "
+                >
+                    {notification.message}
+                </p>
+
+                <div
+                    className="
+                        mt-3
+                        flex
+                        items-center
+                        text-xs
+                        text-slate-400
+                    "
+                >
+
+                    <Clock
+                        size={13}
+                        className="mr-1"
+                    />
+
                     {dayjs(notification.created_at).fromNow()}
-                </span>
-            </div>
+
+                </div>
 
             </div>
 

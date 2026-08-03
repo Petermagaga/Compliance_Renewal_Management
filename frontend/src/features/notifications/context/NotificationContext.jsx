@@ -88,6 +88,39 @@ export function NotificationProvider({ children }) {
     markAllAsRead,
   };
 
+  const deleteNotification = async (id) => {
+
+      try {
+
+          await notificationService.deleteNotification(id);
+
+          setNotifications(prev =>
+              prev.filter(item => item.id !== id)
+          );
+
+          setUnreadCount(prev => {
+
+              const notification = notifications.find(
+                  n => n.id === id
+              );
+
+              if (notification && !notification.is_read) {
+                  return Math.max(prev - 1, 0);
+              }
+
+              return prev;
+
+          });
+
+      } catch (error) {
+
+          console.error(error);
+
+      }
+
+  };
+
+
   return (
     <NotificationContext.Provider value={value}>
       {children}
