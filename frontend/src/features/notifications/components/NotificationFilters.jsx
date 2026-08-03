@@ -1,41 +1,41 @@
 import {
-    FiCheckCircle,
-    FiMail,
-    FiMessageCircle,
     FiBell,
+    FiMail,
+    FiCheckCircle,
     FiAlertCircle,
 } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 
 const filters = [
     {
         key: "all",
         label: "All",
-        icon: <FiBell size={15} />,
+        icon: FiBell,
     },
     {
         key: "unread",
         label: "Unread",
-        icon: <FiBell size={15} />,
+        icon: FiBell,
     },
     {
         key: "email",
         label: "Email",
-        icon: <FiMail size={15} />,
+        icon: FiMail,
     },
     {
         key: "whatsapp",
         label: "WhatsApp",
-        icon: <FiMessageCircle size={15} />,
+        icon: FaWhatsapp,
     },
     {
         key: "sent",
         label: "Sent",
-        icon: <FiCheckCircle size={15} />,
+        icon: FiCheckCircle,
     },
     {
         key: "failed",
         label: "Failed",
-        icon: <FiAlertCircle size={15} />,
+        icon: FiAlertCircle,
     },
 ];
 
@@ -43,15 +43,20 @@ function NotificationFilters({
     activeFilter,
     onChange,
 }) {
+
     return (
+
         <div className="flex flex-wrap gap-2">
 
             {filters.map((filter) => {
+
+                const Icon = filter.icon;
 
                 const active =
                     activeFilter === filter.key;
 
                 return (
+
                     <button
                         key={filter.key}
                         type="button"
@@ -62,29 +67,35 @@ function NotificationFilters({
                             inline-flex
                             items-center
                             gap-2
-                            rounded-lg
+                            rounded-full
                             border
-                            px-3
+                            px-4
                             py-2
                             text-sm
                             font-medium
                             transition
+                            duration-200
                             ${
                                 active
                                     ? "border-brand-green bg-brand-green text-white"
-                                    : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
+                                    : "border-gray-200 bg-white text-gray-600 hover:border-brand-green hover:text-brand-green"
                             }
                         `}
                     >
-                        {filter.icon}
+                        <Icon size={15} />
+
                         {filter.label}
+
                     </button>
+
                 );
 
             })}
 
         </div>
+
     );
+
 }
 
 export default NotificationFilters;
