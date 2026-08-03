@@ -4,7 +4,7 @@ import StatusPieChart from "../../../components/charts/StatusPieChart"
 
 function ChartsSection(){
 
-const { charts, loading } = useDashboard();
+    const { charts, loading } = useDashboard();
 
     if (loading) return <ChartSkeleton />;
 

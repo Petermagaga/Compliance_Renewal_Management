@@ -16,7 +16,16 @@ function Dashboard() {
             <DashboardProvider>
             <main className="min-h-screen bg-slate-50">
 
-                <div className="mx-auto max-w-[1600px] p-6 lg:p-8">
+            <div
+                className="
+                    mx-auto
+                    max-w-7xl
+                    px-6
+                    py-8
+                    space-y-8
+                "
+            >
+
 
                     {/* Header */}
 
@@ -24,19 +33,19 @@ function Dashboard() {
 
                     {/* KPI */}
 
-                    <section className="mt-6">
+                    <section>
                         <KPISection />
                     </section>
 
                     {/* Charts */}
 
-                    <section className="mt-6">
+                    <section>
                         <ChartsSection />
                     </section>
 
                     {/* Compliance + Health */}
 
-                    <section className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-12">
+                    <section className="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-12">
 
                         <div className="xl:col-span-8">
                             <ComplianceSection />
@@ -50,7 +59,7 @@ function Dashboard() {
 
                     {/* Activity + Actions */}
 
-                    <section className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-12">
+                    <section className="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-12">
 
                         <div className="xl:col-span-8">
                             <ActivitySection />
