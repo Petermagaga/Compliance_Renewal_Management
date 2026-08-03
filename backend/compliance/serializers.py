@@ -77,7 +77,19 @@ class ComplianceItemSerializer(serializers.ModelSerializer):
 
 
 class ReminderLogSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=ReminderLog
-        fields='__all__'
+    compliance_item_name=serializers.CharField(
+        source="compliance_item.name",
+        read_only=True,
+    )
 
+    class Meta:
+        model = ReminderLog
+        fields = (
+            "id",
+            "compliance_item",
+            "compliance_item_name",
+            "days_before",
+            "channel",
+            "status",
+            "sent_at",
+        )
