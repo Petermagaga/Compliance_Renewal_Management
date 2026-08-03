@@ -1,66 +1,34 @@
 import { useMemo, useState } from "react";
-import { FiCheck, FiTrash2 } from "react-icons/fi";
 
-import MainLayout from "../components/layout/MainLayout";
-import NotificationFilters from "../components/notifications/NotificationFilters";
-import NotificationList from "../components/notifications/NotificationList";
-import NotificationStats from "../components/notifications/NotificationStats";
+import MainLayout from "../../../components/layout/MainLayout";
 
-import useNotifications from "../auth/hooks/useNotifications";
+import { useNotifications } from "../context/NotificationContext";
+
+
+import NotificationStats from "../features/notifications/components/NotificationStats";
+import NotificationToolbar from "../features/notifications/components/NotificationToolbar";
+import NotificationList from "../features/notifications/components/NotificationList";
 
 function NotificationCenter() {
+
+    const [search, setSearch] = useState("");
 
     const [activeFilter, setActiveFilter] =
         useState("all");
 
-    const filters = useMemo(() => {
-
-        switch (activeFilter) {
-
-            case "unread":
-                return {
-                    unread: "true",
-                };
-
-            case "email":
-                return {
-                    channel: "email",
-                };
-
-            case "whatsapp":
-                return {
-                    channel: "whatsapp",
-                };
-
-            case "sent":
-                return {
-                    status: "sent",
-                };
-
-            case "failed":
-                return {
-                    status: "failed",
-                };
-
-            case "all":
-            default:
-                return {};
-
-        }
-
-    }, [activeFilter]);
-
+    const [sort, setSort] =
+        useState("newest");
+    
     const {
         notifications,
         stats,
         loading,
         error,
-        markRead,
-        markAllRead,
+        markAsRead,
+        markAllAsRead,
         remove,
         clearRead,
-    } = useNotifications(filters);
-
+    } = useNotifications();
     return (
         <MainLayout>
 
@@ -215,3 +183,4 @@ function NotificationCenter() {
 }
 
 export default NotificationCenter;
+
