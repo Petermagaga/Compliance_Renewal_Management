@@ -19,6 +19,7 @@ function NotificationDropdown() {
         markAsRead,
 
         markAllAsRead,
+        deleteNotification
 
     } = useNotifications();
 
@@ -68,6 +69,7 @@ function NotificationDropdown() {
                             key={notification.id}
                             notification={notification}
                             onRead={markAsRead}
+                            onDelete={deleteNotification}
                         />
 
                     ))}

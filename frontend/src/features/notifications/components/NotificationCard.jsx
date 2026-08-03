@@ -2,6 +2,7 @@ import { Clock } from "lucide-react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import getNotificationIcon from "../utils/getNotificationIcon";
+import { FiTrash2 } from "react-icons/fi";
 
 dayjs.extend(relativeTime);
 
@@ -10,6 +11,7 @@ function NotificationCard({
     notification,
 
     onRead,
+    onDelete
 
 }) {
 
@@ -74,6 +76,15 @@ function NotificationCard({
 
             <div className="flex-1">
 
+            <div
+                className="
+                    flex
+                    items-start
+                    justify-between
+                    gap-3
+                "
+            >
+
                 <h4
                     className="
                         text-sm
@@ -83,6 +94,31 @@ function NotificationCard({
                 >
                     {notification.title}
                 </h4>
+
+                <button
+                    onClick={(e) => {
+
+                        e.stopPropagation();
+
+                        onDelete(notification.id);
+
+                    }}
+                    className="
+                        opacity-0
+                        group-hover:opacity-100
+                        transition
+                        duration-200
+                        text-slate-400
+                        hover:text-red-500
+                    "
+                >
+
+                    <FiTrash2 size={15} />
+
+                </button>
+
+            </div>
+
 
                 <p
                     className="
