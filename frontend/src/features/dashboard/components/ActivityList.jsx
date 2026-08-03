@@ -34,10 +34,10 @@ function ActivityList({
     }
 
     return (
-        <div className="space-y-5">
+        <div className="space-y-4">
             {activities.map((activity) => (
                 <ActivityItem
-                    key={activity.id}
+                    key={activity.id ?? activity.timestamp}
                     activity={activity}
                 />
             ))}
