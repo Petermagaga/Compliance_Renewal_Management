@@ -1,44 +1,26 @@
 import { useNotifications } from "../context/NotificationContext";
+
+import NotificationHeader from "./NotificationHeader";
+import NotificationFooter from "./NotificationFooter";
 import NotificationCard from "./NotificationCard";
+import NotificationSkeleton from "./NotificationSkeleton";
+import EmptyNotifications from "./EmptyNotifications";
 
 function NotificationDropdown() {
 
     const {
+
         notifications,
+
         loading,
+
+        unreadCount,
+
         markAsRead,
+
         markAllAsRead,
+
     } = useNotifications();
-
-    if (loading) {
-
-        return (
-
-            <div
-                className="
-                    absolute
-                    right-0
-                    mt-2
-                    w-96
-                    bg-white
-                    rounded-xl
-                    shadow-lg
-                    border
-                    z-50
-                "
-            >
-
-                <div className="p-6 text-center">
-
-                    Loading notifications...
-
-                </div>
-
-            </div>
-
-        );
-
-    }
 
     return (
 
@@ -46,65 +28,41 @@ function NotificationDropdown() {
             className="
                 absolute
                 right-0
-                mt-2
+                mt-3
                 w-96
-                bg-white
-                rounded-xl
-                shadow-lg
+                overflow-hidden
+                rounded-2xl
                 border
+                border-slate-200
+                bg-white
+                shadow-xl
                 z-50
             "
         >
 
-            <div
-                className="
-                    flex
-                    justify-between
-                    items-center
-                    p-4
-                    border-b
-                "
-            >
+            <NotificationHeader
+                unreadCount={unreadCount}
+                onMarkAllRead={markAllAsRead}
+            />
 
-                <h3 className="font-semibold">
+            {loading ? (
 
-                    Notifications
+                <NotificationSkeleton />
 
-                </h3>
+            ) : notifications.length === 0 ? (
 
-                <button
-                    onClick={markAllAsRead}
-                    className="
-                        text-sm
-                        text-blue-600
-                        hover:underline
-                    "
-                >
-
-                    Mark all
-
-                </button>
-
-            </div>
-
-            {notifications.length === 0 ? (
-
-                <div className="p-6 text-center text-gray-500">
-
-                    You're all caught up 🎉
-
-                </div>
+                <EmptyNotifications />
 
             ) : (
 
                 <div
                     className="
-                        max-h-96
+                        max-h-[420px]
                         overflow-y-auto
                     "
                 >
 
-                    {notifications.map((notification) => (
+                    {notifications.map(notification => (
 
                         <NotificationCard
                             key={notification.id}
@@ -118,22 +76,7 @@ function NotificationDropdown() {
 
             )}
 
-            <div className="border-t p-3">
-
-                <button
-                    className="
-                        w-full
-                        text-blue-600
-                        hover:underline
-                        text-sm
-                    "
-                >
-
-                    View All Notifications
-
-                </button>
-
-            </div>
+            <NotificationFooter />
 
         </div>
 
