@@ -1,6 +1,6 @@
 from datetime import date
 from .models import ComplianceItem,ReminderLog
-from notifications.email_service import send_expiry_email
+from notifications.services.providers import email_provider
 
 REMINDER_DAYS= [90,60,30,14,7,1]
 
@@ -61,7 +61,7 @@ def process_reminders():
             ).exists()
 
             if not already_sent:
-                send_expiry_email(item,days_left)
+                email_provider(item,days_left)
 
                 ReminderLog.objects.create(
                     compliance_item=item,
