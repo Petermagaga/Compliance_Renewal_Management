@@ -20,7 +20,7 @@ function ReminderCard({ reminder }) {
                 <div>
 
                     <h3 className="font-semibold text-slate-900">
-                        Compliance Item #{reminder.compliance_item}
+                        {reminder.compliance_item_name}
                     </h3>
 
                     <div className="mt-2 flex items-center gap-2 text-sm text-slate-500">

@@ -9,40 +9,35 @@ import {
 } from "react-icons/fi";
 
 function getIcon(type) {
-
     switch (type) {
-
         case "email_sent":
-            return <FiMail />;
+            return <FiMail size={18} />;
 
         case "whatsapp_sent":
-            return <FiMessageCircle />;
+            return <FiMessageCircle size={18} />;
 
         case "created":
-            return <FiPlus />;
+            return <FiPlus size={18} />;
 
         case "updated":
-            return <FiEdit2 />;
+            return <FiEdit2 size={18} />;
 
         case "deleted":
-            return <FiTrash2 />;
+            return <FiTrash2 size={18} />;
 
         case "renewed":
-            return <FiCheckCircle />;
+            return <FiCheckCircle size={18} />;
 
         case "expired":
-            return <FiAlertTriangle />;
+            return <FiAlertTriangle size={18} />;
 
         default:
-            return <FiEdit2 />;
+            return <FiEdit2 size={18} />;
     }
 }
 
 function formatRelativeTime(timestamp) {
-
-    if (!timestamp) {
-        return "";
-    }
+    if (!timestamp) return "";
 
     const date = new Date(timestamp);
 
@@ -50,9 +45,7 @@ function formatRelativeTime(timestamp) {
         (Date.now() - date.getTime()) / 1000
     );
 
-    if (seconds < 60) {
-        return "Just now";
-    }
+    if (seconds < 60) return "Just now";
 
     const minutes = Math.floor(seconds / 60);
 
@@ -80,15 +73,32 @@ function formatRelativeTime(timestamp) {
 }
 
 function ActivityItem({ activity }) {
-
     return (
-        <div className="flex gap-4">
+        <div
+            className="
+                flex
+                items-start
+                gap-4
+                rounded-xl
+                border
+                border-gray-200
+                bg-white
+                p-4
+                transition
+                duration-300
+                hover:border-green-400
+                hover:bg-green-50
+            "
+        >
+            {/* Green status dot */}
+            <div className="mt-2 h-2.5 w-2.5 rounded-full bg-green-500 flex-shrink-0" />
 
+            {/* Icon */}
             <div
                 className="
                     flex
-                    h-9
-                    w-9
+                    h-11
+                    w-11
                     flex-shrink-0
                     items-center
                     justify-center
@@ -97,16 +107,14 @@ function ActivityItem({ activity }) {
                     text-brand-green
                 "
             >
-                {getIcon(activity.activity_type)}
+                {getIcon(activity.activity_type || activity.type)}
             </div>
 
+            {/* Content */}
             <div className="min-w-0 flex-1">
-
                 <div className="flex items-start justify-between gap-4">
-
                     <div>
-
-                        <h4 className="text-sm font-semibold text-gray-800">
+                        <h4 className="text-sm font-semibold text-gray-900">
                             {activity.title}
                         </h4>
 
@@ -114,24 +122,20 @@ function ActivityItem({ activity }) {
                             {activity.description}
                         </p>
 
+                        {activity.user_name && (
+                            <p className="mt-2 text-xs text-gray-400">
+                                by {activity.user_name}
+                            </p>
+                        )}
                     </div>
 
                     <time className="whitespace-nowrap text-xs text-gray-400">
                         {formatRelativeTime(
-                            activity.created_at
+                            activity.created_at || activity.timestamp
                         )}
                     </time>
-
                 </div>
-
-                {activity.user_name && (
-                    <p className="mt-2 text-xs text-gray-400">
-                        by {activity.user_name}
-                    </p>
-                )}
-
             </div>
-
         </div>
     );
 }

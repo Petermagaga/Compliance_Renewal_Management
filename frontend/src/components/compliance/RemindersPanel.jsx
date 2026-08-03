@@ -1,28 +1,38 @@
+import ReminderCard from "./ReminderCard";
+
 function RemindersPanel({ items = [] }) {
-  return (
-    <div className="bg-white rounded-2xl shadow-sm p-6">
-      <h2 className="text-xl font-semibold mb-6">
-        Upcoming Reminders
-      </h2>
+    return (
+        <div className="rounded-2xl bg-white p-6 shadow-sm">
 
-      <div className="space-y-5">
-        <div className="border rounded-xl p-4">
-          <p className="font-semibold">Fire Safety Certificate</p>
-          <p className="text-sm text-gray-500">Expires in 7 days</p>
-        </div>
+            <h2 className="mb-6 text-xl font-semibold">
+                Upcoming Reminders
+            </h2>
 
-        <div className="border rounded-xl p-4">
-          <p className="font-semibold">Food Permit</p>
-          <p className="text-sm text-gray-500">Expires in 14 days</p>
-        </div>
+            {items.length === 0 ? (
 
-        <div className="border rounded-xl p-4">
-          <p className="font-semibold">NEMA License</p>
-          <p className="text-sm text-gray-500">Expires in 54 days</p>
+                <div className="py-10 text-center text-slate-500">
+                    No upcoming reminders.
+                </div>
+
+            ) : (
+
+                <div className="space-y-4">
+
+                    {items.map((reminder) => (
+
+                        <ReminderCard
+                            key={reminder.id}
+                            reminder={reminder}
+                        />
+
+                    ))}
+
+                </div>
+
+            )}
+
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default RemindersPanel;
