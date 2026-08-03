@@ -12,47 +12,49 @@ function StatCard({
                 border
                 border-slate-200
                 bg-white
-                p-5
+                p-6
                 shadow-sm
                 transition
-                duration-200
-                hover:-translate-y-0.5
-                hover:shadow-md
+                duration-300
+                hover:-translate-y-1
+                hover:shadow-lg
             "
         >
+            <div className="flex items-start justify-between gap-6">
 
-            <div className="flex items-start justify-between gap-4">
-
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
 
                     <p
                         className="
                             text-sm
                             font-medium
+                            uppercase
+                            tracking-wide
                             text-slate-500
                         "
                     >
                         {title}
                     </p>
 
-                    <p
+                    <h2
                         className="
-                            mt-2
-                            text-3xl
+                            mt-3
+                            text-5xl
                             font-bold
+                            leading-none
                             tracking-tight
                             text-slate-900
                         "
                     >
                         {value}
-                    </p>
+                    </h2>
 
                     {subtitle && (
                         <p
                             className="
-                                mt-1
-                                text-xs
-                                text-slate-400
+                                mt-3
+                                text-sm
+                                text-slate-500
                             "
                         >
                             {subtitle}
@@ -63,21 +65,21 @@ function StatCard({
 
                 <div
                     className={`
+                        ${color}
                         flex
-                        h-11
-                        w-11
+                        h-12
+                        w-12
                         flex-shrink-0
                         items-center
                         justify-center
-                        rounded-xl
-                        ${color}
+                        rounded-full
+                        shadow-sm
                     `}
                 >
                     {icon}
                 </div>
 
             </div>
-
         </article>
     );
 }

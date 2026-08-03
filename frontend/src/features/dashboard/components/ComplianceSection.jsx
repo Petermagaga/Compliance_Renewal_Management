@@ -22,7 +22,7 @@ function ComplianceSection() {
 
         <DashboardSection
             title="Compliance Workspace"
-            subtitle="Monitor your latest compliance items and upcoming renewals."
+            subtitle="Track every compliance item and upcoming renewal."
         >
 
             <div className="space-y-6">

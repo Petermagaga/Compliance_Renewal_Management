@@ -4,6 +4,8 @@ import {
     FiArrowRight,
 } from "react-icons/fi";
 
+
+
 function DashboardHeader() {
     return (
         <div
@@ -42,9 +44,12 @@ function DashboardHeader() {
                         lg:text-4xl
                     "
                 >
-                    Compliance Dashboard
+                    
+                Compliance Dashboard
 
-                    Here's today's compliance summary.
+                Monitor licenses, permits, certificates and insurance
+                from one workspace.
+
                 </h1>
 
                 <p
