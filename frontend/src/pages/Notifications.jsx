@@ -1,32 +1,8 @@
-import MainLayout from "../components/layout/MainLayout";
-import Reports from "./Reports";
+import NotificationCenter from "./NotificationCenter";
+function Notifications() {
 
-function NotificationsPage() {
-
-    return (
-
-        <MainLayout>
-
-            <div className="p-8">
-
-                <h1 className="text-3xl font-bold">
-
-                    Reports
-
-                </h1>
-
-                <p className="mt-4 text-gray-500">
-
-                    Reports module coming soon.
-
-                </p>
-
-            </div>
-
-        </MainLayout>
-
-    );
+    return <NotificationCenter />;
 
 }
 
-export default Reports;
+export default Notifications;

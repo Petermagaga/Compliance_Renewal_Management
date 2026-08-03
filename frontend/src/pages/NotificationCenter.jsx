@@ -4,21 +4,16 @@ import MainLayout from "../../../components/layout/MainLayout";
 
 import { useNotifications } from "../context/NotificationContext";
 
-
-import NotificationStats from "../features/notifications/components/NotificationStats";
-import NotificationToolbar from "../features/notifications/components/NotificationToolbar";
-import NotificationList from "../features/notifications/components/NotificationList";
+import NotificationStats from "../components/NotificationStats";
+import NotificationToolbar from "../components/NotificationToolbar";
+import NotificationList from "../components/NotificationList";
 
 function NotificationCenter() {
 
     const [search, setSearch] = useState("");
+    const [activeFilter, setActiveFilter] = useState("all");
+    const [sort, setSort] = useState("newest");
 
-    const [activeFilter, setActiveFilter] =
-        useState("all");
-
-    const [sort, setSort] =
-        useState("newest");
-    
     const {
         notifications,
         stats,
@@ -29,158 +24,205 @@ function NotificationCenter() {
         remove,
         clearRead,
     } = useNotifications();
+
+    const filteredNotifications = useMemo(() => {
+
+        let results = [...notifications];
+
+        /* Search */
+
+        if (search.trim()) {
+
+            const query = search.toLowerCase();
+
+            results = results.filter(notification =>
+
+                notification.title
+                    .toLowerCase()
+                    .includes(query)
+
+                ||
+
+                notification.message
+                    .toLowerCase()
+                    .includes(query)
+
+            );
+
+        }
+
+        /* Filter */
+
+        switch (activeFilter) {
+
+            case "unread":
+
+                results = results.filter(
+                    n => !n.is_read
+                );
+
+                break;
+
+            case "email":
+
+                results = results.filter(
+                    n => n.channel === "email"
+                );
+
+                break;
+
+            case "whatsapp":
+
+                results = results.filter(
+                    n => n.channel === "whatsapp"
+                );
+
+                break;
+
+            case "system":
+
+                results = results.filter(
+                    n => n.channel === "system"
+                );
+
+                break;
+
+            default:
+                break;
+
+        }
+
+        /* Sort */
+
+        switch (sort) {
+
+            case "oldest":
+
+                results.sort(
+                    (a, b) =>
+                        new Date(a.created_at) -
+                        new Date(b.created_at)
+                );
+
+                break;
+
+            case "unread":
+
+                results.sort(
+                    (a, b) =>
+                        Number(a.is_read) -
+                        Number(b.is_read)
+                );
+
+                break;
+
+            default:
+
+                results.sort(
+                    (a, b) =>
+                        new Date(b.created_at) -
+                        new Date(a.created_at)
+                );
+
+        }
+
+        return results;
+
+    }, [
+        notifications,
+        search,
+        activeFilter,
+        sort,
+    ]);
+
     return (
+
         <MainLayout>
 
-            <div className="p-8">
+            <div className="space-y-8 p-8">
 
                 {/* Header */}
 
-                <div
-                    className="
-                        mb-8
-                        flex
-                        flex-col
-                        gap-4
-                        lg:flex-row
-                        lg:items-center
-                        lg:justify-between
-                    "
-                >
+                <div>
 
-                    <div>
+                    <p className="text-sm font-semibold text-brand-green">
 
-                        <p className="text-sm font-medium text-brand-green">
-                            Communication Center
-                        </p>
+                        Communication Center
 
-                        <h1 className="mt-1 text-3xl font-bold text-gray-900">
-                            Notifications
-                        </h1>
+                    </p>
 
-                        <p className="mt-2 text-gray-500">
-                            Monitor compliance reminders,
-                            delivery status and alerts.
-                        </p>
+                    <h1 className="mt-2 text-4xl font-bold text-slate-900">
 
-                    </div>
+                        Notifications
 
-                    <div className="flex flex-wrap gap-2">
+                    </h1>
 
-                        <button
-                            type="button"
-                            onClick={markAllRead}
-                            className="
-                                inline-flex
-                                items-center
-                                gap-2
-                                rounded-lg
-                                border
-                                border-gray-200
-                                bg-white
-                                px-4
-                                py-2.5
-                                text-sm
-                                font-semibold
-                                text-gray-700
-                                hover:bg-gray-50
-                            "
-                        >
-                            <FiCheck size={16} />
-                            Mark All Read
-                        </button>
+                    <p className="mt-2 text-slate-500">
 
-                        <button
-                            type="button"
-                            onClick={clearRead}
-                            className="
-                                inline-flex
-                                items-center
-                                gap-2
-                                rounded-lg
-                                border
-                                border-red-200
-                                bg-white
-                                px-4
-                                py-2.5
-                                text-sm
-                                font-semibold
-                                text-red-600
-                                hover:bg-red-50
-                            "
-                        >
-                            <FiTrash2 size={16} />
-                            Clear Read
-                        </button>
+                        Search, filter and manage every
+                        compliance notification from one place.
 
-                    </div>
+                    </p>
 
                 </div>
 
-                {/* Statistics */}
+                <NotificationStats
+                    stats={stats}
+                />
 
-                <div className="mb-8">
+                <NotificationToolbar
 
-                    <NotificationStats
-                        stats={stats}
-                    />
+                    search={search}
+                    onSearch={setSearch}
 
-                </div>
+                    activeFilter={activeFilter}
+                    onFilterChange={setActiveFilter}
 
-                {/* Filters */}
+                    sort={sort}
+                    onSortChange={setSort}
 
-                <div
-                    className="
-                        mb-6
-                        rounded-xl
-                        border
-                        border-gray-200
-                        bg-white
-                        p-4
-                    "
-                >
+                    onMarkAllRead={markAllAsRead}
 
-                    <NotificationFilters
-                        activeFilter={activeFilter}
-                        onChange={setActiveFilter}
-                    />
+                    onClearRead={clearRead}
 
-                </div>
-
-                {/* Error */}
+                />
 
                 {error && (
+
                     <div
                         className="
-                            mb-6
-                            rounded-xl
+                            rounded-2xl
                             border
                             border-red-200
                             bg-red-50
-                            p-4
-                            text-sm
+                            p-5
                             text-red-700
                         "
                     >
                         Unable to load notifications.
-                        Please try again.
+
                     </div>
+
                 )}
 
-                {/* List */}
-
                 <NotificationList
-                    notifications={notifications}
+
+                    notifications={filteredNotifications}
+
                     loading={loading}
-                    onRead={markRead}
+
+                    onRead={markAsRead}
+
                     onDelete={remove}
+
                 />
 
             </div>
 
         </MainLayout>
+
     );
+
 }
 
 export default NotificationCenter;
-
