@@ -1,4 +1,4 @@
-import ActivityItem from "./ActivityItem";
+import ActivityItem from "../ActivityItem";
 
 function ActivityList({
     activities,

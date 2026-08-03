@@ -1,9 +1,9 @@
-import {useDashboard} from "../hooks/useDashboard";
+import {useDashboard} from "../../dashboard/hooks/useDashboard";
 
-import DashboardSection from "./DashboardSection";
+import DashboardSection from "../../dashboard/components/DashboardSection";
 import ActivityList from "./ActivityList";
-import ActivitySkeleton from "./ActivitySkeleton";
-import EmptyActivityState from "./EmptyActivityState";
+import ActivitySkeleton from "../ActivitySkeleton";
+import EmptyActivityState from "../../dashboard/components/EmptyActivityState";
 
 function ActivitySection() {
     const {
