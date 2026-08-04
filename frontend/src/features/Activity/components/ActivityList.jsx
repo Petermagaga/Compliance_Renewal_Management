@@ -28,7 +28,7 @@ function ActivityList({
                     className="
                         relative
                         pl-12
-                        pb-8
+                        pb-12
                     "
                 >
 

@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
 
-import MainLayout from "../../../components/layout/MainLayout";
+import MainLayout from "../components/layout/MainLayout"
 
 import { useNotifications } from "../context/NotificationContext";
 
-import NotificationStats from "../components/NotificationStats";
+import NotificationStats from "../features/notifications/components/NotificationStats"
+
 import NotificationToolbar from "../components/NotificationToolbar";
 import NotificationList from "../components/NotificationList";
 

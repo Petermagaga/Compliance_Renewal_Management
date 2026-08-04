@@ -24,10 +24,25 @@ function ActivitySection() {
 
     return (
 
-        <DashboardSection
-            title="Activity Feed"
-            subtitle="Live compliance events across your organization."
-        >
+
+    <DashboardSection
+        title="Activity Feed"
+        subtitle="Live compliance events across your organization."
+        action={
+
+            <button
+                className="
+                    text-sm
+                    font-medium
+                    text-brand-green
+                    hover:underline
+                "
+            >
+                View All →
+            </button>
+
+        }
+    >
 
             {
 
