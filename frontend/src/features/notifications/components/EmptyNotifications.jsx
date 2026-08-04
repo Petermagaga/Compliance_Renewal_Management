@@ -1,4 +1,4 @@
-import { BellOff } from "lucide-react";
+import { FiBellOff } from "react-icons/fi";
 
 function EmptyNotifications() {
 
@@ -15,7 +15,7 @@ function EmptyNotifications() {
             "
         >
 
-            <BellOff
+            <FiBellOff
                 size={42}
                 className="text-slate-300"
             />

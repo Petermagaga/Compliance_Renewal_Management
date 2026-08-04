@@ -1,7 +1,8 @@
 import { FiMenu, FiBell } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";  
 
-import NotificationBell from "../notifications/NotificationBell";
+import NotificationBell from "../../features/notifications/components/NotificationToolbar";
+
 function Topbar() {
   const { user } = useAuth();
 

@@ -1,6 +1,10 @@
 import { useDashboard } from "../hooks/useDashboard";
-import ExpiryBarChart from "../../../components/charts/ExpiryBarChart";
+
 import StatusPieChart from "../../../components/charts/StatusPieChart";
+import ExpiryBarChart from "../../../components/charts/ExpiryBarChart";
+
+import ChartSkeleton from "./ChartSkeleton";
+import EmptyCharts from "./EmptyCharts";
 
 function ChartsSection() {
     const { charts, loading } = useDashboard();

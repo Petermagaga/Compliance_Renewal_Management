@@ -2,12 +2,13 @@ import { useMemo, useState } from "react";
 
 import MainLayout from "../components/layout/MainLayout"
 
-import { useNotifications } from "../context/NotificationContext";
+import { useNotifications } from "../features/notifications/context/NotificationContext";
 
 import NotificationStats from "../features/notifications/components/NotificationStats"
 
-import NotificationToolbar from "../components/NotificationToolbar";
-import NotificationList from "../components/NotificationList";
+import NotificationToolbar from "../features/notifications/components/NotificationToolbar";
+
+import NotificationList from "../features/notifications/components/NotificationList";
 
 function NotificationCenter() {
 

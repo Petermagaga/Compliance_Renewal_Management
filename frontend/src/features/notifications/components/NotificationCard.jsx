@@ -1,4 +1,6 @@
-import { Clock } from "lucide-react";
+
+import { FiClock } from "react-icons/fi";
+
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import getNotificationIcon from "../utils/getNotificationIcon";
@@ -141,7 +143,7 @@ function NotificationCard({
                     "
                 >
 
-                    <Clock
+                    <FiClock
                         size={13}
                         className="mr-1"
                     />
