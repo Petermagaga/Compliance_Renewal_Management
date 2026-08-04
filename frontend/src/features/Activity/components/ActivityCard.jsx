@@ -28,20 +28,7 @@ function ActivityCard({ activity }) {
             "
         >
 
-            <div className="flex gap-4">
 
-                {/* Timeline Dot */}
-
-                <div
-                    className="
-                        mt-5
-                        h-3
-                        w-3
-                        flex-shrink-0
-                        rounded-full
-                        bg-brand-green
-                    "
-                />
 
                 {/* Activity Icon */}
 
@@ -132,7 +119,7 @@ function ActivityCard({ activity }) {
 
                 </div>
 
-            </div>
+            
 
         </article>
 
