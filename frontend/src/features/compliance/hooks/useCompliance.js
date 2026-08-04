@@ -96,9 +96,12 @@ export function useCompliance() {
 
         try {
 
+
             const response = await complianceService.getItems();
 
-            setItems(response.data);
+            console.log("Compliance API:", response.data);
+
+            setItems(response.data.results ?? []);
 
         }catch (error) {
             console.error("Failed to fetch compliance items:", error);

@@ -45,13 +45,23 @@ export function NotificationProvider({ children }) {
 
 
   const fetchUnreadCount = async () => {
-    try {
-      const response = await notificationService.getUnreadCount();
-      setUnreadCount(response.unread);
-    } catch (error) {
-      console.error("Failed to fetch unread count:", error);
-    }
+
+      try {
+
+          const data =
+              await notificationService.getUnreadCount();
+
+          setUnreadCount(data.unread);
+
+      } catch (error) {
+
+          console.error(error);
+
+      }
+
   };
+  
+
 
   const refresh = async () => {
     await Promise.all([fetchNotifications(), fetchUnreadCount()]);

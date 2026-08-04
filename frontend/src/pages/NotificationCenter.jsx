@@ -26,8 +26,10 @@ function NotificationCenter() {
         remove,
         clearRead,
         deleteNotification,
+
     } = useNotifications();
 
+    console.log(notifications);
     const filteredNotifications = useMemo(() => {
 
         let results = [...notifications];
