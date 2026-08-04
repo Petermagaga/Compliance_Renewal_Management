@@ -4,6 +4,7 @@ import StatusBadge from "../features/compliance/components/badges/StatusBadge";
 import PriorityBadge from "../features/compliance/components/badges/PriorityBadge";
 import ComplianceDeleteModal from "../features/compliance/components/ComplianceDeleteModal";
 
+import complianceService from "../features/dashboard/services/complianceService";
 function ComplianceItems() {
 
     // State
@@ -17,11 +18,21 @@ function ComplianceItems() {
         fetchItems();
     }, []);
 
-    // Fetch items
-    const fetchItems = () => {
-        api.get("/compliance/items/")
-            .then((res) => setItems(res.data))
-            .catch((err) => console.error(err));
+    const fetchItems = async () => {
+        try {
+
+            const response =
+                await complianceService.getItems();
+
+            setItems(
+                response.data.results ?? []
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
     };
 
     // Open modal

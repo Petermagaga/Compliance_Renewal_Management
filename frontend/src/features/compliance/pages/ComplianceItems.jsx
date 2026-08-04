@@ -1,56 +1,111 @@
-const [selectedItem, setSelectedItem] = useState(null);
+import { useState } from "react";
 
-const [showDeleteModal, setShowDeleteModal] = useState(false);
+import MainLayout from "../../../components/layout/MainLayout";
 
-const [deleting, setDeleting] = useState(false);
+import ComplianceHeader from "../components/ComplianceHeader";
+import ExecutiveStats from "../components/ExecutiveStats";
+import ComplianceToolbar from "../components/ComplianceToolbar";
+import ComplianceTable from "../components/ComplianceTable";
+import EmptyState from "../components/EmptyState";
+import ComplianceDeleteModal from "../components/ComplianceDeleteModal";
 
-const openDeleteModal = (item) => {
+import { useCompliance } from "../hooks/useCompliance";
 
-    setSelectedItem(item);
+function ComplianceItems() {
 
-    setShowDeleteModal(true);
+    const {
+        filteredItems,
+        loading,
+        deleteItem,
+        refresh,
+    } = useCompliance();
 
-};
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
-const closeDeleteModal = () => {
+    const openDeleteModal = (item) => {
+        setSelectedItem(item);
+        setShowDeleteModal(true);
+    };
 
-    setSelectedItem(null);
+    const closeDeleteModal = () => {
+        setSelectedItem(null);
+        setShowDeleteModal(false);
+    };
 
-    setShowDeleteModal(false);
+    const confirmDelete = async () => {
 
-};
+        if (!selectedItem) return;
 
-const confirmDelete = async () => {
+        try {
 
-    if (!selectedItem) return;
+            setDeleting(true);
 
-    try {
+            await deleteItem(selectedItem.id);
 
-        setDeleting(true);
+            closeDeleteModal();
 
-        await api.delete(
+            refresh();
 
-            `/compliance/items/${selectedItem.id}/`
+        } catch (error) {
 
-        );
+            console.error(error);
 
-        fetchItems();
+        } finally {
 
-        closeDeleteModal();
+            setDeleting(false);
 
-    }
+        }
+    };
 
-    catch (error) {
+    return (
 
-        console.error(error);
+        <MainLayout>
 
-    }
+            <div className="space-y-6 p-8">
 
-    finally {
+                <ComplianceHeader />
 
-        setDeleting(false);
+                <ExecutiveStats
+                    items={filteredItems}
+                />
 
-    }
+                <ComplianceToolbar />
 
-};
+                {loading ? (
 
+                    <div className="rounded-xl border bg-white p-12 text-center text-gray-500">
+                        Loading compliance items...
+                    </div>
+
+                ) : filteredItems.length === 0 ? (
+
+                    <EmptyState />
+
+                ) : (
+
+                    <ComplianceTable
+                        items={filteredItems}
+                        onDelete={openDeleteModal}
+                    />
+
+                )}
+
+            </div>
+
+            <ComplianceDeleteModal
+                open={showDeleteModal}
+                item={selectedItem}
+                loading={deleting}
+                onClose={closeDeleteModal}
+                onConfirm={confirmDelete}
+            />
+
+        </MainLayout>
+
+    );
+
+}
+
+export default ComplianceItems;
