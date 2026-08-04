@@ -20,7 +20,14 @@ export function NotificationProvider({ children }) {
     try {
       setLoading(true);
       const response = await notificationService.getNotifications();
-      setNotifications(response.data);
+      
+      console.log(data);
+      
+      setNotifications(
+          Array.isArray(data)
+              ? data
+              : data.results ?? []
+      );
     } catch (error) {
       console.error("Failed to fetch notifications:", error);
     } finally {
@@ -31,7 +38,7 @@ export function NotificationProvider({ children }) {
   const fetchUnreadCount = async () => {
     try {
       const response = await notificationService.getUnreadCount();
-      setUnreadCount(response.data.unread);
+      setUnreadCount(response.unread);
     } catch (error) {
       console.error("Failed to fetch unread count:", error);
     }

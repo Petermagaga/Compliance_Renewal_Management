@@ -25,6 +25,7 @@ function NotificationCenter() {
         markAllAsRead,
         remove,
         clearRead,
+        deleteNotification,
     } = useNotifications();
 
     const filteredNotifications = useMemo(() => {
@@ -215,7 +216,7 @@ function NotificationCenter() {
 
                     onRead={markAsRead}
 
-                    onDelete={remove}
+                    onDelete={deleteNotification}
 
                 />
 
