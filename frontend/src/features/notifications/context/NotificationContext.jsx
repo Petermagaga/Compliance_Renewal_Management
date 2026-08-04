@@ -16,24 +16,33 @@ export function NotificationProvider({ children }) {
 
   const { isAuthenticated } = useAuth();   // ✅ check auth state
 
+
   const fetchNotifications = async () => {
-    try {
-      setLoading(true);
-      const response = await notificationService.getNotifications();
-      
-      console.log(data);
-      
-      setNotifications(
-          Array.isArray(data)
-              ? data
-              : data.results ?? []
-      );
-    } catch (error) {
-      console.error("Failed to fetch notifications:", error);
-    } finally {
-      setLoading(false);
-    }
+      try {
+          setLoading(true);
+
+          const data = await notificationService.getNotifications();
+
+          console.log("Notifications API:", data);
+
+          setNotifications(data.results || []);
+
+      } catch (error) {
+
+          console.error(
+              "Failed to fetch notifications:",
+              error
+          );
+
+          setNotifications([]);
+
+      } finally {
+
+          setLoading(false);
+
+      }
   };
+
 
   const fetchUnreadCount = async () => {
     try {
