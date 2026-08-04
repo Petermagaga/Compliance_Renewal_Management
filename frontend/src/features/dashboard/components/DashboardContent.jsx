@@ -2,7 +2,8 @@ import DashboardHeader from "./DashboardHeader";
 import KPISection from "./KPISection";
 import ChartsSection from "./ChartsSection";
 import ComplianceSection from "./ComplianceSection";
-import ActivitySection from "./ActivitySection";
+
+import ActivitySection from "../../Activity/components/ActivitySection";
 import SystemHealthCard from "../../components/SystemHealthCard";
 import QuickActionsSection from "./QuickActionsSection";
 
