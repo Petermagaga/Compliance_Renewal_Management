@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
+import AddComplianceButton from "./AddComplianceButton";
 
 function ComplianceHeader() {
 
@@ -33,30 +34,7 @@ function ComplianceHeader() {
 
             </div>
 
-            <Link
-                to="/add-item"
-                className="
-                    inline-flex
-                    items-center
-                    gap-2
-                    rounded-xl
-                    bg-brand-green
-                    px-6
-                    py-3
-                    font-semibold
-                    text-white
-                    shadow-sm
-                    transition
-                    hover:-translate-y-0.5
-                    hover:shadow-lg
-                "
-            >
-
-                <FiPlus size={18} />
-
-                Add Compliance
-
-            </Link>
+            <AddComplianceButton />
 
         </div>
 
