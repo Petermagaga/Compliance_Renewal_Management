@@ -5,6 +5,12 @@ export function useCompliance() {
 
     const [items, setItems] = useState([]);
 
+    const [page, setPage] = useState(1);
+
+    const [count, setCount] = useState(0);
+
+    const PAGE_SIZE = 10;
+
     const [loading, setLoading] = useState(true);
 
 
@@ -97,11 +103,12 @@ export function useCompliance() {
         try {
 
 
-            const response = await complianceService.getItems();
+            const response = await complianceService.getItems(page);
 
             console.log("Compliance API:", response.data);
 
             setItems(response.data.results ?? []);
+            setCount(response.data.count ?? 0);
 
         }catch (error) {
             console.error("Failed to fetch compliance items:", error);
