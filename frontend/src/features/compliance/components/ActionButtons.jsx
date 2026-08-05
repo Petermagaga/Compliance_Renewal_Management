@@ -7,67 +7,81 @@ import {
 
 function ActionButtons({
 
-    id,
-
+    item,
     onDelete,
 
 }) {
 
     return (
 
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex justify-end items-center gap-2">
 
             <Link
-
-                to={`/compliance/${id}`}
-
+                to={`/compliance/${item.id}`}
                 className="
-                    p-2
+                    flex
+                    h-9
+                    w-9
+                    items-center
+                    justify-center
                     rounded-lg
-                    bg-blue-100
+                    border
+                    border-blue-100
+                    bg-blue-50
                     text-blue-600
-                    hover:bg-blue-200
+                    transition
+                    hover:bg-blue-100
                 "
-
+                title="View"
             >
 
-                <FiEye />
+                <FiEye size={16} />
 
             </Link>
 
             <Link
-
-                to={`/compliance/${id}/edit`}
-
+                to={`/compliance/${item.id}/edit`}
                 className="
-                    p-2
+                    flex
+                    h-9
+                    w-9
+                    items-center
+                    justify-center
                     rounded-lg
-                    bg-green-100
-                    text-green-600
-                    hover:bg-green-200
+                    border
+                    border-emerald-100
+                    bg-emerald-50
+                    text-emerald-600
+                    transition
+                    hover:bg-emerald-100
                 "
-
+                title="Edit"
             >
 
-                <FiEdit2 />
+                <FiEdit2 size={16} />
 
             </Link>
 
             <button
-
-                onClick={() => onDelete(id)}
-
+                onClick={() => onDelete(item)}
                 className="
-                    p-2
+                    flex
+                    h-9
+                    w-9
+                    items-center
+                    justify-center
                     rounded-lg
-                    bg-red-100
+                    border
+                    border-red-100
+                    bg-red-50
                     text-red-600
-                    hover:bg-red-200
+                    transition
+                    hover:bg-red-100
                 "
-
+                title="Delete"
             >
 
-                <FiTrash2 />
+                <FiTrash2 size={16} />
 
             </button>
 

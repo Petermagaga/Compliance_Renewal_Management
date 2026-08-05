@@ -5,33 +5,54 @@ function ComplianceHeader() {
 
     return (
 
-        <div className="flex justify-between items-center mb-8">
+        <div
+            className="
+                flex
+                flex-col
+                gap-6
+                lg:flex-row
+                lg:items-center
+                lg:justify-between
+            "
+        >
 
             <div>
 
-                <h1 className="text-3xl font-bold">
+                <p className="text-sm font-semibold text-brand-green uppercase tracking-wide">
+                    Compliance Management
+                </p>
 
+                <h1 className="mt-2 text-4xl font-bold text-gray-900">
                     Compliance Workspace
-
                 </h1>
 
-                <p className="text-gray-500 mt-2">
-
-                    Manage licenses, permits, certificates and renewals.
-
+                <p className="mt-3 max-w-2xl text-gray-500">
+                    Manage licenses, permits, certificates and renewals
+                    from one centralized workspace.
                 </p>
 
             </div>
 
             <Link
-
                 to="/add-item"
-
-                className="bg-brand-green text-white px-5 py-3 rounded-lg flex items-center gap-2"
-
+                className="
+                    inline-flex
+                    items-center
+                    gap-2
+                    rounded-xl
+                    bg-brand-green
+                    px-6
+                    py-3
+                    font-semibold
+                    text-white
+                    shadow-sm
+                    transition
+                    hover:-translate-y-0.5
+                    hover:shadow-lg
+                "
             >
 
-                <FiPlus />
+                <FiPlus size={18} />
 
                 Add Compliance
 

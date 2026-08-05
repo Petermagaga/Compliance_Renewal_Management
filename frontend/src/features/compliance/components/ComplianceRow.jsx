@@ -1,47 +1,114 @@
-import StatusBadge from "./StatusBadge";
-import PriorityBadge from "./PriorityBadge";
+import StatusBadge from "./badges/StatusBadge";
+import PriorityBadge from "./badges/PriorityBadge";
 import ActionButtons from "./ActionButtons";
 
 function ComplianceRow({
-
     item,
-
     onDelete,
-
 }) {
+
+    const overdue = item.days_remaining < 0;
 
     return (
 
-        <tr className="border-b hover:bg-gray-50">
+        <tr
+            className="
+                border-b
+                transition
+                hover:bg-brand-light/30
+            "
+        >
 
-            <td>{item.name}</td>
+            {/* Name */}
 
-            <td>{item.category}</td>
+            <td className="px-6 py-4">
 
-            <td>{item.department}</td>
+                <div>
 
-            <td>{item.expiry_date}</td>
+                    <p className="font-semibold text-gray-900">
+                        {item.name}
+                    </p>
 
-            <td>
+                    <p className="text-xs text-gray-500">
+                        {item.company_name}
+                    </p>
 
-                <StatusBadge status={item.status} />
+                </div>
 
             </td>
 
-            <td>
+            {/* Category */}
 
-                <PriorityBadge priority={item.priority} />
+            <td className="px-6 py-4">
+
+                <span className="capitalize">
+                    {item.category}
+                </span>
 
             </td>
 
-            <td>
+            {/* Department */}
+
+            <td className="px-6 py-4">
+
+                {item.department_name}
+
+            </td>
+
+            {/* Expiry */}
+
+            <td className="px-6 py-4">
+
+                <div>
+
+                    <p>{item.expiry_date}</p>
+
+                    <p
+                        className={`
+                            text-xs
+                            ${
+                                overdue
+                                    ? "text-red-600"
+                                    : "text-gray-500"
+                            }
+                        `}
+                    >
+                        {overdue
+                            ? `${Math.abs(item.days_remaining)} days overdue`
+                            : `${item.days_remaining} days left`}
+                    </p>
+
+                </div>
+
+            </td>
+
+            {/* Status */}
+
+            <td className="px-6 py-4">
+
+                <StatusBadge
+                    status={item.status}
+                />
+
+            </td>
+
+            {/* Priority */}
+
+            <td className="px-6 py-4">
+
+                <PriorityBadge
+                    priority={item.priority}
+                />
+
+            </td>
+
+            {/* Actions */}
+
+            <td className="px-6 py-4 text-right">
 
                 <ActionButtons
-
-                    id={item.id}
-
+                    item={item}
                     onDelete={onDelete}
-
                 />
 
             </td>

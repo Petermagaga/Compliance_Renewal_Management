@@ -4,7 +4,8 @@ import Dashboard from "../../pages/Dashboard";
 
 import Login from "../../pages/Login"
 
-import ComplianceItems from "../../pages/ComplianceItems";
+import ComplianceItems from "../../features/compliance/pages/ComplianceItems";
+
 import Reports from "../../pages/Reports";
 import AddComplianceItem from "../../pages/AddComplianceItem";
 
@@ -14,6 +15,7 @@ import ReminderPage from  "../../pages/Reminders";
 import Settings from "../../pages/Settings";
 import ComplianceDetails from "../../features/compliance/pages/ComplianceDetails";
 import EditCompliance from "../../features/compliance/pages/EditCompliance";
+
 import NotificationCenter
     from "../../pages/NotificationCenter";
 
@@ -64,8 +66,6 @@ export const routeRegistry = [
     },
 
     
-
-
 
     {
         id:"compliance",

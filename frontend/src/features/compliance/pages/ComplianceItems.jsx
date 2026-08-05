@@ -11,6 +11,7 @@ import ComplianceDeleteModal from "../components/ComplianceDeleteModal";
  
 import ComplianceSkeleton from "../components/ComplianceSkeleton";
 import CompliancePagination from "../components/CompliancePagination";
+import ComplianceTableSkeleton from "../components/ComplianceTableSkeleton";
 
 import { useCompliance } from "../hooks/useCompliance";
 
@@ -81,7 +82,8 @@ function ComplianceItems() {
 
                 {loading ? (
 
-                    <ComplianceSkeleton />
+                    <ComplianceSkeleton />,
+                    <ComplianceTableSkeleton />
 
                 ) : filteredItems.length === 0 ? (
 
@@ -93,7 +95,7 @@ function ComplianceItems() {
                             items={filteredItems}
                             onDelete={openDeleteModal}
                         />
-                        
+
                         <CompliancePagination
                         page={page}
                         totalPages={totalPages}
