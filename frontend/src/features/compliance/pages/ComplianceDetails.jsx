@@ -7,7 +7,7 @@ import DetailHeader from "../components/DetailHeader";
 import SummaryCard from "../components/SummaryCard";
 import InformationCard from "../components/InformationCard";
 import TimelineCard from "../components/TimelineCard";
-
+import WorkflowCard from "../components/WorkfowCard";
 function ComplianceDetails() {
 
     const { id } = useParams();
@@ -68,9 +68,17 @@ function ComplianceDetails() {
 
             <SummaryCard item={item} />
 
-            <InformationCard item={item} />
 
-            <TimelineCard />
+            <div className="grid gap-6 lg:grid-cols-2">
+
+                <InformationCard item={item} />
+
+                <WorkflowCard item={item} />
+
+            </div>
+
+            <TimelineCard item={item} />
+
 
         </div>
 

@@ -7,8 +7,8 @@ import {
 } from "react-icons/fi";
 
 import StatusBadge from "./StatusBadge";
-import PriorityBadge from "./PriorityBadge";
 
+import PriorityBadge from "./badges/PriorityBadge";
 function DetailHeader({ item }) {
 
     return (
