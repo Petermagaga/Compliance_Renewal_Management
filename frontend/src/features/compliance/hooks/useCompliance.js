@@ -125,7 +125,7 @@ export function useCompliance() {
 
         fetchItems();
 
-    }, []);
+    }, [page]);
 
     const deleteItem = async (id) => {
 
@@ -134,6 +134,10 @@ export function useCompliance() {
         fetchItems();
 
     };
+
+    const totalPages = Math.ceil(
+        count / PAGE_SIZE
+    );
 
     return {
 
@@ -146,6 +150,9 @@ export function useCompliance() {
         deleteItem,
 
         refresh: fetchItems,
+        page,
+        totalPages,
+        setPage,
 
     };
 
