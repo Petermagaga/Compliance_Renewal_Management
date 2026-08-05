@@ -10,6 +10,7 @@ import EmptyState from "../components/EmptyState";
 import ComplianceDeleteModal from "../components/ComplianceDeleteModal";
  
 import ComplianceSkeleton from "../components/ComplianceSkeleton";
+import CompliancePagination from "../components/CompliancePagination";
 
 import { useCompliance } from "../hooks/useCompliance";
 
@@ -20,6 +21,9 @@ function ComplianceItems() {
         loading,
         deleteItem,
         refresh,
+        page,
+        totalPages,
+        setPage
     } = useCompliance();
 
     const [selectedItem, setSelectedItem] = useState(null);
@@ -84,13 +88,22 @@ function ComplianceItems() {
                     <EmptyState />
 
                 ) : (
+                    <>
+                        <ComplianceTable
+                            items={filteredItems}
+                            onDelete={openDeleteModal}
+                        />
+                        
+                        <CompliancePagination
+                        page={page}
+                        totalPages={totalPages}
+                        onPageChange={setPage}
+                        />
 
-                    <ComplianceTable
-                        items={filteredItems}
-                        onDelete={openDeleteModal}
-                    />
-
+                    </>
                 )}
+
+                
 
 
             </div>

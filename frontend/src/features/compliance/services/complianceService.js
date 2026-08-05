@@ -2,8 +2,8 @@ import api from "../../../services/api";
 
 const complianceService = {
 
-    getItems() {
-        return api.get("/compliance/items/");
+    getItems(page=1) {
+        return api.get(`/compliance/items/?page=${page}`);
     },
 
     getItem(id) {
