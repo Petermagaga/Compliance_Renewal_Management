@@ -62,6 +62,9 @@ export function ComplianceFilterProvider({ children }) {
 
 export function useComplianceFilters() {
 
-    return useContext(ComplianceFilterContext);
+    const context = useContext(ComplianceFilterContext);
 
+    console.log("Compliance Context:", context);
+
+    return context;
 }
