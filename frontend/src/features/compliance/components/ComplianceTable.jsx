@@ -26,11 +26,13 @@ function ComplianceTable({
 
                     <thead
                         className="
+                            border-b
                             bg-gray-50
                             text-left
                             text-xs
+                            font-semibold
                             uppercase
-                            tracking-wide
+                            tracking-wider
                             text-gray-500
                         "
                     >
@@ -71,15 +73,34 @@ function ComplianceTable({
 
                     <tbody>
 
-                        {items.map(item => (
+                        {items.length === 0 ? (
 
-                            <ComplianceRow
-                                key={item.id}
-                                item={item}
-                                onDelete={onDelete}
-                            />
+                            <tr>
 
-                        ))}
+                                <td
+                                    colSpan={7}
+                                    className="py-12 text-center text-gray-500"
+                                >
+
+                                    No compliance items found.
+
+                                </td>
+
+                            </tr>
+
+                        ) : (
+
+                            items.map(item => (
+
+                                <ComplianceRow
+                                    key={item.id}
+                                    item={item}
+                                    onDelete={onDelete}
+                                />
+
+                            ))
+
+                        )}
 
                     </tbody>
 
