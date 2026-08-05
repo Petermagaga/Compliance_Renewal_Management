@@ -8,6 +8,8 @@ import ComplianceToolbar from "../components/ComplianceToolbar";
 import ComplianceTable from "../components/ComplianceTable";
 import EmptyState from "../components/EmptyState";
 import ComplianceDeleteModal from "../components/ComplianceDeleteModal";
+ 
+import ComplianceSkeleton from "../components/ComplianceSkeleton";
 
 import { useCompliance } from "../hooks/useCompliance";
 
@@ -75,9 +77,7 @@ function ComplianceItems() {
 
                 {loading ? (
 
-                    <div className="rounded-xl border bg-white p-12 text-center text-gray-500">
-                        Loading compliance items...
-                    </div>
+                    <ComplianceSkeleton />
 
                 ) : filteredItems.length === 0 ? (
 
@@ -91,6 +91,7 @@ function ComplianceItems() {
                     />
 
                 )}
+
 
             </div>
 
