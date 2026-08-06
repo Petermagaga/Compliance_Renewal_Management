@@ -24,7 +24,11 @@ const complianceService = {
 
     deleteItem(id) {
         return api.delete(`/compliance/items/${id}/`);
+    },
+    getAuditTrail(id) {
+        return api.get(`/compliance/items/${id}/audit/`);
     }
+
 
 };
 

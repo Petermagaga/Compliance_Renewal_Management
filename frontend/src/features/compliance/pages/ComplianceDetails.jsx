@@ -14,7 +14,13 @@ function ComplianceDetails() {
 
     const [item, setItem] = useState(null);
 
+    const [auditTrail, setAuditTrail] = useState([]);
+
+    const [reminders, setReminders] = useState([]);
+
     const [loading, setLoading] = useState(true);
+
+
 
     useEffect(() => {
 
@@ -22,13 +28,34 @@ function ComplianceDetails() {
 
     }, [id]);
 
+
     const fetchItem = async () => {
 
         try {
 
-            const response = await complianceService.getItem(id);
+            const [
 
-            setItem(response.data);
+                itemResponse,
+
+                auditResponse,
+
+                reminderResponse,
+
+            ] = await Promise.all([
+
+                complianceService.getItem(id),
+
+                complianceService.getAuditTrail(id),
+
+                complianceService.getReminderHistory(id),
+
+            ]);
+
+            setItem(itemResponse.data);
+
+            setAuditTrail(auditResponse.data);
+
+            setReminders(reminderResponse.data);
 
         }
 
@@ -46,6 +73,7 @@ function ComplianceDetails() {
 
     };
 
+
     if (loading) {
 
         return (
@@ -59,6 +87,7 @@ function ComplianceDetails() {
         );
 
     }
+
 
     return (
 
@@ -75,10 +104,24 @@ function ComplianceDetails() {
 
                 <WorkflowCard item={item} />
 
+                <AuditTrailCard
+                    events={auditTrail}
+                />
+
+
             </div>
 
-            <TimelineCard item={item} />
+            <ReminderHistoryCard
+                reminders={reminders}
+            />
 
+            <AuditTrailCard
+                events={auditTrail}
+            />
+
+            <TimelineCard
+                timeline={[]}
+            />
 
         </div>
 
