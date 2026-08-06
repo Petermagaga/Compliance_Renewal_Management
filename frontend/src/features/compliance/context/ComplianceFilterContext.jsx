@@ -64,7 +64,14 @@ export function useComplianceFilters() {
 
     const context = useContext(ComplianceFilterContext);
 
-    console.log("Compliance Context:", context);
+    if (!context) {
+
+        throw new Error(
+            "useComplianceFilters must be used inside ComplianceFilterProvider"
+        );
+
+    }
 
     return context;
+
 }

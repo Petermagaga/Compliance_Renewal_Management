@@ -1,20 +1,28 @@
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./app/routing/AppRoutes";
-import { NotificationProvider } from "./features/notifications/context/NotificationContext";
-import {ComplianceFilterProvider} from "./features/compliance/components/ComplianceFilters";
+
+import {
+    NotificationProvider,
+} from "./features/notifications/context/NotificationContext";
+
+import {
+    ComplianceFilterProvider,
+} from "./features/compliance/context/ComplianceFilterContext";
 
 function App() {
 
     return (
 
         <NotificationProvider>
+
             <ComplianceFilterProvider>
 
-            <BrowserRouter>
+                <BrowserRouter>
 
-                <AppRoutes />
+                    <AppRoutes />
 
-            </BrowserRouter>
+                </BrowserRouter>
+
             </ComplianceFilterProvider>
 
         </NotificationProvider>
