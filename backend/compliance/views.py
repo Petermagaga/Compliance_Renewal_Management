@@ -28,6 +28,7 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
             description=(f"{item.name} was added to the compliance registry"
 
             ),
+            compliance_item=item,
 
             user=self.request.user,
 
@@ -44,7 +45,7 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
             title="Compliance Item Updated",
 
             description=item.name,
-
+            compliance_item=item,
             user=self.request.user,
         )
 
