@@ -55,13 +55,14 @@ class ActivityService:
         activity_type,
         title,
         description,
+        compliance_item=None,
         user=None,
     ):
 
         Activity.objects.create(
 
             user=user,
-
+            compliance_item=compliance_item,
             activity_type=activity_type,
 
             title=title,

@@ -1,4 +1,5 @@
 from django.conf import settings
+from compliance.models import ComplianceItem
 
 from django.db import models
 
@@ -85,9 +86,18 @@ class Activity(models.Model):
         ("whatsapp_failed", "WhatsApp Failed"),
     ]
 
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+
+    compliance_item = models.ForeignKey(
+        ComplianceItem,
+        on_delete=models.CASCADE,
+        related_name="activities",
         null=True,
         blank=True,
     )
