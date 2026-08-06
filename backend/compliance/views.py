@@ -1,11 +1,19 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+
 from .serializers import ReminderLogSerializer,ComplianceItemSerializer
 from .models import ComplianceItem,ReminderLog
 from .querysets import ComplianceQuerySet
 from .pagination import CompliancePagination  
+
 from audit.services import ActivityService  
+from audit.models import Activity
+from audit.serializers import ActivitySerializer
 
 class ComplianceItemViewSet(viewsets.ModelViewSet):
     permission_classes= [IsAuthenticated]
@@ -49,6 +57,16 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
             user=self.request.user,
         )
 
+    @action(detail=True,methods=["get"])
+    def audit(self,request,pk=None):
+        item=self.get_object()
+
+        activities=(
+            Activity.objects.filter(compliance_item=item).select_related("user")
+        )
+        serializer=ActivitySerializer(activities,many=True)
+
+        return Response(serializer.data)
 
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]

@@ -1,4 +1,5 @@
 from compliance.models import ReminderLog
+from audit.models import Activity
 
 from .base import BaseAnalyticsService
 
@@ -54,4 +55,13 @@ class ActivityService(BaseAnalyticsService):
         )
 
         return activities[:limit]
+    @staticmethod
+    def log(*,activity_type,title,description,user=None,compliane_item=None):
 
+        Activity.objects.create(
+            user=user,
+            activity_type=activity_type,
+            title=title,
+            description=description,
+            compliane_item=compliane_item
+        )

@@ -16,6 +16,7 @@ class ActivitySerializer(serializers.ModelSerializer):
             "description",
             "user",
             "user_name",
+            "compliance_item",
             "user_role",
             "created_at",
         ]
