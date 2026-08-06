@@ -68,6 +68,24 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    @action(detail=True, methods=["get"])
+    def reminders(self, request, pk=None):
+
+        item = self.get_object()
+
+        reminders = (
+            ReminderLog.objects
+            .filter(compliance_item=item)
+            .order_by("-created_at")
+        )
+
+        serializer = ReminderLogSerializer(
+            reminders,
+            many=True,
+        )
+
+        return Response(serializer.data)
+
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     serializer_class=ReminderLogSerializer
