@@ -10,23 +10,40 @@ function ComplianceForm({
 
 }) {
 
-    const [form, setForm] = useState({
+
+    const [formData, setFormData] = useState({
 
         name: "",
 
         category: "",
 
-        department: "",
+        company: "",
 
-        responsible_person: "",
+        department: "",
 
         issue_date: "",
 
         expiry_date: "",
 
+        renewal_period: "",
+
+        responsible_person: "",
+
+        reviewer: "",
+
+        status: "draft",
+
         priority: "medium",
 
-        status: "active",
+        email_reminder: true,
+
+        whatsapp_reminder: false,
+
+        reminder_days: 30,
+
+        description: "",
+
+        notes: "",
 
     });
 
@@ -46,18 +63,38 @@ function ComplianceForm({
 
     }, [initialValues]);
 
-    const handleChange = (e) => {
 
-        setForm({
+    const handleChange = (event) => {
 
-            ...form,
+        const {
 
-            [e.target.name]: e.target.value,
+            name,
 
-        });
+            value,
+
+            type,
+
+            checked,
+
+        } = event.target;
+
+        setFormData(previous => ({
+
+            ...previous,
+
+            [name]:
+
+                type === "checkbox"
+
+                    ? checked
+
+                    : value,
+
+        }));
 
     };
 
+    
     const handleSubmit = (e) => {
 
         e.preventDefault();
@@ -67,6 +104,9 @@ function ComplianceForm({
     };
 
     return (
+
+
+
 
         <form
 
