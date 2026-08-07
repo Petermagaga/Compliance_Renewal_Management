@@ -94,6 +94,55 @@ function ComplianceDetails() {
     }
 
 
+    const timeline = [
+
+        ...auditTrail.map(event => ({
+
+            id: `audit-${event.id}`,
+
+            activity_type: event.activity_type,
+
+            title: event.title,
+
+            description: event.description,
+
+            created_at: event.created_at,
+
+            user_name: event.user_name,
+
+        })),
+
+        ...reminders.map(reminder => ({
+
+            id: `reminder-${reminder.id}`,
+
+            activity_type:
+                reminder.channel === "email"
+                    ? "email_sent"
+                    : "whatsapp_sent",
+
+            title:
+                `${reminder.channel.toUpperCase()} Reminder`,
+
+            description:
+                `Reminder sent ${reminder.days_before} day(s) before expiry.`,
+
+            created_at: reminder.sent_at,
+
+            user_name: "System",
+
+        })),
+
+    ].sort(
+
+        (a, b) =>
+
+            new Date(b.created_at) -
+
+            new Date(a.created_at)
+
+    );    
+
     return (
 
         <div className="p-8 space-y-6">
@@ -121,7 +170,7 @@ function ComplianceDetails() {
             />
 
             <TimelineCard
-                timeline={[]}
+                timeline={timeline}
             />
 
         </div>
