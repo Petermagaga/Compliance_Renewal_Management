@@ -8,6 +8,10 @@ import {
     FiTrash2,
 } from "react-icons/fi";
 
+const formatDate = (date) =>
+
+    new Date(date).toLocaleString();
+
 function getIcon(type) {
 
     switch (type) {
@@ -59,9 +63,14 @@ function getColor(type) {
         case "email_sent":
             return "bg-indigo-100 text-indigo-600";
 
+        case "email_failed":
+            return "bg-red-100 text-red-600";
+
         case "whatsapp_sent":
             return "bg-green-100 text-green-600";
 
+        case "whatsapp_failed":
+            return "bg-red-100 text-red-600";
         default:
             return "bg-gray-100 text-gray-600";
 
@@ -180,7 +189,7 @@ function TimelineCard({
                                             "
                                         >
 
-                                            {event.created_at}
+                                            {formatDate(event.created_at)}
 
                                         </span>
 
