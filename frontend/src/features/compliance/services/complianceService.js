@@ -1,5 +1,13 @@
 import api from "../../../services/api";
 
+const getAuditTrail = (id) =>
+    api.get(`/compliance/items/${id}/audit/`);
+
+const getReminderHistory = (id) =>
+    api.get(`/compliance/items/${id}/reminders/`);
+
+
+
 const complianceService = {
 
     getItems(page=1) {
@@ -32,4 +40,24 @@ const complianceService = {
 
 };
 
-export default complianceService;
+export default {
+
+    getItems,
+
+    getItem,
+
+    createItem,
+
+    updateItem,
+
+    deleteItem,
+
+    getAuditTrail,
+
+    getReminderHistory,
+    complianceService
+
+};
+
+
+

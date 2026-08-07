@@ -76,7 +76,7 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
         reminders = (
             ReminderLog.objects
             .filter(compliance_item=item)
-            .order_by("-created_at")
+            .order_by("-sent_at")
         )
 
         serializer = ReminderLogSerializer(
