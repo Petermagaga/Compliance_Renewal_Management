@@ -26,10 +26,13 @@ function ComplianceDetails() {
 
     useEffect(() => {
 
-        fetchItem();
+        if (id) {
+
+            fetchItem();
+
+        }
 
     }, [id]);
-
 
     const fetchItem = async () => {
 
