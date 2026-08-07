@@ -5,12 +5,7 @@ import {
     FiTrash2,
 } from "react-icons/fi";
 
-function ActionButtons({
-
-    item,
-    onDelete,
-
-}) {
+function ActionButtons({ item, onDelete }) {
 
     return (
 
@@ -34,9 +29,7 @@ function ActionButtons({
                 "
                 title="View"
             >
-
                 <FiEye size={16} />
-
             </Link>
 
             <Link
@@ -57,9 +50,7 @@ function ActionButtons({
                 "
                 title="Edit"
             >
-
                 <FiEdit2 size={16} />
-
             </Link>
 
             <button
@@ -80,15 +71,12 @@ function ActionButtons({
                 "
                 title="Delete"
             >
-
                 <FiTrash2 size={16} />
-
             </button>
 
         </div>
 
     );
-
 }
 
 export default ActionButtons;
