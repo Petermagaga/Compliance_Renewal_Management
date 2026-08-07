@@ -1,16 +1,10 @@
 import api from "../../../services/api";
 
-const getAuditTrail = (id) =>
-    api.get(`/compliance/items/${id}/audit/`);
-
-const getReminderHistory = (id) =>
-    api.get(`/compliance/items/${id}/reminders/`);
-
 
 
 const complianceService = {
 
-    getItems(page=1) {
+    getItems(page = 1) {
         return api.get(`/compliance/items/?page=${page}`);
     },
 
@@ -33,31 +27,15 @@ const complianceService = {
     deleteItem(id) {
         return api.delete(`/compliance/items/${id}/`);
     },
+
     getAuditTrail(id) {
         return api.get(`/compliance/items/${id}/audit/`);
-    }
+    },
 
-
-};
-
-export default {
-
-    getItems,
-
-    getItem,
-
-    createItem,
-
-    updateItem,
-
-    deleteItem,
-
-    getAuditTrail,
-
-    getReminderHistory,
-    complianceService
+    getReminderHistory(id) {
+        return api.get(`/compliance/items/${id}/reminders/`);
+    },
 
 };
 
-
-
+export default complianceService;

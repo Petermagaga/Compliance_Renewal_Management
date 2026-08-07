@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import complianceService from "../services/complianceService";
-
+import AuditTrailCard from "../components/ReminderHistoryCard";
+import ReminderHistoryCard from "../components/ReminderHistoryCard";
 import DetailHeader from "../components/DetailHeader";
 import SummaryCard from "../components/SummaryCard";
 import InformationCard from "../components/InformationCard";
