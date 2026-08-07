@@ -9,6 +9,7 @@ import SummaryCard from "../components/SummaryCard";
 import InformationCard from "../components/InformationCard";
 import TimelineCard from "../components/TimelineCard";
 import WorkflowCard from "../components/WorkfowCard";
+
 function ComplianceDetails() {
 
     const { id } = useParams();
@@ -104,10 +105,6 @@ function ComplianceDetails() {
                 <InformationCard item={item} />
 
                 <WorkflowCard item={item} />
-
-                <AuditTrailCard
-                    events={auditTrail}
-                />
 
 
             </div>
