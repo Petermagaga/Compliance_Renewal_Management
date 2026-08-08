@@ -114,26 +114,26 @@ function ComplianceForm({
     };
 
 
-    const [formData, setFormData] = useState({
+    const [form, setForm] = useState({
 
-        company: initialData.company ?? 1,
+        company: "",
+        department: "",
 
-        department: initialData.department ?? 1,
+        name: "",
 
-        name: initialData.name ?? "",
+        category: "license",
 
-        category: initialData.category ?? "license",
+        issue_date: "",
 
-        issue_date: initialData.issue_date ?? "",
+        expiry_date: "",
 
-        expiry_date: initialData.expiry_date ?? "",
+        responsible_person: "",
 
-        responsible_person:
-            initialData.responsible_person ?? "",
+        status: "draft",
 
-        status: initialData.status ?? "active",
+        priority: "medium",
 
-        priority: initialData.priority ?? "medium",
+        document: null,
 
     });
 

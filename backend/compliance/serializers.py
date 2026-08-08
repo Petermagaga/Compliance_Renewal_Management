@@ -54,7 +54,7 @@ class ComplianceItemSerializer(serializers.ModelSerializer):
 
             "responsible_person",
             "responsible_person_name",
-
+            "document",
             "days_remaining","is_overdue",)
 
             
