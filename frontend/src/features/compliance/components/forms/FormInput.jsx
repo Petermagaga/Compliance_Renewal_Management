@@ -4,18 +4,17 @@ function FormInput({
     type = "text",
     value,
     onChange,
-    placeholder = "",
+    placeholder,
     required = false,
-    disabled = false,
+    accept,
 }) {
 
     return (
-
         <div className="space-y-2">
 
             <label
                 htmlFor={name}
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-semibold text-gray-700"
             >
                 {label}
 
@@ -24,18 +23,17 @@ function FormInput({
                         *
                     </span>
                 )}
-
             </label>
 
             <input
                 id={name}
                 name={name}
                 type={type}
-                value={value}
+                value={type === "file" ? undefined : value}
                 onChange={onChange}
                 placeholder={placeholder}
                 required={required}
-                disabled={disabled}
+                accept={accept}
                 className="
                     w-full
                     rounded-xl
@@ -48,18 +46,14 @@ function FormInput({
                     text-gray-900
                     outline-none
                     transition
-                    placeholder:text-gray-400
                     focus:border-brand-green
                     focus:ring-2
-                    focus:ring-brand-green/10
-                    disabled:bg-gray-100
+                    focus:ring-brand-green/20
                 "
             />
 
         </div>
-
     );
-
 }
 
 export default FormInput;

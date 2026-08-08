@@ -9,14 +9,12 @@ function FormSelect({
 }) {
 
     return (
-
         <div className="space-y-2">
 
             <label
                 htmlFor={name}
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-semibold text-gray-700"
             >
-
                 {label}
 
                 {required && (
@@ -24,7 +22,6 @@ function FormSelect({
                         *
                     </span>
                 )}
-
             </label>
 
             <select
@@ -48,10 +45,14 @@ function FormSelect({
                     transition
                     focus:border-brand-green
                     focus:ring-2
-                    focus:ring-brand-green/10
+                    focus:ring-brand-green/20
                     disabled:bg-gray-100
                 "
             >
+
+                <option value="">
+                    Select {label}
+                </option>
 
                 {options.map(option => (
 
@@ -67,9 +68,7 @@ function FormSelect({
             </select>
 
         </div>
-
     );
-
 }
 
 export default FormSelect;
