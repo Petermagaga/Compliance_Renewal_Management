@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import complianceService from "../features/dashboard/services/complianceService";
-import ComplianceForm from "../components/ComplianceForm";
+import ComplianceForm from "../features/compliance/components/ComplianceForm";
 
 function AddCompliance() {
 
