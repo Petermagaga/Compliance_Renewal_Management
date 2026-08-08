@@ -7,7 +7,7 @@ import Login from "../../pages/Login"
 import ComplianceItems from "../../features/compliance/pages/ComplianceItems";
 
 import Reports from "../../pages/Reports";
-import AddComplianceItem from "../../pages/AddComplianceItem";
+import ComplianceForm from "../../features/compliance/components/ComplianceForm";
 
 import NotificationPage from "../../pages/Notifications";
 import ReminderPage from  "../../pages/Reminders";
@@ -317,7 +317,7 @@ export const routeRegistry = [
 
         path:"/add-item",
 
-        Component: AddComplianceItem,
+        Component: ComplianceForm,
 
         title:"Add Compliance",
 
