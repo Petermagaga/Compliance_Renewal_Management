@@ -5,7 +5,6 @@ function FormSection({
 }) {
 
     return (
-
         <section
             className="
                 rounded-2xl
@@ -24,11 +23,9 @@ function FormSection({
                 </h2>
 
                 {description && (
-
                     <p className="mt-1 text-sm text-gray-500">
                         {description}
                     </p>
-
                 )}
 
             </div>
@@ -36,9 +33,7 @@ function FormSection({
             {children}
 
         </section>
-
     );
-
 }
 
 export default FormSection;
