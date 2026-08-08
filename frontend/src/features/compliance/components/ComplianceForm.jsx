@@ -10,6 +10,110 @@ function ComplianceForm({
     onSubmit,
 }) {
 
+
+    const categoryOptions = [
+        {
+            value: "license",
+            label: "License",
+        },
+        {
+            value: "permit",
+            label: "Permit",
+        },
+        {
+            value: "insurance",
+            label: "Insurance",
+        },
+        {
+            value: "certificate",
+            label: "Certificate",
+        },
+        {
+            value: "contract",
+            label: "Contract",
+        },
+    ];
+
+    const priorityOptions = [
+        {
+            value: "low",
+            label: "Low",
+        },
+        {
+            value: "medium",
+            label: "Medium",
+        },
+        {
+            value: "high",
+            label: "High",
+        },
+        {
+            value: "critical",
+            label: "Critical",
+        },
+    ];
+
+    const statusOptions = [
+        {
+            value: "draft",
+            label: "Draft",
+        },
+        {
+            value: "under_review",
+            label: "Under Review",
+        },
+        {
+            value: "rejected",
+            label: "Rejected",
+        },
+        {
+            value: "approved",
+            label: "Approved",
+        },
+        {
+            value: "active",
+            label: "Active",
+        },
+        {
+            value: "expiring",
+            label: "Expiring",
+        },
+        {
+            value: "renewal_in_progress",
+            label: "Renewal In Progress",
+        },
+        {
+            value: "expired",
+            label: "Expired",
+        },
+        {
+            value: "archived",
+            label: "Archived",
+        },
+    ];
+
+
+    const createStatusOptions = [
+        {
+            value: "draft",
+            label: "Draft",
+        },
+    ];
+
+
+    const defaultForm = {
+        company: "",
+        department: "",
+        name: "",
+        category: "license",
+        issue_date: "",
+        expiry_date: "",
+        responsible_person: "",
+        status: "draft",
+        priority: "medium",
+    };
+
+
     const [formData, setFormData] = useState({
 
         company: initialData.company ?? 1,
