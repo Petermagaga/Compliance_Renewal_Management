@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import FormSection from "./forms/FormSection";
 import FormInput from "./forms/FormInput";
 import FormSelect from "./forms/FormSelect";
+
+import api from "../../../services/api";
+
 
 function ComplianceForm({
     mode = "create",
@@ -10,145 +13,118 @@ function ComplianceForm({
     onSubmit,
 }) {
 
+    const [companies, setCompanies] = useState([]);
+    const [departments, setDepartments] = useState([]);
 
-    const categoryOptions = [
-        {
-            value: "license",
-            label: "License",
-        },
-        {
-            value: "permit",
-            label: "Permit",
-        },
-        {
-            value: "insurance",
-            label: "Insurance",
-        },
-        {
-            value: "certificate",
-            label: "Certificate",
-        },
-        {
-            value: "contract",
-            label: "Contract",
-        },
-    ];
+    const [loadingOptions, setLoadingOptions] = useState(true);
 
-    const priorityOptions = [
-        {
-            value: "low",
-            label: "Low",
-        },
-        {
-            value: "medium",
-            label: "Medium",
-        },
-        {
-            value: "high",
-            label: "High",
-        },
-        {
-            value: "critical",
-            label: "Critical",
-        },
-    ];
+    const [submitting, setSubmitting] = useState(false);
 
-    const statusOptions = [
-        {
-            value: "draft",
-            label: "Draft",
-        },
-        {
-            value: "under_review",
-            label: "Under Review",
-        },
-        {
-            value: "rejected",
-            label: "Rejected",
-        },
-        {
-            value: "approved",
-            label: "Approved",
-        },
-        {
-            value: "active",
-            label: "Active",
-        },
-        {
-            value: "expiring",
-            label: "Expiring",
-        },
-        {
-            value: "renewal_in_progress",
-            label: "Renewal In Progress",
-        },
-        {
-            value: "expired",
-            label: "Expired",
-        },
-        {
-            value: "archived",
-            label: "Archived",
-        },
-    ];
-
-
-    const createStatusOptions = [
-        {
-            value: "draft",
-            label: "Draft",
-        },
-    ];
-
-
-    const defaultForm = {
-        company: "",
-        department: "",
-        name: "",
-        category: "license",
-        issue_date: "",
-        expiry_date: "",
-        responsible_person: "",
-        status: "draft",
-        priority: "medium",
-    };
-
+    const [error, setError] = useState("");
 
     const [form, setForm] = useState({
 
-        company: "",
-        department: "",
+        company: initialData.company || "",
 
-        name: "",
+        department: initialData.department || "",
 
-        category: "license",
+        name: initialData.name || "",
 
-        issue_date: "",
+        category: initialData.category || "license",
 
-        expiry_date: "",
+        issue_date: initialData.issue_date || "",
 
-        responsible_person: "",
+        expiry_date: initialData.expiry_date || "",
 
-        status: "draft",
+        responsible_person:
+            initialData.responsible_person || "",
 
-        priority: "medium",
+        status:
+            initialData.status || "draft",
+
+        priority:
+            initialData.priority || "medium",
 
         document: null,
 
     });
 
-    const [submitting, setSubmitting] = useState(false);
 
-    const [error, setError] = useState("");
+    useEffect(() => {
+
+        loadOptions();
+
+    }, []);
+
+
+    const loadOptions = async () => {
+
+        try {
+
+            setLoadingOptions(true);
+
+            const [
+                companyResponse,
+                departmentResponse,
+            ] = await Promise.all([
+
+                api.get("/accounts/companies/"),
+
+                api.get("/accounts/departments/"),
+
+            ]);
+
+            setCompanies(
+                companyResponse.data.results ||
+                companyResponse.data
+            );
+
+            setDepartments(
+                departmentResponse.data.results ||
+                departmentResponse.data
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            setError(
+                "Unable to load companies and departments."
+            );
+
+        } finally {
+
+            setLoadingOptions(false);
+
+        }
+
+    };
+
 
     const handleChange = (event) => {
 
         const {
             name,
             value,
+            files,
         } = event.target;
 
-        setFormData(previous => ({
+
+        if (name === "document") {
+
+            setForm(previous => ({
+
+                ...previous,
+
+                document: files?.[0] || null,
+
+            }));
+
+            return;
+        }
+
+
+        setForm(previous => ({
 
             ...previous,
 
@@ -156,7 +132,23 @@ function ComplianceForm({
 
         }));
 
+
+        if (name === "company") {
+
+            setForm(previous => ({
+
+                ...previous,
+
+                company: value,
+
+                department: "",
+
+            }));
+
+        }
+
     };
+
 
     const handleSubmit = async (event) => {
 
@@ -164,9 +156,84 @@ function ComplianceForm({
 
         setError("");
 
-        setSubmitting(true);
+
+        if (
+            form.issue_date &&
+            form.expiry_date &&
+            form.expiry_date < form.issue_date
+        ) {
+
+            setError(
+                "Expiry date cannot be before the issue date."
+            );
+
+            return;
+
+        }
+
 
         try {
+
+            setSubmitting(true);
+
+
+            const formData = new FormData();
+
+            formData.append(
+                "company",
+                form.company
+            );
+
+            formData.append(
+                "department",
+                form.department
+            );
+
+            formData.append(
+                "name",
+                form.name
+            );
+
+            formData.append(
+                "category",
+                form.category
+            );
+
+            formData.append(
+                "issue_date",
+                form.issue_date
+            );
+
+            formData.append(
+                "expiry_date",
+                form.expiry_date
+            );
+
+            formData.append(
+                "responsible_person",
+                form.responsible_person
+            );
+
+            formData.append(
+                "status",
+                form.status
+            );
+
+            formData.append(
+                "priority",
+                form.priority
+            );
+
+
+            if (form.document) {
+
+                formData.append(
+                    "document",
+                    form.document
+                );
+
+            }
+
 
             await onSubmit(formData);
 
@@ -174,9 +241,24 @@ function ComplianceForm({
 
             console.error(error);
 
-            setError(
-                "Unable to save the compliance item."
-            );
+            const backendError =
+                error?.response?.data;
+
+            if (backendError) {
+
+                setError(
+                    Object.values(backendError)
+                        .flat()
+                        .join(" ")
+                );
+
+            } else {
+
+                setError(
+                    "Unable to save the compliance item."
+                );
+
+            }
 
         } finally {
 
@@ -185,6 +267,136 @@ function ComplianceForm({
         }
 
     };
+
+
+    const categoryOptions = [
+
+        {
+            value: "license",
+            label: "License",
+        },
+
+        {
+            value: "permit",
+            label: "Permit",
+        },
+
+        {
+            value: "insurance",
+            label: "Insurance",
+        },
+
+        {
+            value: "certificate",
+            label: "Certificate",
+        },
+
+        {
+            value: "contract",
+            label: "Contract",
+        },
+
+    ];
+
+
+    const priorityOptions = [
+
+        {
+            value: "low",
+            label: "Low",
+        },
+
+        {
+            value: "medium",
+            label: "Medium",
+        },
+
+        {
+            value: "high",
+            label: "High",
+        },
+
+        {
+            value: "critical",
+            label: "Critical",
+        },
+
+    ];
+
+
+    const createStatusOptions = [
+
+        {
+            value: "draft",
+            label: "Draft",
+        },
+
+    ];
+
+
+    const editStatusOptions = [
+
+        {
+            value: "draft",
+            label: "Draft",
+        },
+
+        {
+            value: "under_review",
+            label: "Under Review",
+        },
+
+        {
+            value: "rejected",
+            label: "Rejected",
+        },
+
+        {
+            value: "approved",
+            label: "Approved",
+        },
+
+        {
+            value: "active",
+            label: "Active",
+        },
+
+        {
+            value: "expiring",
+            label: "Expiring",
+        },
+
+        {
+            value: "renewal_in_progress",
+            label: "Renewal In Progress",
+        },
+
+        {
+            value: "expired",
+            label: "Expired",
+        },
+
+        {
+            value: "archived",
+            label: "Archived",
+        },
+
+    ];
+
+
+    const statusOptions =
+        mode === "create"
+            ? createStatusOptions
+            : editStatusOptions;
+
+
+    const filteredDepartments =
+        departments.filter(
+            department =>
+                !form.company ||
+                department.company === form.company
+        );
+
 
     return (
 
@@ -248,7 +460,9 @@ function ComplianceForm({
 
                     <FormSection
                         title="General Information"
-                        description="Basic information about this compliance item."
+                        description="
+                            Basic information about this compliance item.
+                        "
                     >
 
                         <div className="grid gap-6 md:grid-cols-2">
@@ -256,66 +470,19 @@ function ComplianceForm({
                             <FormInput
                                 label="Compliance Name"
                                 name="name"
-                                value={formData.name}
+                                value={form.name}
                                 onChange={handleChange}
                                 placeholder="e.g. Business License"
                                 required
                             />
 
+
                             <FormSelect
                                 label="Category"
                                 name="category"
-                                value={formData.category}
+                                value={form.category}
                                 onChange={handleChange}
-                                options={[
-                                    {
-                                        value: "license",
-                                        label: "License",
-                                    },
-                                    {
-                                        value: "permit",
-                                        label: "Permit",
-                                    },
-                                    {
-                                        value: "certificate",
-                                        label: "Certificate",
-                                    },
-                                    {
-                                        value: "registration",
-                                        label: "Registration",
-                                    },
-                                ]}
-                            />
-
-                        </div>
-
-                    </FormSection>
-
-
-                    {/* Dates */}
-
-                    <FormSection
-                        title="Compliance Dates"
-                        description="Define when the compliance item was issued and when it expires."
-                    >
-
-                        <div className="grid gap-6 md:grid-cols-2">
-
-                            <FormInput
-                                type="date"
-                                label="Issue Date"
-                                name="issue_date"
-                                value={formData.issue_date}
-                                onChange={handleChange}
-                                required
-                            />
-
-                            <FormInput
-                                type="date"
-                                label="Expiry Date"
-                                name="expiry_date"
-                                value={formData.expiry_date}
-                                onChange={handleChange}
+                                options={categoryOptions}
                                 required
                             />
 
@@ -328,35 +495,95 @@ function ComplianceForm({
 
                     <FormSection
                         title="Ownership"
-                        description="Identify the department and person responsible for this compliance item."
+                        description="
+                            Select the company, department and person
+                            responsible for this compliance item.
+                        "
+                    >
+
+                        <div className="grid gap-6 md:grid-cols-2">
+
+                            <FormSelect
+                                label="Company"
+                                name="company"
+                                value={form.company}
+                                onChange={handleChange}
+                                options={companies.map(company => ({
+
+                                    value: company.id,
+
+                                    label: company.name,
+
+                                }))}
+                                required
+                                disabled={loadingOptions}
+                            />
+
+
+                            <FormSelect
+                                label="Department"
+                                name="department"
+                                value={form.department}
+                                onChange={handleChange}
+                                options={filteredDepartments.map(
+                                    department => ({
+
+                                        value: department.id,
+
+                                        label: department.name,
+
+                                    })
+                                )}
+                                required
+                                disabled={
+                                    loadingOptions ||
+                                    !form.company
+                                }
+                            />
+
+
+                            <FormInput
+                                label="Responsible Person"
+                                name="responsible_person"
+                                value={form.responsible_person}
+                                onChange={handleChange}
+                                placeholder="Responsible person"
+                                required
+                            />
+
+                        </div>
+
+                    </FormSection>
+
+
+                    {/* Dates */}
+
+                    <FormSection
+                        title="Compliance Dates"
+                        description="
+                            Define when the compliance item was issued
+                            and when it expires.
+                        "
                     >
 
                         <div className="grid gap-6 md:grid-cols-2">
 
                             <FormInput
-                                label="Company ID"
-                                name="company"
-                                type="number"
-                                value={formData.company}
+                                type="date"
+                                label="Issue Date"
+                                name="issue_date"
+                                value={form.issue_date}
                                 onChange={handleChange}
                                 required
                             />
 
-                            <FormInput
-                                label="Department ID"
-                                name="department"
-                                type="number"
-                                value={formData.department}
-                                onChange={handleChange}
-                                required
-                            />
 
                             <FormInput
-                                label="Responsible Person"
-                                name="responsible_person"
-                                value={formData.responsible_person}
+                                type="date"
+                                label="Expiry Date"
+                                name="expiry_date"
+                                value={form.expiry_date}
                                 onChange={handleChange}
-                                placeholder="Responsible person"
                                 required
                             />
 
@@ -369,7 +596,10 @@ function ComplianceForm({
 
                     <FormSection
                         title="Status & Priority"
-                        description="Set the current state and importance of this compliance item."
+                        description="
+                            Define the lifecycle state and importance
+                            of this compliance item.
+                        "
                     >
 
                         <div className="grid gap-6 md:grid-cols-2">
@@ -377,50 +607,47 @@ function ComplianceForm({
                             <FormSelect
                                 label="Status"
                                 name="status"
-                                value={formData.status}
+                                value={form.status}
                                 onChange={handleChange}
-                                options={[
-                                    {
-                                        value: "active",
-                                        label: "Active",
-                                    },
-                                    {
-                                        value: "expiring",
-                                        label: "Expiring",
-                                    },
-                                    {
-                                        value: "expired",
-                                        label: "Expired",
-                                    },
-                                ]}
+                                options={statusOptions}
+                                required
+                                disabled={
+                                    mode === "create"
+                                }
                             />
+
 
                             <FormSelect
                                 label="Priority"
                                 name="priority"
-                                value={formData.priority}
+                                value={form.priority}
                                 onChange={handleChange}
-                                options={[
-                                    {
-                                        value: "low",
-                                        label: "Low",
-                                    },
-                                    {
-                                        value: "medium",
-                                        label: "Medium",
-                                    },
-                                    {
-                                        value: "high",
-                                        label: "High",
-                                    },
-                                    {
-                                        value: "critical",
-                                        label: "Critical",
-                                    },
-                                ]}
+                                options={priorityOptions}
+                                required
                             />
 
                         </div>
+
+                    </FormSection>
+
+
+                    {/* Document */}
+
+                    <FormSection
+                        title="Supporting Document"
+                        description="
+                            Upload the license, permit, certificate,
+                            insurance document or other supporting file.
+                        "
+                    >
+
+                        <FormInput
+                            label="Compliance Document"
+                            name="document"
+                            type="file"
+                            onChange={handleChange}
+                            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                        />
 
                     </FormSection>
 
@@ -460,6 +687,7 @@ function ComplianceForm({
 
                         </button>
 
+
                         <button
                             type="submit"
                             disabled={submitting}
@@ -496,5 +724,6 @@ function ComplianceForm({
     );
 
 }
+
 
 export default ComplianceForm;
