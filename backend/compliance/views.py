@@ -18,7 +18,7 @@ from audit.serializers import ActivitySerializer
 class ComplianceItemViewSet(viewsets.ModelViewSet):
     permission_classes= [IsAuthenticated]
     serializer_class=ComplianceItemSerializer
-    queryset=ComplianceItem.objects.all()
+    queryset = ComplianceItem.objects.all().order_by("-created_at")
     pagination_class=CompliancePagination
     def get_queryset(self):
         return ComplianceQuerySet.visible_to(self.request.user)
