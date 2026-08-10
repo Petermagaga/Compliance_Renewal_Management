@@ -11,15 +11,39 @@ const complianceService = {
     },
 
     createItem(data) {
-        return api.post("/compliance/items/", data);
+        return api.post(
+            "/compliance/items/",
+            data,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
     },
 
     updateItem(id, data) {
-        return api.put(`/compliance/items/${id}/`, data);
+        return api.put(
+            `/compliance/items/${id}/`,
+            data,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
     },
 
     patchItem(id, data) {
-        return api.patch(`/compliance/items/${id}/`, data);
+        return api.patch(
+            `/compliance/items/${id}/`,
+            data,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
     },
 
     deleteItem(id) {
