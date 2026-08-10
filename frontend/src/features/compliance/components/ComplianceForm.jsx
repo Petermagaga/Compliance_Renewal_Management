@@ -260,34 +260,36 @@ function ComplianceForm({
 
             await onSubmit(formData);
 
-        } catch (error) {
+    } catch (error) {
+        console.error("COMPLIANCE SUBMIT ERROR:", error);
+        console.error("STATUS:", error?.response?.status);
+        console.error("RESPONSE DATA:", error?.response?.data);
 
-            console.error(error);
+        const backendError = error?.response?.data;
 
-            const backendError =
-                error?.response?.data;
+        if (backendError) {
+            setError(
+                typeof backendError === "string"
+                    ? backendError
+                    : Object.entries(backendError)
+                        .map(([field, messages]) => {
+                            const text = Array.isArray(messages)
+                                ? messages.join(" ")
+                                : String(messages);
 
-            if (backendError) {
-
-                setError(
-                    Object.values(backendError)
-                        .flat()
+                            return `${field}: ${text}`;
+                        })
                         .join(" ")
-                );
-
-            } else {
-
-                setError(
-                    "Unable to save the compliance item."
-                );
-
-            }
-
-        } finally {
-
-            setSubmitting(false);
-
+            );
+        } else {
+            setError(
+                "Unable to save the compliance item."
+            );
         }
+    } finally {
+        setSubmitting(false);
+    }
+
 
     };
 
