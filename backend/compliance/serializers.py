@@ -75,6 +75,31 @@ class ComplianceItemSerializer(serializers.ModelSerializer):
     def get_is_overdue(self,obj):
         return obj.expiry_date < timezone.now().date()
 
+    def validate(self, attrs):
+
+        issue_date = attrs.get(
+            "issue_date",
+            getattr(self.instance, "issue_date", None)
+            if self.instance else None
+        )
+
+        expiry_date = attrs.get(
+            "expiry_date",
+            getattr(self.instance, "expiry_date", None)
+            if self.instance else None
+        )
+
+        if issue_date and expiry_date:
+
+            if expiry_date < issue_date:
+
+                raise serializers.ValidationError({
+                    "expiry_date":
+                        "Expiry date cannot be earlier than issue date."
+                })
+
+        return attrs
+
 
 class ReminderLogSerializer(serializers.ModelSerializer):
     compliance_item_name=serializers.CharField(

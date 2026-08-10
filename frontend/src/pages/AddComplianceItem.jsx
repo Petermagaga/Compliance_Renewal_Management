@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import complianceService from "../features/dashboard/services/complianceService";
-import ComplianceForm from "../features/compliance/components/ComplianceForm";
 
-function AddCompliance() {
+import complianceService from "../features/compliance/services/complianceService";
+import ComplianceForm from "../features/compliance/components/ComplianceForm";
+function AddComplianceItem() {
 
     const navigate = useNavigate();
 
@@ -12,11 +12,16 @@ function AddCompliance() {
 
             await complianceService.createItem(data);
 
+            alert("Compliance item created successfully.");
+
             navigate("/compliance");
 
         } catch (error) {
 
-            console.error("Failed to create compliance item:", error);
+            console.error(
+                "Failed to create compliance item:",
+                error
+            );
 
         }
 
@@ -33,4 +38,4 @@ function AddCompliance() {
 
 }
 
-export default AddCompliance;
+export default AddComplianceItem;

@@ -1,7 +1,5 @@
 import api from "../../../services/api";
 
-
-
 const complianceService = {
 
     getItems(page = 1) {
