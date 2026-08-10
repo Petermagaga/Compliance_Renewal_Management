@@ -52,6 +52,30 @@ function ComplianceForm({
     const [existingDocument, setExistingDocument] = useState(null);
 
     useEffect(() => {
+        if (!initialData) {
+            return;
+        }
+
+        setForm({
+            company: initialData.company || "",
+            department: initialData.department || "",
+            name: initialData.name || "",
+            category: initialData.category || "license",
+            issue_date: initialData.issue_date || "",
+            expiry_date: initialData.expiry_date || "",
+            responsible_person: initialData.responsible_person || "",
+            status: initialData.status || "draft",
+            priority: initialData.priority || "medium",
+            document: null,
+        });
+
+        setExistingDocument(
+            initialData.document || null
+        );
+    }, [initialData]);
+
+
+    useEffect(() => {
 
         loadOptions();
 
