@@ -3,30 +3,30 @@ import { useNavigate } from "react-router-dom";
 import complianceService from "../services/complianceService";
 import ComplianceForm from "../components/ComplianceForm";
 
-function AddCompliance() {
-
+function AddComplianceItem() {
     const navigate = useNavigate();
 
-    const handleCreate = async (data) => {
+    const handleCreate = async (formData) => {
+        try {
+            await complianceService.createItem(formData);
 
-        await complianceService.createItem(data);
+            navigate("/compliance");
+        } catch (error) {
+            console.error(
+                "Failed to create compliance item:",
+                error
+            );
 
-        navigate("/compliance");
-
+            throw error;
+        }
     };
 
     return (
-
         <ComplianceForm
-
             mode="create"
-
             onSubmit={handleCreate}
-
         />
-
     );
-
 }
 
-export default AddCompliance;
+export default AddComplianceItem;
