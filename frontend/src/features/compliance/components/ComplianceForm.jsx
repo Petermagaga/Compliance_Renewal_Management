@@ -250,13 +250,11 @@ function ComplianceForm({
             );
 
 
-            if (form.document) {
-
+            if (form.document instanceof File) {
                 formData.append(
                     "document",
                     form.document
                 );
-
             }
 
 
