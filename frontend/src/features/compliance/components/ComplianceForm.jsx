@@ -49,7 +49,7 @@ function ComplianceForm({
 
     });
 
-
+    const [existingDocument, setExistingDocument] = useState(null);
 
     useEffect(() => {
 
