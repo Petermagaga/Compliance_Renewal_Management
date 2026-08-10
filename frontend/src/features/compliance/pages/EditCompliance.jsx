@@ -5,71 +5,45 @@ import { useNavigate, useParams } from "react-router-dom";
 import complianceService from "../services/complianceService";
 import ComplianceForm from "../components/ComplianceForm";
 
+
 function EditCompliance() {
-
     const { id } = useParams();
-
     const navigate = useNavigate();
 
-    const [initialData, setInitialData] = useState(null);
-
+    const [item, setItem] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-
         const loadItem = async () => {
-
             try {
-
                 const response =
                     await complianceService.getItem(id);
 
-                setInitialData(response.data);
-
+                setItem(response.data);
             } catch (error) {
-
-                console.error(
-                    "Failed to load compliance item:",
-                    error
-                );
-
+                console.error("Failed to load item:", error);
             } finally {
-
                 setLoading(false);
-
             }
-
         };
 
         loadItem();
-
     }, [id]);
 
-    const handleUpdate = async (data) => {
-
-        await complianceService.updateItem(
-            id,
-            data
-        );
+    const handleUpdate = async (formData) => {
+        await complianceService.updateItem(id, formData);
 
         navigate(`/compliance/${id}`);
-
     };
 
     if (loading) {
-
-        return (
-            <div className="p-8">
-                Loading compliance item...
-            </div>
-        );
-
+        return <div className="p-8">Loading...</div>;
     }
 
     return (
         <ComplianceForm
             mode="edit"
-            initialData={initialData}
+            initialData={item}
             onSubmit={handleUpdate}
         />
     );

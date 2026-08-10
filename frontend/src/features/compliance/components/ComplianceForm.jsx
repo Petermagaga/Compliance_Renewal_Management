@@ -6,778 +6,727 @@ import FormSelect from "./forms/FormSelect";
 
 import api from "../../../services/api";
 
-
 function ComplianceForm({
     mode = "create",
-    initialData = {},
+    initialData = null,
+    companies = [],
+    departments = [],
     onSubmit,
 }) {
-
-    const [companies, setCompanies] = useState([]);
-    const [departments, setDepartments] = useState([]);
-
-    const [loadingOptions, setLoadingOptions] = useState(true);
-
-    const [submitting, setSubmitting] = useState(false);
-
-    const [error, setError] = useState("");
-
     const [form, setForm] = useState({
-
-        company: initialData.company || "",
-
-        department: initialData.department || "",
-
-        name: initialData.name || "",
-
-        category: initialData.category || "license",
-
-        issue_date: initialData.issue_date || "",
-
-        expiry_date: initialData.expiry_date || "",
-
-        responsible_person:
-            initialData.responsible_person || "",
-
-        status:
-            initialData.status || "draft",
-
-        priority:
-            initialData.priority || "medium",
-
+        company: "",
+        department: "",
+        name: "",
+        category: "license",
+        issue_date: "",
+        expiry_date: "",
+        responsible_person: "",
+        status: "draft",
+        priority: "medium",
         document: null,
-
     });
 
-    const [existingDocument, setExistingDocument] = useState(null);
+    const [errors, setErrors] = useState({});
+    const [submitting, setSubmitting] = useState(false);
+
+    /*
+    ------------------------------------------------
+    LOAD EXISTING ITEM FOR EDIT
+    ------------------------------------------------
+    */
 
     useEffect(() => {
-        if (!initialData) {
-            return;
-        }
+        if (!initialData) return;
 
         setForm({
-            company: initialData.company || "",
-            department: initialData.department || "",
-            name: initialData.name || "",
-            category: initialData.category || "license",
-            issue_date: initialData.issue_date || "",
-            expiry_date: initialData.expiry_date || "",
-            responsible_person: initialData.responsible_person || "",
-            status: initialData.status || "draft",
-            priority: initialData.priority || "medium",
+            company: initialData.company ?? "",
+            department: initialData.department ?? "",
+            name: initialData.name ?? "",
+            category: initialData.category ?? "license",
+            issue_date: initialData.issue_date ?? "",
+            expiry_date: initialData.expiry_date ?? "",
+            responsible_person: initialData.responsible_person ?? "",
+            status: initialData.status ?? "draft",
+            priority: initialData.priority ?? "medium",
+
+            // IMPORTANT:
+            // Never put initialData.document here.
+            // Django expects a File object when uploading.
             document: null,
         });
-
-        setExistingDocument(
-            initialData.document || null
-        );
     }, [initialData]);
 
+    /*
+    ------------------------------------------------
+    HANDLE TEXT / SELECT INPUTS
+    ------------------------------------------------
+    */
 
-    useEffect(() => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
 
-        loadOptions();
-
-    }, []);
-
-
-    const loadOptions = async () => {
-
-        try {
-
-            setLoadingOptions(true);
-
-            const [
-                companyResponse,
-                departmentResponse,
-            ] = await Promise.all([
-
-                api.get("/accounts/companies/"),
-
-                api.get("/accounts/departments/"),
-
-            ]);
-
-            setCompanies(
-                companyResponse.data.results ||
-                companyResponse.data
-            );
-
-            setDepartments(
-                departmentResponse.data.results ||
-                departmentResponse.data
-            );
-
-        } catch (error) {
-
-            console.error(error);
-
-            setError(
-                "Unable to load companies and departments."
-            );
-
-        } finally {
-
-            setLoadingOptions(false);
-
-        }
-
-    };
-
-
-    const handleChange = (event) => {
-
-        const {
-            name,
-            value,
-            files,
-        } = event.target;
-
-
-        if (name === "document") {
-
-            setForm(previous => ({
-
-                ...previous,
-
-                document: files?.[0] || null,
-
-            }));
-
-            return;
-        }
-
-
-        setForm(previous => ({
-
+        setForm((previous) => ({
             ...previous,
-
             [name]: value,
-
         }));
 
-
-        if (name === "company") {
-
-            setForm(previous => ({
-
-                ...previous,
-
-                company: value,
-
-                department: "",
-
-            }));
-
-        }
-
+        setErrors((previous) => ({
+            ...previous,
+            [name]: "",
+        }));
     };
 
+    /*
+    ------------------------------------------------
+    HANDLE DOCUMENT
+    ------------------------------------------------
+    */
 
-    const handleSubmit = async (event) => {
+    const handleDocumentChange = (e) => {
+        const file = e.target.files?.[0] || null;
 
-        event.preventDefault();
+        setForm((previous) => ({
+            ...previous,
+            document: file,
+        }));
 
-        setError("");
+        setErrors((previous) => ({
+            ...previous,
+            document: "",
+        }));
+    };
 
+    /*
+    ------------------------------------------------
+    VALIDATION
+    ------------------------------------------------
+    */
+
+    const validate = () => {
+        const newErrors = {};
+
+        if (!form.company) {
+            newErrors.company = "Company is required.";
+        }
+
+        if (!form.department) {
+            newErrors.department = "Department is required.";
+        }
+
+        if (!form.name.trim()) {
+            newErrors.name = "Compliance name is required.";
+        }
+
+        if (!form.issue_date) {
+            newErrors.issue_date = "Issue date is required.";
+        }
+
+        if (!form.expiry_date) {
+            newErrors.expiry_date = "Expiry date is required.";
+        }
 
         if (
             form.issue_date &&
             form.expiry_date &&
             form.expiry_date < form.issue_date
         ) {
-
-            setError(
-                "Expiry date cannot be before the issue date."
-            );
-
-            return;
-
+            newErrors.expiry_date =
+                "Expiry date cannot be before issue date.";
         }
 
+        if (!form.responsible_person.trim()) {
+            newErrors.responsible_person =
+                "Responsible person is required.";
+        }
+
+        /*
+        File validation only happens when a NEW file
+        has been selected.
+        */
+
+        if (form.document) {
+            const allowedTypes = [
+                "application/pdf",
+                "image/jpeg",
+                "image/png",
+            ];
+
+            const maxSize = 10 * 1024 * 1024; // 10MB
+
+            if (!allowedTypes.includes(form.document.type)) {
+                newErrors.document =
+                    "Only PDF, JPG and PNG files are allowed.";
+            }
+
+            if (form.document.size > maxSize) {
+                newErrors.document =
+                    "Document must be smaller than 10MB.";
+            }
+        }
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };
+
+    /*
+    ------------------------------------------------
+    BUILD FORMDATA
+    ------------------------------------------------
+    */
+
+    const buildFormData = () => {
+        const formData = new FormData();
+
+        formData.append("company", form.company);
+        formData.append("department", form.department);
+        formData.append("name", form.name);
+        formData.append("category", form.category);
+        formData.append("issue_date", form.issue_date);
+        formData.append("expiry_date", form.expiry_date);
+        formData.append(
+            "responsible_person",
+            form.responsible_person
+        );
+        formData.append("status", form.status);
+        formData.append("priority", form.priority);
+
+        /*
+        VERY IMPORTANT
+
+        Only append document when it is an actual File.
+
+        During EDIT:
+        document === null
+        means:
+        "keep the existing document"
+        */
+
+        if (form.document instanceof File) {
+            formData.append("document", form.document);
+        }
+
+        return formData;
+    };
+
+    /*
+    ------------------------------------------------
+    SUBMIT
+    ------------------------------------------------
+    */
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!validate()) {
+            return;
+        }
+
+        setSubmitting(true);
 
         try {
+            const formData = buildFormData();
 
-            setSubmitting(true);
+            /*
+            Debugging helper.
+            You can remove this later.
+            */
 
+            console.log("Submitting compliance item:");
 
-            const formData = new FormData();
-
-            formData.append(
-                "company",
-                form.company
-            );
-
-            formData.append(
-                "department",
-                form.department
-            );
-
-            formData.append(
-                "name",
-                form.name
-            );
-
-            formData.append(
-                "category",
-                form.category
-            );
-
-            formData.append(
-                "issue_date",
-                form.issue_date
-            );
-
-            formData.append(
-                "expiry_date",
-                form.expiry_date
-            );
-
-            formData.append(
-                "responsible_person",
-                form.responsible_person
-            );
-
-            formData.append(
-                "status",
-                form.status
-            );
-
-            formData.append(
-                "priority",
-                form.priority
-            );
-
-
-            if (form.document instanceof File) {
-                formData.append(
-                    "document",
-                    form.document
+            for (const [key, value] of formData.entries()) {
+                console.log(
+                    key,
+                    value instanceof File
+                        ? value.name
+                        : value
                 );
             }
 
-
             await onSubmit(formData);
 
-    } catch (error) {
-        console.error("COMPLIANCE SUBMIT ERROR:", error);
-        console.error("STATUS:", error?.response?.status);
-        console.error("RESPONSE DATA:", error?.response?.data);
-
-        const backendError = error?.response?.data;
-
-        if (backendError) {
-            setError(
-                typeof backendError === "string"
-                    ? backendError
-                    : Object.entries(backendError)
-                        .map(([field, messages]) => {
-                            const text = Array.isArray(messages)
-                                ? messages.join(" ")
-                                : String(messages);
-
-                            return `${field}: ${text}`;
-                        })
-                        .join(" ")
+        } catch (error) {
+            console.error(
+                "Compliance form submission failed:",
+                error
             );
-        } else {
-            setError(
-                "Unable to save the compliance item."
-            );
+        } finally {
+            setSubmitting(false);
         }
-    } finally {
-        setSubmitting(false);
-    }
-
-
     };
 
-
-    const categoryOptions = [
-
-        {
-            value: "license",
-            label: "License",
-        },
-
-        {
-            value: "permit",
-            label: "Permit",
-        },
-
-        {
-            value: "insurance",
-            label: "Insurance",
-        },
-
-        {
-            value: "certificate",
-            label: "Certificate",
-        },
-
-        {
-            value: "contract",
-            label: "Contract",
-        },
-
-    ];
-
-
-    const priorityOptions = [
-
-        {
-            value: "low",
-            label: "Low",
-        },
-
-        {
-            value: "medium",
-            label: "Medium",
-        },
-
-        {
-            value: "high",
-            label: "High",
-        },
-
-        {
-            value: "critical",
-            label: "Critical",
-        },
-
-    ];
-
-
-    const createStatusOptions = [
-
-        {
-            value: "draft",
-            label: "Draft",
-        },
-
-    ];
-
-
-    const editStatusOptions = [
-
-        {
-            value: "draft",
-            label: "Draft",
-        },
-
-        {
-            value: "under_review",
-            label: "Under Review",
-        },
-
-        {
-            value: "rejected",
-            label: "Rejected",
-        },
-
-        {
-            value: "approved",
-            label: "Approved",
-        },
-
-        {
-            value: "active",
-            label: "Active",
-        },
-
-        {
-            value: "expiring",
-            label: "Expiring",
-        },
-
-        {
-            value: "renewal_in_progress",
-            label: "Renewal In Progress",
-        },
-
-        {
-            value: "expired",
-            label: "Expired",
-        },
-
-        {
-            value: "archived",
-            label: "Archived",
-        },
-
-    ];
-
-
-    const statusOptions =
-        mode === "create"
-            ? createStatusOptions
-            : editStatusOptions;
-
-
-    const filteredDepartments =
-        departments.filter(
-            department =>
-                !form.company ||
-                department.company === form.company
-        );
-
+    /*
+    ------------------------------------------------
+    RENDER
+    ------------------------------------------------
+    */
 
     return (
+        <div className="mx-auto max-w-5xl p-8">
 
-        <div className="min-h-screen bg-gray-50 p-6">
+            <div className="mb-8">
 
-            <div className="mx-auto max-w-5xl">
+                <h1 className="text-2xl font-bold text-gray-900">
+                    {mode === "edit"
+                        ? "Edit Compliance Item"
+                        : "Add Compliance Item"}
+                </h1>
 
-                {/* Header */}
+                <p className="mt-1 text-sm text-gray-500">
+                    {mode === "edit"
+                        ? "Update the compliance record and optionally replace its document."
+                        : "Add a new compliance requirement to the registry."}
+                </p>
 
-                <div className="mb-8">
+            </div>
 
-                    <h1 className="text-3xl font-bold text-gray-900">
+            <form
+                onSubmit={handleSubmit}
+                className="space-y-8"
+            >
 
-                        {mode === "edit"
-                            ? "Edit Compliance Item"
-                            : "Add Compliance Item"}
+                {/* -------------------------------- */}
+                {/* BASIC INFORMATION */}
+                {/* -------------------------------- */}
 
-                    </h1>
+                <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 
-                    <p className="mt-1 text-gray-500">
+                    <h2 className="mb-6 text-lg font-bold">
+                        Basic Information
+                    </h2>
 
-                        {mode === "edit"
-                            ? "Update the compliance record."
-                            : "Register a new compliance record."}
+                    <div className="grid gap-6 md:grid-cols-2">
 
-                    </p>
+                        {/* Company */}
 
-                </div>
+                        <div>
 
+                            <label className="mb-2 block text-sm font-medium">
+                                Company
+                            </label>
 
-                {/* Error */}
+                            <select
+                                name="company"
+                                value={form.company}
+                                onChange={handleChange}
+                                className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                            >
 
-                {error && (
+                                <option value="">
+                                    Select company
+                                </option>
 
-                    <div
-                        className="
-                            mb-6
-                            rounded-xl
-                            border
-                            border-red-200
-                            bg-red-50
-                            p-4
-                            text-sm
-                            text-red-700
-                        "
-                    >
+                                {companies.map((company) => (
+                                    <option
+                                        key={company.id}
+                                        value={company.id}
+                                    >
+                                        {company.name}
+                                    </option>
+                                ))}
 
-                        {error}
+                            </select>
 
-                    </div>
+                            {errors.company && (
+                                <p className="mt-1 text-sm text-red-600">
+                                    {errors.company}
+                                </p>
+                            )}
 
-                )}
+                        </div>
 
+                        {/* Department */}
 
-                <form
-                    onSubmit={handleSubmit}
-                    className="space-y-6"
-                >
+                        <div>
 
-                    {/* General Information */}
+                            <label className="mb-2 block text-sm font-medium">
+                                Department
+                            </label>
 
-                    <FormSection
-                        title="General Information"
-                        description="
-                            Basic information about this compliance item.
-                        "
-                    >
+                            <select
+                                name="department"
+                                value={form.department}
+                                onChange={handleChange}
+                                className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                            >
 
-                        <div className="grid gap-6 md:grid-cols-2">
+                                <option value="">
+                                    Select department
+                                </option>
 
-                            <FormInput
-                                label="Compliance Name"
+                                {departments.map((department) => (
+                                    <option
+                                        key={department.id}
+                                        value={department.id}
+                                    >
+                                        {department.name}
+                                    </option>
+                                ))}
+
+                            </select>
+
+                            {errors.department && (
+                                <p className="mt-1 text-sm text-red-600">
+                                    {errors.department}
+                                </p>
+                            )}
+
+                        </div>
+
+                        {/* Name */}
+
+                        <div className="md:col-span-2">
+
+                            <label className="mb-2 block text-sm font-medium">
+                                Compliance Name
+                            </label>
+
+                            <input
+                                type="text"
                                 name="name"
                                 value={form.name}
                                 onChange={handleChange}
                                 placeholder="e.g. Business License"
-                                required
+                                className="w-full rounded-lg border border-gray-300 px-3 py-2"
                             />
 
+                            {errors.name && (
+                                <p className="mt-1 text-sm text-red-600">
+                                    {errors.name}
+                                </p>
+                            )}
 
-                            <FormSelect
-                                label="Category"
+                        </div>
+
+                        {/* Category */}
+
+                        <div>
+
+                            <label className="mb-2 block text-sm font-medium">
+                                Category
+                            </label>
+
+                            <select
                                 name="category"
                                 value={form.category}
                                 onChange={handleChange}
-                                options={categoryOptions}
-                                required
-                            />
+                                className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                            >
+
+                                <option value="license">
+                                    License
+                                </option>
+
+                                <option value="permit">
+                                    Permit
+                                </option>
+
+                                <option value="insurance">
+                                    Insurance
+                                </option>
+
+                                <option value="certificate">
+                                    Certificate
+                                </option>
+
+                                <option value="contract">
+                                    Contract
+                                </option>
+
+                            </select>
 
                         </div>
 
-                    </FormSection>
+                        {/* Priority */}
 
+                        <div>
 
-                    {/* Ownership */}
+                            <label className="mb-2 block text-sm font-medium">
+                                Priority
+                            </label>
 
-                    <FormSection
-                        title="Ownership"
-                        description="
-                            Select the company, department and person
-                            responsible for this compliance item.
-                        "
-                    >
-
-                        <div className="grid gap-6 md:grid-cols-2">
-
-                            <FormSelect
-                                label="Company"
-                                name="company"
-                                value={form.company}
-                                onChange={handleChange}
-                                options={companies.map(company => ({
-
-                                    value: company.id,
-
-                                    label: company.name,
-
-                                }))}
-                                required
-                                disabled={loadingOptions}
-                            />
-
-
-                            <FormSelect
-                                label="Department"
-                                name="department"
-                                value={form.department}
-                                onChange={handleChange}
-                                options={filteredDepartments.map(
-                                    department => ({
-
-                                        value: department.id,
-
-                                        label: department.name,
-
-                                    })
-                                )}
-                                required
-                                disabled={
-                                    loadingOptions ||
-                                    !form.company
-                                }
-                            />
-
-
-                            <FormInput
-                                label="Responsible Person"
-                                name="responsible_person"
-                                value={form.responsible_person}
-                                onChange={handleChange}
-                                placeholder="Responsible person"
-                                required
-                            />
-
-                        </div>
-
-                    </FormSection>
-
-
-                    {/* Dates */}
-
-                    <FormSection
-                        title="Compliance Dates"
-                        description="
-                            Define when the compliance item was issued
-                            and when it expires.
-                        "
-                    >
-
-                        <div className="grid gap-6 md:grid-cols-2">
-
-                            <FormInput
-                                type="date"
-                                label="Issue Date"
-                                name="issue_date"
-                                value={form.issue_date}
-                                onChange={handleChange}
-                                required
-                            />
-
-
-                            <FormInput
-                                type="date"
-                                label="Expiry Date"
-                                name="expiry_date"
-                                value={form.expiry_date}
-                                onChange={handleChange}
-                                required
-                            />
-
-                        </div>
-
-                    </FormSection>
-
-
-                    {/* Status */}
-
-                    <FormSection
-                        title="Status & Priority"
-                        description="
-                            Define the lifecycle state and importance
-                            of this compliance item.
-                        "
-                    >
-
-                        <div className="grid gap-6 md:grid-cols-2">
-
-                            <FormSelect
-                                label="Status"
-                                name="status"
-                                value={form.status}
-                                onChange={handleChange}
-                                options={statusOptions}
-                                required
-                                disabled={
-                                    mode === "create"
-                                }
-                            />
-
-
-                            <FormSelect
-                                label="Priority"
+                            <select
                                 name="priority"
                                 value={form.priority}
                                 onChange={handleChange}
-                                options={priorityOptions}
-                                required
-                            />
+                                className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                            >
+
+                                <option value="low">
+                                    Low
+                                </option>
+
+                                <option value="medium">
+                                    Medium
+                                </option>
+
+                                <option value="high">
+                                    High
+                                </option>
+
+                                <option value="critical">
+                                    Critical
+                                </option>
+
+                            </select>
 
                         </div>
 
-                    </FormSection>
+                    </div>
+
+                </section>
 
 
-                    {/* Document */}
+                {/* -------------------------------- */}
+                {/* DATES */}
+                {/* -------------------------------- */}
 
-                    <FormSection
-                        title="Supporting Document"
-                        description="
-                            Upload the license, permit, certificate,
-                            insurance document or other supporting file.
-                        "
-                    >
+                <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 
-                        {existingDocument && (
-                            <div className="mb-4">
-                                <p className="text-sm font-semibold text-gray-700">
-                                    Current document
+                    <h2 className="mb-6 text-lg font-bold">
+                        Validity Period
+                    </h2>
+
+                    <div className="grid gap-6 md:grid-cols-2">
+
+                        <div>
+
+                            <label className="mb-2 block text-sm font-medium">
+                                Issue Date
+                            </label>
+
+                            <input
+                                type="date"
+                                name="issue_date"
+                                value={form.issue_date}
+                                onChange={handleChange}
+                                className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                            />
+
+                            {errors.issue_date && (
+                                <p className="mt-1 text-sm text-red-600">
+                                    {errors.issue_date}
                                 </p>
+                            )}
 
-                                <a
-                                    href={existingDocument}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="
-                                        mt-2
-                                        inline-block
-                                        text-sm
-                                        font-medium
-                                        text-blue-600
-                                        hover:underline
-                                    "
-                                >
-                                    View current document
-                                </a>
-                            </div>
-                        )}
+                        </div>
 
-                        <FormInput
-                            label={
-                                mode === "edit"
-                                    ? "Replace document"
-                                    : "Compliance Document"
-                            }
-                            name="document"
-                            type="file"
-                            onChange={handleChange}
-                            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                        />
+                        <div>
 
+                            <label className="mb-2 block text-sm font-medium">
+                                Expiry Date
+                            </label>
 
-                    </FormSection>
+                            <input
+                                type="date"
+                                name="expiry_date"
+                                value={form.expiry_date}
+                                onChange={handleChange}
+                                className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                            />
 
+                            {errors.expiry_date && (
+                                <p className="mt-1 text-sm text-red-600">
+                                    {errors.expiry_date}
+                                </p>
+                            )}
 
-                    {/* Actions */}
-
-                    <div
-                        className="
-                            flex
-                            justify-end
-                            gap-3
-                            rounded-2xl
-                            border
-                            border-gray-200
-                            bg-white
-                            p-5
-                            shadow-sm
-                        "
-                    >
-
-                        <button
-                            type="button"
-                            onClick={() => window.history.back()}
-                            className="
-                                rounded-xl
-                                border
-                                border-gray-300
-                                px-5
-                                py-3
-                                font-medium
-                                text-gray-700
-                                hover:bg-gray-50
-                            "
-                        >
-
-                            Cancel
-
-                        </button>
-
-
-                        <button
-                            type="submit"
-                            disabled={submitting}
-                            className="
-                                rounded-xl
-                                bg-brand-green
-                                px-6
-                                py-3
-                                font-semibold
-                                text-white
-                                transition
-                                hover:opacity-90
-                                disabled:cursor-not-allowed
-                                disabled:opacity-50
-                            "
-                        >
-
-                            {submitting
-                                ? "Saving..."
-                                : mode === "edit"
-                                    ? "Update Compliance"
-                                    : "Save Compliance"}
-
-                        </button>
+                        </div>
 
                     </div>
 
-                </form>
+                </section>
 
-            </div>
+
+                {/* -------------------------------- */}
+                {/* RESPONSIBLE PERSON */}
+                {/* -------------------------------- */}
+
+                <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+
+                    <h2 className="mb-6 text-lg font-bold">
+                        Responsibility
+                    </h2>
+
+                    <div>
+
+                        <label className="mb-2 block text-sm font-medium">
+                            Responsible Person
+                        </label>
+
+                        <input
+                            type="text"
+                            name="responsible_person"
+                            value={form.responsible_person}
+                            onChange={handleChange}
+                            placeholder="Enter responsible person's name"
+                            className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                        />
+
+                        {errors.responsible_person && (
+                            <p className="mt-1 text-sm text-red-600">
+                                {errors.responsible_person}
+                            </p>
+                        )}
+
+                    </div>
+
+                </section>
+
+
+                {/* -------------------------------- */}
+                {/* STATUS */}
+                {/* -------------------------------- */}
+
+                <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+
+                    <h2 className="mb-6 text-lg font-bold">
+                        Lifecycle Status
+                    </h2>
+
+                    <select
+                        name="status"
+                        value={form.status}
+                        onChange={handleChange}
+                        className="w-full rounded-lg border border-gray-300 px-3 py-2 md:w-1/2"
+                    >
+
+                        <option value="draft">
+                            Draft
+                        </option>
+
+                        <option value="under_review">
+                            Under Review
+                        </option>
+
+                        <option value="rejected">
+                            Rejected
+                        </option>
+
+                        <option value="approved">
+                            Approved
+                        </option>
+
+                        <option value="active">
+                            Active
+                        </option>
+
+                        <option value="expiring">
+                            Expiring
+                        </option>
+
+                        <option value="renewal_in_progress">
+                            Renewal In Progress
+                        </option>
+
+                        <option value="expired">
+                            Expired
+                        </option>
+
+                        <option value="archived">
+                            Archived
+                        </option>
+
+                    </select>
+
+                </section>
+
+
+                {/* -------------------------------- */}
+                {/* DOCUMENT */}
+                {/* -------------------------------- */}
+
+                <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+
+                    <h2 className="mb-2 text-lg font-bold">
+                        Compliance Document
+                    </h2>
+
+                    <p className="mb-6 text-sm text-gray-500">
+                        Upload the supporting compliance document.
+                    </p>
+
+                    {mode === "edit" &&
+                        initialData?.document && (
+                            <div className="mb-4 rounded-lg bg-gray-50 p-4 text-sm">
+
+                                <p className="font-medium">
+                                    Existing document
+                                </p>
+
+                                <a
+                                    href={initialData.document}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="text-blue-600 hover:underline"
+                                >
+                                    View current document
+                                </a>
+
+                            </div>
+                        )}
+
+                    <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        onChange={handleDocumentChange}
+                        className="w-full rounded-lg border border-gray-300 p-3"
+                    />
+
+                    <p className="mt-2 text-xs text-gray-500">
+                        PDF, JPG or PNG. Maximum size: 10MB.
+                    </p>
+
+                    {form.document && (
+                        <p className="mt-2 text-sm text-gray-700">
+                            Selected:{" "}
+                            <strong>
+                                {form.document.name}
+                            </strong>
+                        </p>
+                    )}
+
+                    {errors.document && (
+                        <p className="mt-1 text-sm text-red-600">
+                            {errors.document}
+                        </p>
+                    )}
+
+                </section>
+
+
+                {/* -------------------------------- */}
+                {/* BUTTONS */}
+                {/* -------------------------------- */}
+
+                <div className="flex justify-end gap-3">
+
+                    <button
+                        type="button"
+                        onClick={() => window.history.back()}
+                        className="rounded-lg border border-gray-300 px-5 py-2.5 font-medium text-gray-700 hover:bg-gray-50"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        disabled={submitting}
+                        className="rounded-lg bg-brand-green px-6 py-2.5 font-semibold text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                        {submitting
+                            ? "Saving..."
+                            : mode === "edit"
+                                ? "Update Compliance"
+                                : "Create Compliance"}
+                    </button>
+
+                </div>
+
+            </form>
 
         </div>
-
     );
-
 }
-
 
 export default ComplianceForm;
