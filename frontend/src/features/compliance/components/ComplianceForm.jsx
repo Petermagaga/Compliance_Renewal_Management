@@ -666,13 +666,42 @@ function ComplianceForm({
                         "
                     >
 
+                        {existingDocument && (
+                            <div className="mb-4">
+                                <p className="text-sm font-semibold text-gray-700">
+                                    Current document
+                                </p>
+
+                                <a
+                                    href={existingDocument}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="
+                                        mt-2
+                                        inline-block
+                                        text-sm
+                                        font-medium
+                                        text-blue-600
+                                        hover:underline
+                                    "
+                                >
+                                    View current document
+                                </a>
+                            </div>
+                        )}
+
                         <FormInput
-                            label="Compliance Document"
+                            label={
+                                mode === "edit"
+                                    ? "Replace document"
+                                    : "Compliance Document"
+                            }
                             name="document"
                             type="file"
                             onChange={handleChange}
                             accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                         />
+
 
                     </FormSection>
 
