@@ -21,7 +21,9 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
     queryset = ComplianceItem.objects.all().order_by("-created_at")
     pagination_class=CompliancePagination
     def get_queryset(self):
-        return ComplianceQuerySet.visible_to(self.request.user)
+        return (
+            ComplianceQuerySet
+            .visible_to(self.request.user).order_by("-created_at"))
 
     def perform_create(self, serializer):
 

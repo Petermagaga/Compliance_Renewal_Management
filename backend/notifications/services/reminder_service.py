@@ -123,22 +123,21 @@ class ReminderService:
 
         items = self.get_expiring_items()
 
+
         for item in items:
+            days_left = self.calculate_days_remaining(item)
 
-            for item in items:
-                days_left = self.calculate_days_remaining(item)
+            if not self.should_send(days_left):
+                continue
 
-                if not self.should_send(days_left):
-                    continue
+            message=format_expiry_message(
+                item,days_left
+            )
 
-                message=format_expiry_message(
-                    item,days_left
-                )
+            print(message)
 
-                print(message)
-
-                self.create_notifications(
-                    item,
-                    days_left
-                )
+            self.create_notifications(
+                item,
+                days_left
+            )
         
