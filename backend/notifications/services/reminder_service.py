@@ -125,8 +125,6 @@ class ReminderService:
 
         for item in items:
 
-            items=self.get_expiring_items()
-
             for item in items:
                 days_left = self.calculate_days_remaining(item)
 
