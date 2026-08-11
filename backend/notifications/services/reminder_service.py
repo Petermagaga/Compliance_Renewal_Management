@@ -29,6 +29,7 @@ REMINDER_DAYS = [
     14,
 
     7,
+    5,
     4,
     3,
     2,
@@ -83,40 +84,29 @@ class ReminderService:
 
         for user in users:
 
-            channels= ["email"]
+            channels = ["email"]
 
             if user.phone:
                 channels.append("whatsapp")
 
             for channel in channels:
-                
-                NotificationService.send_compliance_reminder(
+
+                notification = NotificationService.send_compliance_reminder(
                     recipient=user,
-
                     item=item,
-
                     days_left=days_remaining,
-
                     channel=channel,
                 )
 
-                
-
-        ReminderLog.objects.get_or_create(
-
-            compliance_item=item,
-
-            days_before=days_remaining,
-
-            channel="email",
-
-            defaults={
-
-                "status": "sent" ,
-
-            }
-
-        )
+                # Record the actual reminder attempt/result
+                ReminderLog.objects.get_or_create(
+                    compliance_item=item,
+                    days_before=days_remaining,
+                    channel=channel,
+                    defaults={
+                        "status": notification.status,
+                    },
+                )
 
 
     def run(self):
