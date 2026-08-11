@@ -7,7 +7,8 @@ from .views import (
     NotificationReadAllAPIView,
     NotificationStatsAPIView,
     NotificationDeleteReadAPIView,
-    NotificationDeleteAPIView
+    NotificationDeleteAPIView,
+    run_reminders
 
 )
 
@@ -55,6 +56,11 @@ urlpatterns = [
         "<int:pk>/",
         NotificationDeleteAPIView.as_view(),
         name="notification-delete",
+    ),
+
+    path(
+        "internal/run-reminders/",
+        run_reminders,name="run-reminders"
     ),
 
 ]

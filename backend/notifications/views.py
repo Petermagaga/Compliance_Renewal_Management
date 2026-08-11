@@ -1,7 +1,13 @@
 from django.shortcuts import get_object_or_404
 from notifications.queries.notification_selector import  NotificationSelector
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from notifications.services.reminder_service import ReminderService
+
+from rest_framework.decorators import api_view,permission_classes
+
 from .models import Notification
 from .serializers import NotificationSerializer
 from .services.notification_service import NotificationService
@@ -206,4 +212,28 @@ class NotificationDeleteReadAPIView(APIView):
                 "deleted":deleted,
             },
             message="Read notifications deleted"
+        )
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def run_reminders(request):
+    try:
+        ReminderService().run()
+        return Response(
+            {
+                "success":True,
+                "message":"Compliance reminder job completed successfully",
+
+            },
+            status=status.HTTP_200_OK,
+        )
+    except Exception as error:
+        return Response(
+            {
+                "success":False,
+                "message":"Compliance reminder job failed",
+                "Error": str(error)
+            },
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
