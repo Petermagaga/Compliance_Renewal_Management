@@ -14,4 +14,3 @@ class Command(BaseCommand):
                 "Compliance reminder job completed successfully."
             )
         )
-
