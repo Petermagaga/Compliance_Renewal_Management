@@ -1,40 +1,63 @@
 import { FiBarChart2 } from "react-icons/fi";
 
-function EmptyCharts() {
+function EmptyCharts({
+    title = "No chart data available",
+    description = "Charts will appear once compliance records are added.",
+}) {
     return (
         <div
             className="
+                flex
+                min-h-[260px]
+                flex-col
+                items-center
+                justify-center
                 rounded-2xl
                 border
                 border-dashed
-                border-gray-300
-                bg-white
-                p-12
+                border-slate-300
+                bg-slate-50/50
+                px-6
+                py-10
                 text-center
             "
         >
             <div
                 className="
-                    mx-auto
                     flex
-                    h-16
-                    w-16
+                    h-12
+                    w-12
                     items-center
                     justify-center
                     rounded-full
-                    bg-gray-100
-                    text-gray-400
+                    bg-slate-100
+                    text-slate-400
                 "
             >
-                <FiBarChart2 size={30} />
+                <FiBarChart2 size={21} />
             </div>
 
-            <h3 className="mt-5 text-lg font-semibold text-gray-900">
-                No chart data available
+            <h3
+                className="
+                    mt-4
+                    text-sm
+                    font-semibold
+                    text-slate-900
+                "
+            >
+                {title}
             </h3>
 
-            <p className="mt-2 text-sm text-gray-500">
-                Charts will appear once compliance records are added.
+            <p
+                className="
+                    mt-1
+                    max-w-sm
+                    text-xs
+                    leading-5
+                    text-slate-500
+                "
+            >
+                {description}
             </p>
         </div>
     );
