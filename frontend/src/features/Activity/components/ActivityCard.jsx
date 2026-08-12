@@ -1,5 +1,5 @@
 import ActivityAvatar from "./ActivityAvatar";
-import ActivityIcon from "./ActivityIcon";
+import {ActivityIcon,ac} from "./ActivityIcon";
 import ActivityTimestamp from "./ActivityTimestamp";
 
 function ActivityCard({ activity }) {
