@@ -42,6 +42,11 @@ export function DashboardProvider({ children }) {
                 dashboardData || null
             );
 
+            console.log(
+                "CHARTS FROM CONTEXT:",
+                dashboardData?.charts
+            );
+
             const complianceResponse =
                 await complianceService.getItems();
 
