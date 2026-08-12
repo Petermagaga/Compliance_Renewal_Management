@@ -43,6 +43,11 @@ export function DashboardProvider({ children }) {
             );
 
             console.log(
+                "STATUS DISTRIBUTION:",
+                dashboardData?.charts?.status_distribution
+            );
+
+            console.log(
                 "CHARTS FROM CONTEXT:",
                 dashboardData?.charts
             );

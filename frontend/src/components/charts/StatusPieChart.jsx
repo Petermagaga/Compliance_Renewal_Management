@@ -1,38 +1,83 @@
 import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip
+    PieChart,
+    Pie,
+    Cell,
+    ResponsiveContainer,
+    Tooltip,
+    Legend,
 } from "recharts";
 
-const COLORS = ["#16a34a", "#facc15", "#ef4444"];
+const COLORS = [
+    "#16a34a",
+    "#facc15",
+    "#ef4444",
+];
 
-function StatusPieChart({ stats }) {
-  const data = [
-    { name: "Active", value: stats.active },
-    { name: "Expiring", value: stats.expiring_soon },
-    { name: "Expired", value: stats.expired },
-  ];
+function StatusPieChart({ data = [] }) {
 
-  return (
-    <div className="bg-white rounded-2xl shadow-sm p-6 h-[360px]">
-      <h2 className="text-xl font-semibold mb-6">
-        Compliance Status Distribution
-      </h2>
+    return (
+        <div className="h-[360px] w-full">
 
-      <ResponsiveContainer width="100%" height="85%">
-        <PieChart>
-          <Pie data={data} innerRadius={70} outerRadius={110} dataKey="value">
-            {data.map((entry, index) => (
-              <Cell key={index} fill={COLORS[index]} />
-            ))}
-          </Pie>
-          <Tooltip />
-        </PieChart>
-      </ResponsiveContainer>
-    </div>
-  );
+            <div className="mb-5">
+
+                <h2 className="text-lg font-semibold text-slate-900">
+                    Compliance Status
+                </h2>
+
+                <p className="mt-1 text-sm text-slate-500">
+                    Current distribution of compliance items.
+                </p>
+
+            </div>
+
+            <div className="h-[270px]">
+
+                <ResponsiveContainer
+                    width="100%"
+                    height="100%"
+                >
+
+                    <PieChart>
+
+                        <Pie
+                            data={data}
+                            dataKey="value"
+                            nameKey="name"
+                            innerRadius={65}
+                            outerRadius={95}
+                            paddingAngle={3}
+                            cx="50%"
+                            cy="50%"
+                        >
+
+                            {data.map((entry, index) => (
+
+                                <Cell
+                                    key={`cell-${index}`}
+                                    fill={
+                                        COLORS[index % COLORS.length]
+                                    }
+                                />
+
+                            ))}
+
+                        </Pie>
+
+                        <Tooltip />
+
+                        <Legend
+                            verticalAlign="bottom"
+                            height={30}
+                        />
+
+                    </PieChart>
+
+                </ResponsiveContainer>
+
+            </div>
+
+        </div>
+    );
 }
 
 export default StatusPieChart;

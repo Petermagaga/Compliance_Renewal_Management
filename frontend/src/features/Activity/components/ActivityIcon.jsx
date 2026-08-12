@@ -1,5 +1,4 @@
 import { getActivityColor,
-    getActivityColor
  } from "../utils/activityutils";
 
 

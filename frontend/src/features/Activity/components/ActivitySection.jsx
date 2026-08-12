@@ -2,6 +2,7 @@ import ActivitySkeleton from "./ActivitySkeleton";
 import useDashboard from "../../dashboard/hooks/useDashboard";
 import DashboardSection from "../../dashboard/components/DashboardSection";
 import EmptyActivityState from "./EmptyActivityState";
+import ActivityList from "./ActivityList";
 function ActivitySection() {
 
     const {
