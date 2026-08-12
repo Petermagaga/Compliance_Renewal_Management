@@ -11,6 +11,7 @@ import {
     FiActivity,
 } from "react-icons/fi";
 
+import {formatDistanceToNow} from "date-fns";
 
 export function getActivityIcon(type) {
 
@@ -95,14 +96,15 @@ export function getActivityColor(type) {
     }
 }
 export function formatActivityTime(timestamp) {
-
     if (!timestamp) return "";
 
-    return formatDistanceToNow(
-        new Date(timestamp),
-        {
-            addSuffix: true,
-        }
-    );
+    const date = new Date(timestamp);
 
+    if (Number.isNaN(date.getTime())) {
+        return "";
+    }
+
+    return formatDistanceToNow(date, {
+        addSuffix: true,
+    });
 }
