@@ -5,6 +5,7 @@ import ExpiryBarChart from "../../../components/charts/ExpiryBarChart";
 
 import ChartSkeleton from "./ChartSkeleton";
 import EmptyCharts from "./EmptyCharts";
+import DashboardErrorState from "./DashboardErrorState";
 
 function ChartsSection() {
     const {
@@ -26,78 +27,14 @@ function ChartsSection() {
     // Error
     // -------------------------
 
+    
     if (error) {
         return (
-            <div
-                className="
-                    rounded-2xl
-                    border
-                    border-red-200
-                    bg-white
-                    p-8
-                    text-center
-                    shadow-sm
-                "
-            >
-                <div
-                    className="
-                        mx-auto
-                        flex
-                        h-12
-                        w-12
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-red-50
-                        text-red-500
-                    "
-                >
-                    !
-                </div>
-
-                <h3
-                    className="
-                        mt-4
-                        text-base
-                        font-semibold
-                        text-slate-900
-                    "
-                >
-                    Unable to load analytics
-                </h3>
-
-                <p
-                    className="
-                        mx-auto
-                        mt-2
-                        max-w-md
-                        text-sm
-                        text-slate-500
-                    "
-                >
-                    We couldn't load your compliance charts.
-                    Please try again.
-                </p>
-
-                <button
-                    type="button"
-                    onClick={refresh}
-                    className="
-                        mt-5
-                        rounded-lg
-                        bg-brand-green
-                        px-4
-                        py-2
-                        text-sm
-                        font-semibold
-                        text-white
-                        transition
-                        hover:brightness-95
-                    "
-                >
-                    Try Again
-                </button>
-            </div>
+            <DashboardErrorState
+                title="Unable to load charts"
+                message="We couldn't retrieve the compliance analytics."
+                onRetry={refresh}
+            />
         );
     }
 
