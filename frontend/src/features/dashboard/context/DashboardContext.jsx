@@ -36,7 +36,7 @@ export function DashboardProvider({ children }) {
             );
 
             const dashboardData =
-                response.data?.data;
+                response?.data;
 
             setDashboard(
                 dashboardData || null
@@ -56,7 +56,7 @@ export function DashboardProvider({ children }) {
             );
 
             const complianceData =
-                complianceResponse.data;
+                complianceResponse;
 
             // Support both:
             // [...]
