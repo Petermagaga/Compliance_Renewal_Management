@@ -94,15 +94,3 @@ export function getActivityColor(type) {
             return "bg-slate-100 text-slate-600";
     }
 }
-export function formatActivityTime(timestamp) {
-
-    if (!timestamp) return "";
-
-    return formatDistanceToNow(
-        new Date(timestamp),
-        {
-            addSuffix: true,
-        }
-    );
-
-}

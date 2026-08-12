@@ -1,8 +1,6 @@
-import { getActivityColor,
- } from "../utils/activityutils";
 
 
-
+import { getActivityColor,getActivityIcon } from "../utils/activityutils";
 function ActivityIcon({ type }) {
 
     const Icon = getActivityIcon(type);
