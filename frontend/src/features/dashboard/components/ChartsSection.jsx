@@ -15,6 +15,8 @@ function ChartsSection() {
         refresh,
     } = useDashboard();
 
+    
+
     // -------------------------
     // Loading
     // -------------------------
@@ -28,7 +30,7 @@ function ChartsSection() {
     // -------------------------
 
     
-    if (error) {
+    if ( error) {
         return (
             <DashboardErrorState
                 title="Unable to load charts"

@@ -7,9 +7,6 @@ import ComplianceSection from "../features/dashboard/components/ComplianceSectio
 
 import ActivitySection from "../features/Activity/components/ActivitySection";
 
-import ErrorState from "../components/ui/ErrorState";
-import useDashboard from "../features/dashboard/hooks/useDashboard";
-
 import SystemHealthCard from "../features/components/SystemHealthCard";
 import QuickActionsSection from "../features/dashboard/components/QuickActionsSection";
 

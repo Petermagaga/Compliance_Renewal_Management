@@ -3,13 +3,27 @@ import HealthBadge from "./HealthBadge";
 import HealthProgressBar from "./HealthProgressBar";
 import HealthBreakdown from "./HeathBreakdown";
 import { useDashboard } from "../dashboard/hooks/useDashboard";
+import EmptyState from "../../components/ui/EmptyState";
 
 function SystemHealthCard() {
     const {
         systemHealth,
     } = useDashboard();
 
-    if (!systemHealth) return null;
+    if (!systemHealth) {
+        return (
+            <DashboardSection
+                title="System Health"
+                subtitle="Overall compliance status"
+            >
+                <EmptyState
+                    title="Health data unavailable"
+                    message="Compliance health will appear once your compliance records are available."
+                />
+            </DashboardSection>
+        );
+    }
+
 
     return (
         <DashboardSection
