@@ -14,6 +14,7 @@ import ReminderPage from  "../../pages/Reminders";
 import Settings from "../../pages/Settings";
 import ComplianceDetails from "../../features/compliance/pages/ComplianceDetails";
 import EditCompliance from "../../features/compliance/pages/EditCompliance";
+import RemindersPage from "../../pages/RemindersPage";
 
 import NotificationCenter
     from "../../pages/NotificationCenter";
@@ -187,37 +188,34 @@ export const routeRegistry = [
 
 
     {
+        id: "reminders",
 
-        id:"Reminders",
+        path: "/reminders",
 
-        path:"/reminders",
+        Component: RemindersPage,
 
-        Component:ReminderPage,
+        title: "Reminders",
 
-        title:"Reminder",
+        icon: FiBell,
 
-        icon:FiBarChart2,
+        layout: "dashboard",
 
-        layout:"dashboard",
+        requiresAuth: true,
 
-        requiresAuth:true,
+        showInSidebar: true,
 
-        showInSidebar:true,
-
-        roles:[
-
+        roles: [
             "administrator",
-
-            "reminder"
-
+            "manager",
+            "compliance_officer",
         ],
 
         breadcrumb: [
             "Dashboard",
-            "Reports"
-        ]
-
+            "Reminders",
+        ],
     },
+    
 
 
     {
