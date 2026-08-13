@@ -9,7 +9,7 @@ import ComplianceItems from "../../features/compliance/pages/ComplianceItems";
 import Reports from "../../pages/Reports";
 import AddCompliance from "../../pages/AddComplianceItem";
 import NotificationPage from "../../pages/Notifications";
-import ReminderPage from  "../../pages/Reminders";
+
 
 import Settings from "../../pages/Settings";
 import ComplianceDetails from "../../features/compliance/pages/ComplianceDetails";
