@@ -7,6 +7,7 @@ import {
 
 import StatCard from "../../../components/dashboard/StatCard";
 import { useDashboard } from "../hooks/useDashboard";
+import KPIEmptyState from "../../../components/dashboard/KPIEmptyState";
 
 function KPISection() {
     const { summary, loading } = useDashboard();
@@ -32,7 +33,7 @@ function KPISection() {
     }
 
     if (!summary) {
-        return null;
+        return <KPIEmptyState/>;
     }
 
     return (

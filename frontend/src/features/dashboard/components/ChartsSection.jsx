@@ -5,69 +5,44 @@ import ExpiryBarChart from "../../../components/charts/ExpiryBarChart";
 
 import ChartSkeleton from "./ChartSkeleton";
 import EmptyCharts from "./EmptyCharts";
-import DashboardErrorState from "./DashboardErrorState";
 
 function ChartsSection() {
+
     const {
         charts,
         loading,
-        error,
-        refresh,
     } = useDashboard();
 
-    
 
-    // -------------------------
     // Loading
-    // -------------------------
-
-    if (loading) {
+    if (loading && !charts) {
         return <ChartSkeleton />;
     }
 
-    // -------------------------
-    // Error
-    // -------------------------
 
-    
-    if ( error) {
-        return (
-            <DashboardErrorState
-                title="Unable to load charts"
-                message="We couldn't retrieve the compliance analytics."
-                onRetry={refresh}
-            />
-        );
-    }
-
-    // -------------------------
     // No chart object
-    // -------------------------
-
     if (!charts) {
         return <EmptyCharts />;
     }
+
 
     const statusData =
         charts.status_distribution ?? [];
 
     const expiryData =
-        charts.expiry_ranges ?? [];
+        charts.monthly_expiry_trend ?? [];
 
-    // -------------------------
-    // Empty chart data
-    // -------------------------
 
-    if (
-        statusData.length === 0 &&
-        expiryData.length === 0
-    ) {
+    // Chart object exists but contains no usable data
+    const hasChartData =
+        statusData.length > 0 ||
+        expiryData.length > 0;
+
+
+    if (!hasChartData) {
         return <EmptyCharts />;
     }
 
-    // -------------------------
-    // Render charts
-    // -------------------------
 
     return (
         <div
@@ -89,17 +64,28 @@ function ChartsSection() {
                     shadow-sm
                 "
             >
+
                 {statusData.length > 0 ? (
                     <StatusPieChart
                         data={statusData}
                     />
                 ) : (
-                    <EmptyCharts
-                        title="No status data yet"
-                        description="Status analytics will appear once compliance items are added."
-                    />
+                    <div
+                        className="
+                            flex
+                            h-[300px]
+                            items-center
+                            justify-center
+                            text-sm
+                            text-slate-400
+                        "
+                    >
+                        No status data available.
+                    </div>
                 )}
+
             </div>
+
 
             <div
                 className="
@@ -111,16 +97,26 @@ function ChartsSection() {
                     shadow-sm
                 "
             >
+
                 {expiryData.length > 0 ? (
                     <ExpiryBarChart
                         data={expiryData}
                     />
                 ) : (
-                    <EmptyCharts
-                        title="No expiry data yet"
-                        description="Expiry trends will appear once compliance records are available."
-                    />
+                    <div
+                        className="
+                            flex
+                            h-[300px]
+                            items-center
+                            justify-center
+                            text-sm
+                            text-slate-400
+                        "
+                    >
+                        No expiry data available.
+                    </div>
                 )}
+
             </div>
 
         </div>
