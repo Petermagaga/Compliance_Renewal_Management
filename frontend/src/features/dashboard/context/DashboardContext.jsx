@@ -9,26 +9,47 @@ import dashboardService from "../services/dashboardService";
 import complianceService from "../services/complianceService";
 
 
-const [dashboardLoading, setDashboardLoading] = useState(true);
-const [dashboardError, setDashboardError] = useState(null);
-
-const [complianceLoading, setComplianceLoading] = useState(true);
-const [complianceError, setComplianceError] = useState(null);
-
 const DashboardContext = createContext(null);
+
 
 export function DashboardProvider({ children }) {
 
+    // ---------------------------------------
+    // Dashboard state
+    // ---------------------------------------
+
     const [dashboard, setDashboard] = useState(null);
 
-    const [complianceItems, setComplianceItems] = useState([]);
+    const [dashboardLoading, setDashboardLoading] =
+        useState(true);
 
-    const [loading, setLoading] = useState(true);
+    const [dashboardError, setDashboardError] =
+        useState(null);
 
-    const [error, setError] = useState(null);
 
-    
+    // ---------------------------------------
+    // Compliance state
+    // ---------------------------------------
+
+    const [complianceItems, setComplianceItems] =
+        useState([]);
+
+    const [complianceLoading, setComplianceLoading] =
+        useState(true);
+
+    const [complianceError, setComplianceError] =
+        useState(null);
+
+
+    // ---------------------------------------
+    // Fetch dashboard + compliance
+    // ---------------------------------------
+
     const fetchDashboard = async () => {
+
+        // ================================
+        // Dashboard API
+        // ================================
 
         setDashboardLoading(true);
         setDashboardError(null);
@@ -66,6 +87,10 @@ export function DashboardProvider({ children }) {
         }
 
 
+        // ================================
+        // Compliance API
+        // ================================
+
         setComplianceLoading(true);
         setComplianceError(null);
 
@@ -81,6 +106,7 @@ export function DashboardProvider({ children }) {
 
             const complianceData =
                 complianceResponse.data;
+
 
             if (Array.isArray(complianceData)) {
 
@@ -114,12 +140,20 @@ export function DashboardProvider({ children }) {
     };
 
 
+    // ---------------------------------------
+    // Refresh
+    // ---------------------------------------
 
     const refresh = async () => {
 
         await fetchDashboard();
 
     };
+
+
+    // ---------------------------------------
+    // Initial load
+    // ---------------------------------------
 
     useEffect(() => {
 
@@ -128,9 +162,13 @@ export function DashboardProvider({ children }) {
     }, []);
 
 
+    // ---------------------------------------
+    // Context value
+    // ---------------------------------------
 
     const value = {
 
+        // Dashboard
         dashboard,
 
         summary:
@@ -151,39 +189,63 @@ export function DashboardProvider({ children }) {
         criticalCount:
             dashboard?.critical_count ?? 0,
 
+
+        // Compliance
         complianceItems,
 
-        // Dashboard API state
+
+        // Specific loading states
         dashboardLoading,
+
+        complianceLoading,
+
+
+        // Specific errors
         dashboardError,
 
-        // Compliance API state
-        complianceLoading,
         complianceError,
 
-        // Keep these for existing components
+
+        // Backwards compatibility
+        //
+        // Existing components still using
+        // `loading` and `error` won't break.
+
         loading:
-            dashboardLoading || complianceLoading,
+            dashboardLoading ||
+            complianceLoading,
 
         error:
-            dashboardError || complianceError,
+            dashboardError ||
+            complianceError,
 
+
+        // Actions
         refresh,
 
-    };   
+    };
 
 
     return (
-        <DashboardContext.Provider value={value}>
+
+        <DashboardContext.Provider
+            value={value}
+        >
+
             {children}
+
         </DashboardContext.Provider>
+
     );
+
 }
+
 
 export function useDashboard() {
 
     const context =
         useContext(DashboardContext);
+
 
     if (!context) {
 
@@ -193,5 +255,10 @@ export function useDashboard() {
 
     }
 
+
     return context;
+
 }
+
+
+export default DashboardContext;
