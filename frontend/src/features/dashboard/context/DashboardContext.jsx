@@ -8,15 +8,13 @@ import {
 import dashboardService from "../services/dashboardService";
 import complianceService from "../services/complianceService";
 
-
 const DashboardContext = createContext(null);
-
 
 export function DashboardProvider({ children }) {
 
-    // ---------------------------------------
+    // --------------------------------------------------
     // Dashboard state
-    // ---------------------------------------
+    // --------------------------------------------------
 
     const [dashboard, setDashboard] = useState(null);
 
@@ -27,9 +25,9 @@ export function DashboardProvider({ children }) {
         useState(null);
 
 
-    // ---------------------------------------
+    // --------------------------------------------------
     // Compliance state
-    // ---------------------------------------
+    // --------------------------------------------------
 
     const [complianceItems, setComplianceItems] =
         useState([]);
@@ -41,15 +39,11 @@ export function DashboardProvider({ children }) {
         useState(null);
 
 
-    // ---------------------------------------
-    // Fetch dashboard + compliance
-    // ---------------------------------------
+    // --------------------------------------------------
+    // Fetch dashboard
+    // --------------------------------------------------
 
     const fetchDashboard = async () => {
-
-        // ================================
-        // Dashboard API
-        // ================================
 
         setDashboardLoading(true);
         setDashboardError(null);
@@ -65,7 +59,7 @@ export function DashboardProvider({ children }) {
             );
 
             const dashboardData =
-                response.data?.data;
+                response.data;
 
             setDashboard(
                 dashboardData || null
@@ -85,28 +79,30 @@ export function DashboardProvider({ children }) {
             setDashboardLoading(false);
 
         }
+    };
 
 
-        // ================================
-        // Compliance API
-        // ================================
+    // --------------------------------------------------
+    // Fetch compliance items
+    // --------------------------------------------------
+
+    const fetchComplianceItems = async () => {
 
         setComplianceLoading(true);
         setComplianceError(null);
 
         try {
 
-            const complianceResponse =
+            const response =
                 await complianceService.getItems();
 
             console.log(
                 "Compliance API response:",
-                complianceResponse
+                response
             );
 
             const complianceData =
-                complianceResponse.data;
-
+                response.data;
 
             if (Array.isArray(complianceData)) {
 
@@ -136,35 +132,48 @@ export function DashboardProvider({ children }) {
             setComplianceLoading(false);
 
         }
+    };
+
+
+    // --------------------------------------------------
+    // Fetch everything
+    // --------------------------------------------------
+
+    const fetchDashboardData = async () => {
+
+        await Promise.all([
+            fetchDashboard(),
+            fetchComplianceItems(),
+        ]);
 
     };
 
 
-    // ---------------------------------------
+    // --------------------------------------------------
     // Refresh
-    // ---------------------------------------
+    // --------------------------------------------------
 
     const refresh = async () => {
 
-        await fetchDashboard();
+        await fetchDashboardData();
 
     };
 
 
-    // ---------------------------------------
+    // --------------------------------------------------
     // Initial load
-    // ---------------------------------------
+    // --------------------------------------------------
 
     useEffect(() => {
 
-        fetchDashboard();
+        fetchDashboardData();
 
     }, []);
 
 
-    // ---------------------------------------
+    // --------------------------------------------------
     // Context value
-    // ---------------------------------------
+    // --------------------------------------------------
 
     const value = {
 
@@ -194,23 +203,19 @@ export function DashboardProvider({ children }) {
         complianceItems,
 
 
-        // Specific loading states
+        // Separate loading states
         dashboardLoading,
 
         complianceLoading,
 
 
-        // Specific errors
+        // Separate errors
         dashboardError,
 
         complianceError,
 
 
-        // Backwards compatibility
-        //
-        // Existing components still using
-        // `loading` and `error` won't break.
-
+        // Backward compatibility
         loading:
             dashboardLoading ||
             complianceLoading,
@@ -227,17 +232,10 @@ export function DashboardProvider({ children }) {
 
 
     return (
-
-        <DashboardContext.Provider
-            value={value}
-        >
-
+        <DashboardContext.Provider value={value}>
             {children}
-
         </DashboardContext.Provider>
-
     );
-
 }
 
 
@@ -245,7 +243,6 @@ export function useDashboard() {
 
     const context =
         useContext(DashboardContext);
-
 
     if (!context) {
 
@@ -255,10 +252,5 @@ export function useDashboard() {
 
     }
 
-
     return context;
-
 }
-
-
-export default DashboardContext;
