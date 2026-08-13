@@ -8,6 +8,13 @@ import {
 import dashboardService from "../services/dashboardService";
 import complianceService from "../services/complianceService";
 
+
+const [dashboardLoading, setDashboardLoading] = useState(true);
+const [dashboardError, setDashboardError] = useState(null);
+
+const [complianceLoading, setComplianceLoading] = useState(true);
+const [complianceError, setComplianceError] = useState(null);
+
 const DashboardContext = createContext(null);
 
 export function DashboardProvider({ children }) {
@@ -20,12 +27,13 @@ export function DashboardProvider({ children }) {
 
     const [error, setError] = useState(null);
 
+    
     const fetchDashboard = async () => {
 
-        try {
+        setDashboardLoading(true);
+        setDashboardError(null);
 
-            setLoading(true);
-            setError(null);
+        try {
 
             const response =
                 await dashboardService.getDashboard();
@@ -36,21 +44,32 @@ export function DashboardProvider({ children }) {
             );
 
             const dashboardData =
-                response?.data;
+                response.data?.data;
 
             setDashboard(
                 dashboardData || null
             );
 
-            console.log(
-                "STATUS DISTRIBUTION:",
-                dashboardData?.charts?.status_distribution
+        } catch (err) {
+
+            console.error(
+                "Dashboard API failed:",
+                err
             );
 
-            console.log(
-                "CHARTS FROM CONTEXT:",
-                dashboardData?.charts
-            );
+            setDashboardError(err);
+
+        } finally {
+
+            setDashboardLoading(false);
+
+        }
+
+
+        setComplianceLoading(true);
+        setComplianceError(null);
+
+        try {
 
             const complianceResponse =
                 await complianceService.getItems();
@@ -61,11 +80,7 @@ export function DashboardProvider({ children }) {
             );
 
             const complianceData =
-                complianceResponse;
-
-            // Support both:
-            // [...]
-            // and { results: [...] }
+                complianceResponse.data;
 
             if (Array.isArray(complianceData)) {
 
@@ -84,18 +99,21 @@ export function DashboardProvider({ children }) {
         } catch (err) {
 
             console.error(
-                "Dashboard loading failed:",
+                "Compliance API failed:",
                 err
             );
 
-            setError(err);
+            setComplianceError(err);
 
         } finally {
 
-            setLoading(false);
+            setComplianceLoading(false);
 
         }
+
     };
+
+
 
     const refresh = async () => {
 
@@ -108,6 +126,8 @@ export function DashboardProvider({ children }) {
         fetchDashboard();
 
     }, []);
+
+
 
     const value = {
 
@@ -133,13 +153,25 @@ export function DashboardProvider({ children }) {
 
         complianceItems,
 
-        loading,
+        // Dashboard API state
+        dashboardLoading,
+        dashboardError,
 
-        error,
+        // Compliance API state
+        complianceLoading,
+        complianceError,
+
+        // Keep these for existing components
+        loading:
+            dashboardLoading || complianceLoading,
+
+        error:
+            dashboardError || complianceError,
 
         refresh,
 
-    };
+    };   
+
 
     return (
         <DashboardContext.Provider value={value}>
