@@ -12,9 +12,9 @@ class ReminderSerializer(serializers.Serializer):
 
     )
 
-    expiry_date=serializers.DateFieldI()
+    expiry_date=serializers.DateField()
     days_remaining=serializers.IntegerField()
 
     priority=serializers.CharField()
 
-    
+
