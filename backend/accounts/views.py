@@ -92,7 +92,7 @@ class DepartmentViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 
-class NotificationPreferenceAPIview(APIView):
+class NotificationPreferenceAPIView(APIView):
     permission_classes=[IsAuthenticated]
 
     def get(self,request):
