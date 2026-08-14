@@ -16,6 +16,24 @@ const settingsService ={
         );
         return response.data;
     },
+
+    getNotificationPreferences: async () => {
+
+        return api.get(
+            "/accounts/notification-preferences/"
+        );
+
+    },
+
+    updateNotificationPreferences: async (data) => {
+
+        return api.patch(
+            "/accounts/notification-preferences/",
+            data
+        );
+
+    },
+
 };
 
 export default settingsService;

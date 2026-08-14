@@ -3,7 +3,8 @@ import MainLayout from "../../../components/layout/MainLayout";
 import SettingsHeader from "../components/SettingsHeader";
 import OrganizationSettings from "../components/OrganizationSettings";
 import SettingsSection from "../components/SettingsSection";
-
+import { useState } from "react";
+import { useSettings } from "../context/settingsContext";
 import {
     SettingsProvider,
     useSettings,
@@ -17,6 +18,9 @@ function SettingsContent() {
         error,
         success,
         saveCompany,
+        notificationPreferences,
+        updateNotificationPreferences,
+        notificationLoading,
     } = useSettings();
 
 
@@ -66,12 +70,30 @@ function SettingsContent() {
 
                                 </div>
 
+
                                 <input
                                     type="checkbox"
-                                    defaultChecked
+                                    checked={notificationPreferences.email_enabled}
+                                    onChange={(e) =>
+                                        updateNotificationPreferences({
+                                            email_enabled: e.target.checked,
+                                        })
+                                    }
+                                    disabled={notificationLoading}
                                     className="h-4 w-4"
                                 />
 
+                                <input
+                                    type="checkbox"
+                                    checked={notificationPreferences.whatsapp_enabled}
+                                    onChange={(e) =>
+                                        updateNotificationPreferences({
+                                            whatsapp_enabled: e.target.checked,
+                                        })
+                                    }
+                                    disabled={notificationLoading}
+                                    className="h-4 w-4"
+                                />
                             </label>
 
 
