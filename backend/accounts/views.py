@@ -4,9 +4,11 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .models import Company, Department
-from .serializers import CompanySerializer, DepartmentSearializers
+from .models import Company, Department,NotificationPreference
+from .serializers import CompanySerializer, DepartmentSearializers,NotificationPreferenceSerializer
 from rest_framework.decorators import action
+from rest_framework.views import APIView
+from rest_framework.status import HTTP_400_BAD_REQUEST
 
 class CompanyViewSet(viewsets.ModelViewSet):
 
@@ -87,3 +89,51 @@ class DepartmentViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = DepartmentSearializers
 
     queryset = Department.objects.all().order_by("name")
+
+
+
+class NotificationPreferenceAPIview(APIView):
+    permission_classes=[IsAuthenticated]
+
+    def get(self,request):
+        preferences,created=(
+            NotificationPreference.objects.get_or_create(user=request.user)
+        )
+        
+        serializer=NotificationPreferenceSerializer(preferences)
+        return Response({
+            "success":True,
+            "message":"Notification Preferences loaded successfully.",
+            "data":serializer.data
+        })
+
+    def patch(self,request):
+        preferences,created=(
+            NotificationPreference.objects.get_or_create(
+                user=request.user
+            )
+        )
+
+        serializer= NotificationPreferenceSerializer(
+            preferences,
+            data=request.data,
+            partial=True
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response({
+                "success":True,
+                "message":"Notification preferences updated successfully.",
+                "data":serializer.data,
+            })
+
+        return Response(
+            {
+                "success":False,
+                "message":"Unable to update notification preferences",
+                "errors":serializer.data,
+            },
+            status=HTTP_400_BAD_REQUEST,
+        )
