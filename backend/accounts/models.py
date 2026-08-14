@@ -1,5 +1,6 @@
 from django.db import models
 from cores.models import BaseModel
+from django.conf import settings
 
 class Company(BaseModel):
     name=models.CharField(max_length=255)
@@ -19,4 +20,14 @@ class Department(BaseModel):
     def __str__(self):
         return f"{self.name} -{self.company.name}"
     
+
+class NotificationPreference(BaseModel):
+    user=models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                              related_name="notification_preferences",)
+
+    email_enabled=models.BooleanField(default=True)
+    whatsapp_enabled=models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"Notification preferences - {self.user.email}"
     

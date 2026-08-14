@@ -2,86 +2,16 @@ import { useEffect, useState } from "react";
 
 import SettingsSection from "./SettingsSection";
 
-import settingsService from "../services/settingsService";
+import { useSettings } from "../context/settingsContext";
 
 
 function OrganizationSettings() {
 
-    const [form, setForm] = useState({
-        name: "",
-        email: "",
-        phone: "",
-    });
-
-    const [loading, setLoading] = useState(true);
-
-    const [error, setError] = useState(null);
-
-
-    useEffect(() => {
-
-        const loadCompany = async () => {
-
-            try {
-
-                setLoading(true);
-                setError(null);
-
-                const response =
-                    await settingsService.getCompany();
-
-                console.log(
-                    "Company settings:",
-                    response
-                );
-
-                const company =
-                    response?.data;
-
-                if (company) {
-
-                    setForm({
-                        name: company.name || "",
-                        email: company.email || "",
-                        phone: company.phone || "",
-                    });
-
-                }
-
-            } catch (err) {
-
-                console.error(
-                    "Failed to load company settings:",
-                    err
-                );
-
-                setError(
-                    "Unable to load company information."
-                );
-
-            } finally {
-
-                setLoading(false);
-
-            }
-
-        };
-
-        loadCompany();
-
-    }, []);
-
-
-    const handleChange = (event) => {
-
-        const { name, value } = event.target;
-
-        setForm((previous) => ({
-            ...previous,
-            [name]: value,
-        }));
-
-    };
+    const {
+        company,
+        loading,
+        updateCompanyField,
+    } = useSettings();
 
 
     if (loading) {
@@ -119,37 +49,6 @@ function OrganizationSettings() {
     }
 
 
-    if (error) {
-
-        return (
-
-            <SettingsSection
-                title="Organization"
-                description="Manage your company information."
-            >
-
-                <div
-                    className="
-                        rounded-xl
-                        border
-                        border-red-200
-                        bg-red-50
-                        px-4
-                        py-3
-                        text-sm
-                        text-red-600
-                    "
-                >
-                    {error}
-                </div>
-
-            </SettingsSection>
-
-        );
-
-    }
-
-
     return (
 
         <SettingsSection
@@ -176,8 +75,13 @@ function OrganizationSettings() {
                     <input
                         type="text"
                         name="name"
-                        value={form.name}
-                        onChange={handleChange}
+                        value={company.name}
+                        onChange={(event) =>
+                            updateCompanyField(
+                                "name",
+                                event.target.value
+                            )
+                        }
                         placeholder="Company name"
                         className="
                             mt-2
@@ -215,8 +119,13 @@ function OrganizationSettings() {
                     <input
                         type="email"
                         name="email"
-                        value={form.email}
-                        onChange={handleChange}
+                        value={company.email}
+                        onChange={(event) =>
+                            updateCompanyField(
+                                "email",
+                                event.target.value
+                            )
+                        }
                         placeholder="company@example.com"
                         className="
                             mt-2
@@ -254,8 +163,13 @@ function OrganizationSettings() {
                     <input
                         type="text"
                         name="phone"
-                        value={form.phone}
-                        onChange={handleChange}
+                        value={company.phone}
+                        onChange={(event) =>
+                            updateCompanyField(
+                                "phone",
+                                event.target.value
+                            )
+                        }
                         placeholder="+254..."
                         className="
                             mt-2
@@ -282,5 +196,6 @@ function OrganizationSettings() {
     );
 
 }
+
 
 export default OrganizationSettings;

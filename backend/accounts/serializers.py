@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Company,Department
+from .models import (Company,Department,NotificationPreference)
 
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,4 +23,13 @@ class DepartmentSearializers(serializers.ModelSerializer):
     class Meta:
         model=Department
         fields='__all__'
+
+
+class NotificationPreferenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=NotificationPreference
+        fields=[
+            "email_enabled",
+            "whatsapp_enabled",
+        ]
         
