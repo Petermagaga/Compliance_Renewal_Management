@@ -11,7 +11,7 @@ import AddCompliance from "../../pages/AddComplianceItem";
 import NotificationPage from "../../pages/Notifications";
 
 
-import Settings from "../../pages/Settings";
+import Settings from "../../features/settings/pages/Settings";
 import ComplianceDetails from "../../features/compliance/pages/ComplianceDetails";
 import EditCompliance from "../../features/compliance/pages/EditCompliance";
 import RemindersPage from "../../pages/RemindersPage";
