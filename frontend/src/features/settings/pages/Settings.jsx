@@ -1,18 +1,15 @@
 import MainLayout from "../../../components/layout/MainLayout";
-
 import SettingsHeader from "../components/SettingsHeader";
 import OrganizationSettings from "../components/OrganizationSettings";
 import SettingsSection from "../components/SettingsSection";
-import { useState } from "react";
-import { useSettings } from "../context/settingsContext";
+import { useEffect, useState } from "react";
+
 import {
     SettingsProvider,
     useSettings,
 } from "../context/settingsContext";
 
-
 function SettingsContent() {
-
     const {
         saving,
         error,
@@ -23,11 +20,45 @@ function SettingsContent() {
         notificationLoading,
     } = useSettings();
 
+    const [emailEnabled, setEmailEnabled] =
+        useState(true);
+
+    const [
+        whatsappEnabled,
+        setWhatsappEnabled,
+    ] = useState(true);
+
+    useEffect(() => {
+        setEmailEnabled(
+            notificationPreferences.email_enabled
+        );
+
+        setWhatsappEnabled(
+            notificationPreferences.whatsapp_enabled
+        );
+    }, [notificationPreferences]);
+
+    const handleSave = async () => {
+        try {
+            await updateNotificationPreferences({
+                email_enabled:
+                    emailEnabled,
+
+                whatsapp_enabled:
+                    whatsappEnabled,
+            });
+
+            await saveCompany();
+        } catch (err) {
+            console.error(
+                "Failed to save settings:",
+                err
+            );
+        }
+    };
 
     return (
-
         <main className="min-h-screen bg-slate-50">
-
             <div
                 className="
                     mx-auto
@@ -36,16 +67,12 @@ function SettingsContent() {
                     py-8
                 "
             >
-
                 <SettingsHeader />
 
-
                 <div className="space-y-6">
-
                     {/* Organization */}
 
                     <OrganizationSettings />
-
 
                     {/* Notification Preferences */}
 
@@ -53,76 +80,74 @@ function SettingsContent() {
                         title="Notification Preferences"
                         description="Control how OpenComply communicates renewal events."
                     >
-
                         <div className="space-y-5">
-
                             <label className="flex items-center justify-between">
-
                                 <div>
-
                                     <p className="text-sm font-medium text-slate-900">
                                         Email notifications
                                     </p>
 
                                     <p className="text-xs text-slate-500">
-                                        Receive compliance renewal notifications by email.
+                                        Receive compliance
+                                        renewal
+                                        notifications by
+                                        email.
                                     </p>
-
                                 </div>
 
-
                                 <input
                                     type="checkbox"
-                                    checked={notificationPreferences.email_enabled}
-                                    onChange={(e) =>
-                                        updateNotificationPreferences({
-                                            email_enabled: e.target.checked,
-                                        })
+                                    checked={
+                                        emailEnabled
                                     }
-                                    disabled={notificationLoading}
-                                    className="h-4 w-4"
-                                />
-
-                                <input
-                                    type="checkbox"
-                                    checked={notificationPreferences.whatsapp_enabled}
                                     onChange={(e) =>
-                                        updateNotificationPreferences({
-                                            whatsapp_enabled: e.target.checked,
-                                        })
+                                        setEmailEnabled(
+                                            e.target
+                                                .checked
+                                        )
                                     }
-                                    disabled={notificationLoading}
+                                    disabled={
+                                        notificationLoading
+                                    }
                                     className="h-4 w-4"
                                 />
                             </label>
 
-
                             <label className="flex items-center justify-between">
-
                                 <div>
-
                                     <p className="text-sm font-medium text-slate-900">
-                                        WhatsApp notifications
+                                        WhatsApp
+                                        notifications
                                     </p>
 
                                     <p className="text-xs text-slate-500">
-                                        Receive urgent renewal notifications through WhatsApp.
+                                        Receive urgent
+                                        renewal
+                                        notifications
+                                        through
+                                        WhatsApp.
                                     </p>
-
                                 </div>
 
                                 <input
                                     type="checkbox"
-                                    defaultChecked
+                                    checked={
+                                        whatsappEnabled
+                                    }
+                                    onChange={(e) =>
+                                        setWhatsappEnabled(
+                                            e.target
+                                                .checked
+                                        )
+                                    }
+                                    disabled={
+                                        notificationLoading
+                                    }
                                     className="h-4 w-4"
                                 />
-
                             </label>
-
                         </div>
-
                     </SettingsSection>
-
 
                     {/* Account */}
 
@@ -130,9 +155,7 @@ function SettingsContent() {
                         title="Account"
                         description="Manage your OpenComply account."
                     >
-
                         <div className="space-y-4">
-
                             <button
                                 type="button"
                                 className="
@@ -149,16 +172,12 @@ function SettingsContent() {
                             >
                                 Change Password
                             </button>
-
                         </div>
-
                     </SettingsSection>
-
 
                     {/* Messages */}
 
                     {error && (
-
                         <div
                             className="
                                 rounded-xl
@@ -173,12 +192,9 @@ function SettingsContent() {
                         >
                             {error}
                         </div>
-
                     )}
 
-
                     {success && (
-
                         <div
                             className="
                                 rounded-xl
@@ -193,18 +209,20 @@ function SettingsContent() {
                         >
                             {success}
                         </div>
-
                     )}
-
 
                     {/* Save */}
 
                     <div className="flex justify-end">
-
                         <button
                             type="button"
-                            onClick={saveCompany}
-                            disabled={saving}
+                            onClick={
+                                handleSave
+                            }
+                            disabled={
+                                saving ||
+                                notificationLoading
+                            }
                             className="
                                 rounded-xl
                                 bg-green-600
@@ -220,44 +238,26 @@ function SettingsContent() {
                                 disabled:opacity-60
                             "
                         >
-
-                            {saving
+                            {saving ||
+                            notificationLoading
                                 ? "Saving..."
-                                : "Save Changes"
-                            }
-
+                                : "Save Changes"}
                         </button>
-
                     </div>
-
                 </div>
-
             </div>
-
         </main>
-
     );
-
 }
-
 
 function Settings() {
-
     return (
-
         <MainLayout>
-
             <SettingsProvider>
-
                 <SettingsContent />
-
             </SettingsProvider>
-
         </MainLayout>
-
     );
-
 }
-
 
 export default Settings;
