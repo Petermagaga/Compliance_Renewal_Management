@@ -1,20 +1,44 @@
+import { useState } from "react";
+
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 
 function MainLayout({ children }) {
-  return (
-    <div className="flex">
-      <Sidebar />
 
-      <div className="ml-64 flex-1 min-h-screen">
-        <Topbar />
+    const [sidebarOpen, setSidebarOpen] =
+        useState(false);
 
-        <main className="p-8">
-          {children}
-        </main>
-      </div>
-    </div>
-  );
+    return (
+        <div className="min-h-screen bg-slate-50">
+
+            <Sidebar
+                open={sidebarOpen}
+                onClose={() =>
+                    setSidebarOpen(false)
+                }
+            />
+
+            <div
+                className="
+                    min-h-screen
+                    lg:ml-64
+                "
+            >
+
+                <Topbar
+                    onMenuClick={() =>
+                        setSidebarOpen(true)
+                    }
+                />
+
+                <main className="p-4 sm:p-6 lg:p-8">
+                    {children}
+                </main>
+
+            </div>
+
+        </div>
+    );
 }
 
 export default MainLayout;
