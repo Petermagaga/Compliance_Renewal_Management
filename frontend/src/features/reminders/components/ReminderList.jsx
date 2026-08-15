@@ -4,9 +4,13 @@ import EmptyReminderState from "./EmptyReminderState";
 
 
 function ReminderList({
-    reminders,
+    reminders = [],
     loading,
 }) {
+
+    // ---------------------------------------
+    // Loading
+    // ---------------------------------------
 
     if (loading) {
 
@@ -17,7 +21,11 @@ function ReminderList({
     }
 
 
-    if (!reminders.length) {
+    // ---------------------------------------
+    // Empty
+    // ---------------------------------------
+
+    if (reminders.length === 0) {
 
         return (
             <EmptyReminderState />
@@ -25,6 +33,10 @@ function ReminderList({
 
     }
 
+
+    // ---------------------------------------
+    // Data
+    // ---------------------------------------
 
     return (
 
@@ -42,6 +54,7 @@ function ReminderList({
         </div>
 
     );
+
 }
 
 export default ReminderList;
