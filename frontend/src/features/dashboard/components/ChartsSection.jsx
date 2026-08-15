@@ -5,22 +5,43 @@ import ExpiryBarChart from "../../../components/charts/ExpiryBarChart";
 
 import ChartSkeleton from "./ChartSkeleton";
 import EmptyCharts from "./EmptyCharts";
+import DashboardErrorState from "./DashboardErrorState";
 
 function ChartsSection() {
 
     const {
         charts,
-        loading,
+        dashboardLoading,
+        dashboardError,
+        refresh,
     } = useDashboard();
 
 
+    // ---------------------------------------
     // Loading
-    if (loading && !charts) {
+    // ---------------------------------------
+    if (dashboardLoading && !charts) {
         return <ChartSkeleton />;
     }
 
 
+    // ---------------------------------------
+    // Error
+    // ---------------------------------------
+    if (dashboardError && !charts) {
+        return (
+            <DashboardErrorState
+                title="Unable to load analytics"
+                message="We couldn't retrieve the latest compliance analytics."
+                onRetry={refresh}
+            />
+        );
+    }
+
+
+    // ---------------------------------------
     // No chart object
+    // ---------------------------------------
     if (!charts) {
         return <EmptyCharts />;
     }
@@ -33,7 +54,9 @@ function ChartsSection() {
         charts.monthly_expiry_trend ?? [];
 
 
-    // Chart object exists but contains no usable data
+    // ---------------------------------------
+    // Chart object exists but no data
+    // ---------------------------------------
     const hasChartData =
         statusData.length > 0 ||
         expiryData.length > 0;
@@ -54,6 +77,8 @@ function ChartsSection() {
             "
         >
 
+            {/* Status chart */}
+
             <div
                 className="
                     rounded-2xl
@@ -66,10 +91,13 @@ function ChartsSection() {
             >
 
                 {statusData.length > 0 ? (
+
                     <StatusPieChart
                         data={statusData}
                     />
+
                 ) : (
+
                     <div
                         className="
                             flex
@@ -82,10 +110,13 @@ function ChartsSection() {
                     >
                         No status data available.
                     </div>
+
                 )}
 
             </div>
 
+
+            {/* Expiry chart */}
 
             <div
                 className="
@@ -99,10 +130,13 @@ function ChartsSection() {
             >
 
                 {expiryData.length > 0 ? (
+
                     <ExpiryBarChart
                         data={expiryData}
                     />
+
                 ) : (
+
                     <div
                         className="
                             flex
@@ -115,6 +149,7 @@ function ChartsSection() {
                     >
                         No expiry data available.
                     </div>
+
                 )}
 
             </div>
