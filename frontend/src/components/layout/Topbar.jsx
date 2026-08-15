@@ -7,7 +7,7 @@ import NotificationBell
 function Topbar({ onMenuClick }) {
 
     const { user } = useAuth();
-
+    console.log("TOPBAR USER:",user);
     const today = new Date();
 
     const formattedDate =
