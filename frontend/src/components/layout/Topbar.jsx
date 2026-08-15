@@ -2,7 +2,7 @@ import { FiMenu } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";
 
 import NotificationBell
-    from "../../features/notifications/components/NotificationToolbar";
+    from "../../features/notifications/components/NotificationBell";
 
 function Topbar({ onMenuClick }) {
 
