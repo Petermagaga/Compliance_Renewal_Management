@@ -9,6 +9,7 @@ import {
     useSettings,
 } from "../context/settingsContext";
 
+
 function SettingsContent() {
     const {
         saving,
@@ -20,35 +21,30 @@ function SettingsContent() {
         notificationLoading,
     } = useSettings();
 
-    const [emailEnabled, setEmailEnabled] =
-        useState(true);
-
-    const [
-        whatsappEnabled,
-        setWhatsappEnabled,
-    ] = useState(true);
+    const [emailEnabled, setEmailEnabled] = useState(true);
+    const [whatsappEnabled, setWhatsappEnabled] = useState(true);
 
     useEffect(() => {
+        if (!notificationPreferences) return;
+
         setEmailEnabled(
-            notificationPreferences.email_enabled
+            notificationPreferences.email_enabled ?? false
         );
 
         setWhatsappEnabled(
-            notificationPreferences.whatsapp_enabled
+            notificationPreferences.whatsapp_enabled ?? false
         );
     }, [notificationPreferences]);
 
     const handleSave = async () => {
         try {
             await updateNotificationPreferences({
-                email_enabled:
-                    emailEnabled,
-
-                whatsapp_enabled:
-                    whatsappEnabled,
+                email_enabled: emailEnabled,
+                whatsapp_enabled: whatsappEnabled,
             });
 
             await saveCompany();
+
         } catch (err) {
             console.error(
                 "Failed to save settings:",
@@ -57,8 +53,13 @@ function SettingsContent() {
         }
     };
 
+    const settingsLoading =
+        notificationPreferences === null ||
+        notificationPreferences === undefined;
+
     return (
         <main className="min-h-screen bg-slate-50">
+
             <div
                 className="
                     mx-auto
@@ -67,95 +68,137 @@ function SettingsContent() {
                     py-8
                 "
             >
+
                 <SettingsHeader />
 
-                <div className="space-y-6">
-                    {/* Organization */}
+                {/* Initial loading */}
 
-                    <OrganizationSettings />
+                {settingsLoading ? (
 
-                    {/* Notification Preferences */}
+                    <div className="mt-8 space-y-6">
 
-                    <SettingsSection
-                        title="Notification Preferences"
-                        description="Control how OpenComply communicates renewal events."
-                    >
-                        <div className="space-y-5">
-                            <label className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-sm font-medium text-slate-900">
-                                        Email notifications
-                                    </p>
+                        <div
+                            className="
+                                h-64
+                                animate-pulse
+                                rounded-2xl
+                                bg-white
+                            "
+                        />
 
-                                    <p className="text-xs text-slate-500">
-                                        Receive compliance
-                                        renewal
-                                        notifications by
-                                        email.
-                                    </p>
-                                </div>
+                        <div
+                            className="
+                                h-48
+                                animate-pulse
+                                rounded-2xl
+                                bg-white
+                            "
+                        />
 
-                                <input
-                                    type="checkbox"
-                                    checked={
-                                        emailEnabled
-                                    }
-                                    onChange={(e) =>
-                                        setEmailEnabled(
-                                            e.target
-                                                .checked
-                                        )
-                                    }
-                                    disabled={
-                                        notificationLoading
-                                    }
-                                    className="h-4 w-4"
-                                />
-                            </label>
+                        <div
+                            className="
+                                h-32
+                                animate-pulse
+                                rounded-2xl
+                                bg-white
+                            "
+                        />
 
-                            <label className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-sm font-medium text-slate-900">
-                                        WhatsApp
-                                        notifications
-                                    </p>
+                    </div>
 
-                                    <p className="text-xs text-slate-500">
-                                        Receive urgent
-                                        renewal
-                                        notifications
-                                        through
-                                        WhatsApp.
-                                    </p>
-                                </div>
+                ) : (
 
-                                <input
-                                    type="checkbox"
-                                    checked={
-                                        whatsappEnabled
-                                    }
-                                    onChange={(e) =>
-                                        setWhatsappEnabled(
-                                            e.target
-                                                .checked
-                                        )
-                                    }
-                                    disabled={
-                                        notificationLoading
-                                    }
-                                    className="h-4 w-4"
-                                />
-                            </label>
-                        </div>
-                    </SettingsSection>
+                    <div className="mt-8 space-y-6">
 
-                    {/* Account */}
+                        {/* Organization */}
 
-                    <SettingsSection
-                        title="Account"
-                        description="Manage your OpenComply account."
-                    >
-                        <div className="space-y-4">
+                        <OrganizationSettings />
+
+
+                        {/* Notification Preferences */}
+
+                        <SettingsSection
+                            title="Notification Preferences"
+                            description="Control how OpenComply communicates renewal events."
+                        >
+                            <div className="space-y-5">
+
+                                <label className="flex items-center justify-between">
+
+                                    <div>
+
+                                        <p className="text-sm font-medium text-slate-900">
+                                            Email notifications
+                                        </p>
+
+                                        <p className="text-xs text-slate-500">
+                                            Receive compliance renewal
+                                            notifications by email.
+                                        </p>
+
+                                    </div>
+
+                                    <input
+                                        type="checkbox"
+                                        checked={emailEnabled}
+                                        onChange={(e) =>
+                                            setEmailEnabled(
+                                                e.target.checked
+                                            )
+                                        }
+                                        disabled={
+                                            notificationLoading ||
+                                            saving
+                                        }
+                                        className="h-4 w-4"
+                                    />
+
+                                </label>
+
+
+                                <label className="flex items-center justify-between">
+
+                                    <div>
+
+                                        <p className="text-sm font-medium text-slate-900">
+                                            WhatsApp notifications
+                                        </p>
+
+                                        <p className="text-xs text-slate-500">
+                                            Receive urgent renewal
+                                            notifications through WhatsApp.
+                                        </p>
+
+                                    </div>
+
+                                    <input
+                                        type="checkbox"
+                                        checked={whatsappEnabled}
+                                        onChange={(e) =>
+                                            setWhatsappEnabled(
+                                                e.target.checked
+                                            )
+                                        }
+                                        disabled={
+                                            notificationLoading ||
+                                            saving
+                                        }
+                                        className="h-4 w-4"
+                                    />
+
+                                </label>
+
+                            </div>
+                        </SettingsSection>
+
+
+                        {/* Account */}
+
+                        <SettingsSection
+                            title="Account"
+                            description="Manage your OpenComply account."
+                        >
+
                             <button
                                 type="button"
                                 className="
@@ -172,80 +215,96 @@ function SettingsContent() {
                             >
                                 Change Password
                             </button>
-                        </div>
-                    </SettingsSection>
 
-                    {/* Messages */}
+                        </SettingsSection>
 
-                    {error && (
-                        <div
-                            className="
-                                rounded-xl
-                                border
-                                border-red-200
-                                bg-red-50
-                                px-4
-                                py-3
-                                text-sm
-                                text-red-600
-                            "
-                        >
-                            {error}
-                        </div>
-                    )}
 
-                    {success && (
-                        <div
-                            className="
-                                rounded-xl
-                                border
-                                border-green-200
-                                bg-green-50
-                                px-4
-                                py-3
-                                text-sm
-                                text-green-700
-                            "
-                        >
-                            {success}
-                        </div>
-                    )}
+                        {/* Error */}
 
-                    {/* Save */}
+                        {error && (
 
-                    <div className="flex justify-end">
-                        <button
-                            type="button"
-                            onClick={
-                                handleSave
-                            }
-                            disabled={
-                                saving ||
+                            <div
+                                className="
+                                    rounded-2xl
+                                    border
+                                    border-red-100
+                                    bg-red-50
+                                    px-5
+                                    py-4
+                                    text-sm
+                                    text-red-700
+                                "
+                            >
+                                {error}
+                            </div>
+
+                        )}
+
+
+                        {/* Success */}
+
+                        {success && (
+
+                            <div
+                                className="
+                                    rounded-2xl
+                                    border
+                                    border-green-100
+                                    bg-green-50
+                                    px-5
+                                    py-4
+                                    text-sm
+                                    text-green-700
+                                "
+                            >
+                                {success}
+                            </div>
+
+                        )}
+
+
+                        {/* Save */}
+
+                        <div className="flex justify-end">
+
+                            <button
+                                type="button"
+                                onClick={handleSave}
+                                disabled={
+                                    saving ||
+                                    notificationLoading
+                                }
+                                className="
+                                    rounded-xl
+                                    bg-green-600
+                                    px-6
+                                    py-3
+                                    text-sm
+                                    font-semibold
+                                    text-white
+                                    shadow-sm
+                                    transition
+                                    hover:bg-green-700
+                                    disabled:cursor-not-allowed
+                                    disabled:opacity-60
+                                "
+                            >
+
+                                {saving ||
                                 notificationLoading
-                            }
-                            className="
-                                rounded-xl
-                                bg-green-600
-                                px-6
-                                py-3
-                                text-sm
-                                font-semibold
-                                text-white
-                                shadow-sm
-                                transition
-                                hover:bg-green-700
-                                disabled:cursor-not-allowed
-                                disabled:opacity-60
-                            "
-                        >
-                            {saving ||
-                            notificationLoading
-                                ? "Saving..."
-                                : "Save Changes"}
-                        </button>
+                                    ? "Saving..."
+                                    : "Save Changes"}
+
+                            </button>
+
+                        </div>
+
                     </div>
-                </div>
+
+                )}
+
             </div>
+
         </main>
     );
 }
