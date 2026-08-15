@@ -24,7 +24,7 @@ function ComplianceItems() {
         refresh,
         page,
         totalPages,
-        setPage
+        setPage,
     } = useCompliance();
 
     const [selectedItem, setSelectedItem] = useState(null);
@@ -43,7 +43,16 @@ function ComplianceItems() {
 
     const confirmDelete = async () => {
 
-        if (!selectedItem) return;
+        if (!selectedItem) {
+    return (
+        <DashboardSection
+            title="Compliance Overview"
+            subtitle="Items requiring attention"
+        >
+            <EmptyComplianceState />
+        </DashboardSection>
+    );
+}
 
         try {
 

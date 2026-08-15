@@ -6,16 +6,33 @@ import {
 } from "react-icons/fi";
 
 import StatCard from "../../../components/dashboard/StatCard";
-import { useDashboard } from "../hooks/useDashboard";
 import KPIEmptyState from "../../../components/dashboard/KPIEmptyState";
+import DashboardErrorState from "./DashboardErrorState";
+
+import { useDashboard } from "../hooks/useDashboard";
 
 function KPISection() {
-    const { summary, loading } = useDashboard();
+    const {
+        summary,
+        dashboardLoading,
+        dashboardError,
+        refresh,
+    } = useDashboard();
 
-    if (loading && !summary) {
+    // ---------------------------------------
+    // 1. Loading
+    // ---------------------------------------
+    if (dashboardLoading && !summary) {
         return (
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-
+            <div
+                className="
+                    grid
+                    grid-cols-1
+                    gap-4
+                    md:grid-cols-2
+                    xl:grid-cols-4
+                "
+            >
                 {[1, 2, 3, 4].map((item) => (
                     <div
                         key={item}
@@ -23,19 +40,40 @@ function KPISection() {
                             h-32
                             animate-pulse
                             rounded-2xl
+                            border
+                            border-slate-200
                             bg-white
+                            shadow-sm
                         "
                     />
                 ))}
-
             </div>
         );
     }
 
-    if (!summary) {
-        return <KPIEmptyState/>;
+    // ---------------------------------------
+    // 2. Error
+    // ---------------------------------------
+    if (dashboardError && !summary) {
+        return (
+            <DashboardErrorState
+                title="Unable to load compliance summary"
+                message="We couldn't retrieve the latest compliance metrics."
+                onRetry={refresh}
+            />
+        );
     }
 
+    // ---------------------------------------
+    // 3. Empty
+    // ---------------------------------------
+    if (!summary) {
+        return <KPIEmptyState />;
+    }
+
+    // ---------------------------------------
+    // 4. Success
+    // ---------------------------------------
     return (
         <div
             className="
@@ -46,7 +84,6 @@ function KPISection() {
                 xl:grid-cols-4
             "
         >
-
             <StatCard
                 title="Total Compliance Items"
                 value={summary.total_items ?? 0}
@@ -98,7 +135,6 @@ function KPISection() {
                 }
                 color="bg-emerald-500"
             />
-
         </div>
     );
 }
