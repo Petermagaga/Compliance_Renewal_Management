@@ -12,6 +12,9 @@ import ReminderList
 import useReminders
     from "../features/reminders/hooks/useReminders";
 
+import DashboardErrorState
+    from "../features/dashboard/components/DashboardErrorState";
+
 
 function RemindersPage() {
 
@@ -43,7 +46,9 @@ function RemindersPage() {
                     "
                 >
 
+                    {/* -------------------------------- */}
                     {/* Header */}
+                    {/* -------------------------------- */}
 
                     <div
                         className="
@@ -107,6 +112,8 @@ function RemindersPage() {
                         </div>
 
 
+                        {/* Refresh */}
+
                         <button
                             type="button"
                             onClick={refresh}
@@ -150,38 +157,30 @@ function RemindersPage() {
                     </div>
 
 
-                    {/* Error */}
-
-                    {error && (
-
-                        <div
-                            className="
-                                mt-6
-                                rounded-2xl
-                                border
-                                border-red-200
-                                bg-red-50
-                                px-5
-                                py-4
-                                text-sm
-                                text-red-700
-                            "
-                        >
-                            Unable to load reminders.
-                            Please try refreshing.
-                        </div>
-
-                    )}
-
-
+                    {/* -------------------------------- */}
                     {/* Content */}
+                    {/* -------------------------------- */}
 
                     <section className="mt-8">
 
-                        <ReminderList
-                            reminders={reminders}
-                            loading={loading}
-                        />
+                        {/* Error */}
+
+                        {error ? (
+
+                            <DashboardErrorState
+                                title="Unable to load reminders"
+                                message="We couldn't retrieve the latest renewal reminders."
+                                onRetry={refresh}
+                            />
+
+                        ) : (
+
+                            <ReminderList
+                                reminders={reminders}
+                                loading={loading}
+                            />
+
+                        )}
 
                     </section>
 
@@ -192,6 +191,7 @@ function RemindersPage() {
         </MainLayout>
 
     );
+
 }
 
 export default RemindersPage;

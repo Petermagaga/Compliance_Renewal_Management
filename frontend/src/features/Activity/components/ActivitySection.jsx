@@ -4,7 +4,7 @@ import useDashboard from "../../dashboard/hooks/useDashboard";
 import DashboardSection from "../../dashboard/components/DashboardSection";
 import EmptyActivityState from "./EmptyActivityState";
 import ActivityList from "./ActivityList";
-import DashboardErrorState from "../../dashboard/components/DashboardErrorState";
+
 function ActivitySection() {
 
     const {
@@ -14,7 +14,7 @@ function ActivitySection() {
         refresh,
     } = useDashboard();
 
-    if (dashboardLoading && !recentActivity.length) {
+    if (loading && !recentActivity.length) {
         return (
             <DashboardSection
                 title="Activity Feed"
