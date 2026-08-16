@@ -508,7 +508,7 @@ function Login() {
                                             text-slate-600
                                         "
                                     >
-                                        Remember me
+                                        Rememberme
                                     </span>
 
                                 </label>
