@@ -2,124 +2,189 @@ import { Link } from "react-router-dom";
 import {
     FiPlus,
     FiArrowRight,
+    FiShield,
 } from "react-icons/fi";
 
-
-
 function DashboardHeader() {
+
     return (
-        <div
+        <header
             className="
-                flex
-                flex-col
-                gap-5
-                lg:flex-row
-                lg:items-end
-                lg:justify-between
+                relative
+                overflow-hidden
+                rounded-3xl
+                border
+                border-slate-200
+                bg-white
+                px-6
+                py-7
+                shadow-sm
+                sm:px-8
+                lg:px-10
+                lg:py-9
             "
         >
 
-            <div>
+            {/* Subtle background accent */}
 
-                <p
+            <div
+                className="
+                    pointer-events-none
+                    absolute
+                    -right-24
+                    -top-24
+                    h-64
+                    w-64
+                    rounded-full
+                    bg-brand-green/5
+                    blur-3xl
+                "
+            />
+
+            <div
+                className="
+                    relative
+                    flex
+                    flex-col
+                    gap-7
+                    lg:flex-row
+                    lg:items-center
+                    lg:justify-between
+                "
+            >
+
+                {/* Heading */}
+
+                <div className="max-w-3xl">
+
+                    <div
+                        className="
+                            mb-3
+                            inline-flex
+                            items-center
+                            gap-2
+                            rounded-full
+                            bg-green-50
+                            px-3
+                            py-1.5
+                            text-xs
+                            font-semibold
+                            uppercase
+                            tracking-wider
+                            text-brand-green
+                        "
+                    >
+
+                        <FiShield size={14} />
+
+                        Compliance Overview
+
+                    </div>
+
+
+                    <h1
+                        className="
+                            text-3xl
+                            font-bold
+                            tracking-tight
+                            text-slate-900
+                            sm:text-4xl
+                        "
+                    >
+                        Compliance Dashboard
+                    </h1>
+
+
+                    <p
+                        className="
+                            mt-3
+                            max-w-2xl
+                            text-sm
+                            leading-6
+                            text-slate-500
+                            sm:text-base
+                        "
+                    >
+                        Monitor compliance health, upcoming renewals,
+                        critical risks and recent operational activity
+                        from one workspace.
+                    </p>
+
+                </div>
+
+
+                {/* Actions */}
+
+                <div
                     className="
-                        text-sm
-                        font-semibold
-                        uppercase
-                        tracking-wider
-                        text-brand-green
-                    "
-
-                >
-                    Overview
-                </p>
-
-                <h1
-                    className="
-                        mt-1
-                        text-3xl
-                        font-bold
-                        tracking-tight
-                        text-slate-900
-                        lg:text-4xl
+                        flex
+                        w-full
+                        flex-col
+                        gap-3
+                        sm:w-auto
+                        sm:flex-row
                     "
                 >
-                    
-                Compliance Dashboard
 
-                Monitor licenses, permits, certificates and insurance
-                from one workspace.
+                    <Link
+                        to="/compliance"
+                        className="
+                            inline-flex
+                            items-center
+                            justify-center
+                            gap-2
+                            rounded-xl
+                            border
+                            border-slate-200
+                            bg-white
+                            px-4
+                            py-2.5
+                            text-sm
+                            font-semibold
+                            text-slate-700
+                            transition
+                            hover:border-slate-300
+                            hover:bg-slate-50
+                        "
+                    >
+                        View Compliance
 
-                </h1>
+                        <FiArrowRight size={16} />
 
-                <p
-                    className="
-                        mt-2
-                        max-w-2xl
-                        text-sm
-                        leading-6
-                        text-slate-500
-                        lg:text-base
-                    "
-                >
-                    Monitor compliance health, upcoming renewals,
-                    critical risks and recent operational activity.
-                </p>
+                    </Link>
+
+
+                    <Link
+                        to="/add-item"
+                        className="
+                            inline-flex
+                            items-center
+                            justify-center
+                            gap-2
+                            rounded-xl
+                            bg-brand-green
+                            px-5
+                            py-2.5
+                            text-sm
+                            font-semibold
+                            text-white
+                            shadow-sm
+                            transition
+                            hover:brightness-95
+                            active:scale-[0.98]
+                        "
+                    >
+                        <FiPlus size={17} />
+
+                        Add Compliance
+
+                    </Link>
+
+                </div>
 
             </div>
 
-            <div className="flex flex-wrap gap-3">
-
-                <Link
-                    to="/compliance"
-                    className="
-                        inline-flex
-                        items-center
-                        gap-2
-                        rounded-xl
-                        border
-                        border-slate-200
-                        bg-white
-                        px-4
-                        py-2.5
-                        text-sm
-                        font-semibold
-                        text-slate-700
-                        shadow-sm
-                        transition
-                        hover:border-brand-green
-                        hover:text-brand-green
-                    "
-                >
-                    View Compliance
-                    <FiArrowRight size={16} />
-                </Link>
-
-                <Link
-                    to="/add-item"
-                    className="
-                        inline-flex
-                        items-center
-                        gap-2
-                        rounded-xl
-                        bg-brand-green
-                        px-4
-                        py-2.5
-                        text-sm
-                        font-semibold
-                        text-white
-                        shadow-sm
-                        transition
-                        hover:brightness-95
-                    "
-                >
-                    <FiPlus size={17} />
-                    Add Compliance
-                </Link>
-
-            </div>
-
-        </div>
+        </header>
     );
 }
 
