@@ -16,66 +16,153 @@ function Dashboard() {
     return (
         <MainLayout>
             <DashboardProvider>
-            <main className="min-h-screen bg-slate-50">
 
-            <div
-                className="
-                    mx-auto
-                    max-w-7xl
-                    px-6
-                    py-8
-                    space-y-8
-                "
-            >
+                <main className="min-h-screen bg-slate-50">
+
+                    <div
+                        className="
+                            mx-auto
+                            max-w-7xl
+                            px-4
+                            py-6
+                            sm:px-6
+                            sm:py-8
+                            lg:px-8
+                        "
+                    >
+
+                        {/* -------------------------------- */}
+                        {/* HEADER */}
+                        {/* -------------------------------- */}
+
+                        <DashboardHeader />
 
 
-                    {/* Header */}
+                        {/* -------------------------------- */}
+                        {/* KPI OVERVIEW */}
+                        {/* -------------------------------- */}
 
-                    <DashboardHeader />
+                        <section className="mt-8">
+                            <KPISection />
+                        </section>
 
-                    {/* KPI */}
 
-                    <section>
-                        <KPISection />
-                    </section>
+                        {/* -------------------------------- */}
+                        {/* ANALYTICS */}
+                        {/* -------------------------------- */}
 
-                    {/* Charts */}
+                        <section className="mt-10">
 
-                    <section>
-                        <ChartsSection />
-                    </section>
+                            <div className="mb-5">
 
-                    {/* Compliance + Health */}
+                                <h2
+                                    className="
+                                        text-lg
+                                        font-semibold
+                                        tracking-tight
+                                        text-slate-900
+                                    "
+                                >
+                                    Compliance overview
+                                </h2>
 
-                    <section className="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-12">
+                                <p
+                                    className="
+                                        mt-1
+                                        text-sm
+                                        text-slate-500
+                                    "
+                                >
+                                    Monitor your current compliance
+                                    position and upcoming expiry risk.
+                                </p>
 
-                        <div className="xl:col-span-8">
+                            </div>
+
+                            <ChartsSection />
+
+                        </section>
+
+
+                        {/* -------------------------------- */}
+                        {/* ATTENTION */}
+                        {/* -------------------------------- */}
+
+                        <section className="mt-10">
+
+                            <div className="mb-5">
+
+                                <h2
+                                    className="
+                                        text-lg
+                                        font-semibold
+                                        tracking-tight
+                                        text-slate-900
+                                    "
+                                >
+                                    Attention required
+                                </h2>
+
+                                <p
+                                    className="
+                                        mt-1
+                                        text-sm
+                                        text-slate-500
+                                    "
+                                >
+                                    Compliance items that need your
+                                    attention soon.
+                                </p>
+
+                            </div>
+
                             <ComplianceSection />
-                        </div>
 
-                        <div className="xl:col-span-4">
-                            <SystemHealthCard />
-                        </div>
+                        </section>
 
-                    </section>
 
-                    {/* Activity + Actions */}
+                        {/* -------------------------------- */}
+                        {/* ACTIVITY + HEALTH */}
+                        {/* -------------------------------- */}
 
-                    <section className="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-12">
+                        <section className="mt-10">
 
-                        <div className="xl:col-span-8">
-                            <ActivitySection />
-                        </div>
+                            <div
+                                className="
+                                    grid
+                                    grid-cols-1
+                                    gap-6
+                                    xl:grid-cols-12
+                                "
+                            >
 
-                        <div className="xl:col-span-4">
+                                <div className="xl:col-span-8">
+                                    <ActivitySection />
+                                </div>
+
+                                <div className="xl:col-span-4">
+                                    <SystemHealthCard />
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        {/* -------------------------------- */}
+                        {/* QUICK ACTIONS */}
+                        {/* -------------------------------- */}
+
+                        <section className="mt-10">
+
                             <QuickActionsSection />
-                        </div>
 
-                    </section>
+                        </section>
 
-                </div>
+                    </div>
 
-            </main>
+                </main>
+
             </DashboardProvider>
         </MainLayout>
     );
