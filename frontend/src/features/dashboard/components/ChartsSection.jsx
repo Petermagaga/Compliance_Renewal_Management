@@ -51,7 +51,7 @@ function ChartsSection() {
         charts.status_distribution ?? [];
 
     const expiryData =
-        charts.monthly_expiry_trend ?? [];
+        charts.expiry_ranges ?? [];
 
 
     // ---------------------------------------
