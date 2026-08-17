@@ -82,27 +82,27 @@ function SystemHealthCard() {
                 {/* Trend */}
                 <div
                     className="
-                        rounded-xl
-                        border
-                        border-gray-200
-                        bg-gray-50
-                        p-4
+                        flex
+                        items-center
+                        justify-between
+                        border-y
+                        border-slate-100
+                        py-4
                     "
                 >
-                    <p className="text-sm text-gray-500">
-                        Trend
-                    </p>
+                    <div>
+                        <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                            Trend
+                        </p>
 
-                    <p
-                        className="
-                            mt-1
-                            font-semibold
-                            capitalize
-                            text-gray-900
-                        "
-                    >
-                        {systemHealth.trend}
-                    </p>
+                        <p className="mt-1 text-sm font-semibold capitalize text-slate-900">
+                            {systemHealth.trend}
+                        </p>
+                    </div>
+
+                    <span className="text-sm text-slate-500">
+                        Stable
+                    </span>
                 </div>
 
                 {/* Breakdown */}

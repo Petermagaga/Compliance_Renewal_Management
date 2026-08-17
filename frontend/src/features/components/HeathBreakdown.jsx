@@ -1,53 +1,77 @@
 function HealthBreakdown({ breakdown }) {
-    return (
-        <div className="grid grid-cols-2 gap-4">
-            <Stat label="Active" value={breakdown.active} />
-            <Stat label="Medium" value={breakdown.medium} />
-            <Stat label="High" value={breakdown.high} />
-            <Stat label="Critical" value={breakdown.critical} />
-            <Stat label="Expired" value={breakdown.expired} />
-        </div>
-    );
-}
 
-function Stat({ label, value }) {
-    return (
-        <div
-            className="
-                rounded-xl
-                border
-                border-gray-200
-                bg-gray-50
-                p-4
-                transition
-                duration-300
-                hover:border-green-300
-                hover:bg-white
-                hover:shadow-md
-            "
-        >
-            <p
-                className="
-                    text-xs
-                    font-medium
-                    uppercase
-                    tracking-wide
-                    text-gray-500
-                "
-            >
-                {label}
-            </p>
+    const stats = [
+        {
+            label: "Active",
+            value: breakdown.active,
+        },
+        {
+            label: "Medium",
+            value: breakdown.medium,
+        },
+        {
+            label: "High",
+            value: breakdown.high,
+        },
+        {
+            label: "Critical",
+            value: breakdown.critical,
+        },
+        {
+            label: "Expired",
+            value: breakdown.expired,
+        },
+    ];
 
-            <p
-                className="
-                    mt-2
-                    text-3xl
-                    font-bold
-                    text-gray-900
-                "
-            >
-                {value}
-            </p>
+    return (
+        <div>
+
+            <div className="mb-4">
+
+                <h3 className="text-sm font-semibold text-slate-900">
+                    Risk Breakdown
+                </h3>
+
+                <p className="mt-1 text-xs text-slate-500">
+                    Current distribution of compliance risk.
+                </p>
+
+            </div>
+
+            <div className="divide-y divide-slate-100">
+
+                {stats.map((stat) => (
+
+                    <div
+                        key={stat.label}
+                        className="
+                            flex
+                            items-center
+                            justify-between
+                            py-3
+                        "
+                    >
+
+                        <span className="text-sm text-slate-600">
+                            {stat.label}
+                        </span>
+
+                        <span
+                            className="
+                                text-sm
+                                font-semibold
+                                text-slate-900
+                            "
+                        >
+                            {stat.value}
+                        </span>
+
+                    </div>
+
+                ))}
+
+            </div>
+
         </div>
     );
 }
