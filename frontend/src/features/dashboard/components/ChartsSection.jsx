@@ -8,7 +8,6 @@ import EmptyCharts from "./EmptyCharts";
 import DashboardErrorState from "./DashboardErrorState";
 
 function ChartsSection() {
-
     const {
         charts,
         dashboardLoading,
@@ -16,14 +15,12 @@ function ChartsSection() {
         refresh,
     } = useDashboard();
 
-
     // ---------------------------------------
     // Loading
     // ---------------------------------------
     if (dashboardLoading && !charts) {
         return <ChartSkeleton />;
     }
-
 
     // ---------------------------------------
     // Error
@@ -38,7 +35,6 @@ function ChartsSection() {
         );
     }
 
-
     // ---------------------------------------
     // No chart object
     // ---------------------------------------
@@ -46,13 +42,11 @@ function ChartsSection() {
         return <EmptyCharts />;
     }
 
-
     const statusData =
         charts.status_distribution ?? [];
 
     const expiryData =
         charts.expiry_ranges ?? [];
-
 
     // ---------------------------------------
     // Chart object exists but no data
@@ -61,11 +55,9 @@ function ChartsSection() {
         statusData.length > 0 ||
         expiryData.length > 0;
 
-
     if (!hasChartData) {
         return <EmptyCharts />;
     }
-
 
     return (
         <div
@@ -76,84 +68,61 @@ function ChartsSection() {
                 xl:grid-cols-2
             "
         >
+            {/* ---------------------------------
+                Compliance Status
+            --------------------------------- */}
 
-            {/* Status chart */}
+            {statusData.length > 0 ? (
+                <StatusPieChart
+                    data={statusData}
+                />
+            ) : (
+                <div
+                    className="
+                        flex
+                        h-[300px]
+                        items-center
+                        justify-center
+                        rounded-2xl
+                        border
+                        border-dashed
+                        border-slate-200
+                        bg-slate-50
+                        text-sm
+                        text-slate-400
+                    "
+                >
+                    No status data available.
+                </div>
+            )}
 
-            <div
-                className="
-                    rounded-2xl
-                    border
-                    border-slate-200
-                    bg-white
-                    p-6
-                    shadow-sm
-                "
-            >
+            {/* ---------------------------------
+                Expiry Distribution
+            --------------------------------- */}
 
-                {statusData.length > 0 ? (
-
-                    <StatusPieChart
-                        data={statusData}
-                    />
-
-                ) : (
-
-                    <div
-                        className="
-                            flex
-                            h-[300px]
-                            items-center
-                            justify-center
-                            text-sm
-                            text-slate-400
-                        "
-                    >
-                        No status data available.
-                    </div>
-
-                )}
-
-            </div>
-
-
-            {/* Expiry chart */}
-
-            <div
-                className="
-                    rounded-2xl
-                    border
-                    border-slate-200
-                    bg-white
-                    p-6
-                    shadow-sm
-                "
-            >
-
-                {expiryData.length > 0 ? (
-
-                    <ExpiryBarChart
-                        data={expiryData}
-                    />
-
-                ) : (
-
-                    <div
-                        className="
-                            flex
-                            h-[300px]
-                            items-center
-                            justify-center
-                            text-sm
-                            text-slate-400
-                        "
-                    >
-                        No expiry data available.
-                    </div>
-
-                )}
-
-            </div>
-
+            {expiryData.length > 0 ? (
+                <ExpiryBarChart
+                    data={expiryData}
+                />
+            ) : (
+                <div
+                    className="
+                        flex
+                        h-[300px]
+                        items-center
+                        justify-center
+                        rounded-2xl
+                        border
+                        border-dashed
+                        border-slate-200
+                        bg-slate-50
+                        text-sm
+                        text-slate-400
+                    "
+                >
+                    No expiry data available.
+                </div>
+            )}
         </div>
     );
 }
