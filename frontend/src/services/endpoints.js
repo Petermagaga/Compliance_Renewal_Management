@@ -3,12 +3,12 @@ const ENDPOINTS = {
     LOGIN: "/api/token/",          // ✅ corrected
     REFRESH: "/api/token/refresh/", // ✅ corrected
     REGISTER: "/auth/register/",
-    CURRENT_USER: "/auth/me/",
+    CURRENT_USER: "/api/auth/me/",
   },
 
-  DASHBOARD: "/api/analytics/dashboard/",   // ✅ add /api prefix
-  COMPLIANCE: "/api/compliance/items/",     // ✅ add /api prefix
-  DEPARTMENTS: "/api/departments/",         // ✅ add /api prefix
+  DASHBOARD: "/api/analytics/dashboard/",   
+  COMPLIANCE: "/api/compliance/items/",     
+  DEPARTMENTS: "/api/departments/",         
 };
 
 export default ENDPOINTS;
