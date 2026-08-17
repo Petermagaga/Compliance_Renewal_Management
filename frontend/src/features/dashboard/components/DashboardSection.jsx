@@ -3,35 +3,39 @@ function DashboardSection({
     subtitle,
     action,
     children,
+    className = "",
 }) {
     return (
         <section
-            className="
+            className={`
                 overflow-hidden
                 rounded-2xl
                 border
-                border-gray-200
+                border-slate-200/80
                 bg-white
-                shadow-sm
-            "
+                ${className}
+            `}
         >
             <div
                 className="
                     flex
                     items-start
                     justify-between
+                    gap-4
                     border-b
-                    border-gray-100
+                    border-slate-100
                     px-6
                     py-5
                 "
             >
-                <div>
+                <div className="min-w-0">
+
                     <h2
                         className="
-                            text-xl
+                            text-lg
                             font-semibold
-                            text-gray-900
+                            tracking-tight
+                            text-slate-900
                         "
                     >
                         {title}
@@ -42,18 +46,25 @@ function DashboardSection({
                             className="
                                 mt-1
                                 text-sm
-                                text-gray-500
+                                leading-5
+                                text-slate-500
                             "
                         >
                             {subtitle}
                         </p>
                     )}
+
                 </div>
 
-                {action && <div>{action}</div>}
+                {action && (
+                    <div className="shrink-0">
+                        {action}
+                    </div>
+                )}
+
             </div>
 
-            <div className="p-6">
+            <div className="px-6 py-6">
                 {children}
             </div>
         </section>
@@ -61,3 +72,4 @@ function DashboardSection({
 }
 
 export default DashboardSection;
+

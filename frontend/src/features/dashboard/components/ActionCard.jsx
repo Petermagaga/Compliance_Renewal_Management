@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { FiArrowRight } from "react-icons/fi";
 
 function ActionCard({ action }) {
     const Icon = action.icon;
@@ -8,55 +9,83 @@ function ActionCard({ action }) {
             to={action.path}
             className="
                 group
-                rounded-2xl
+                flex
+                items-center
+                gap-4
+                rounded-xl
                 border
-                border-gray-200
+                border-slate-200
                 bg-white
-                p-6
-                shadow-sm
+                p-4
                 transition
-                duration-300
-                hover:-translate-y-1
-                hover:border-green-300
-                hover:shadow-xl
+                duration-200
+                hover:border-brand-green/40
+                hover:bg-brand-light/20
+                hover:shadow-sm
             "
         >
+            {/* Icon */}
+
             <div
                 className={`
                     flex
-                    h-14
-                    w-14
+                    h-11
+                    w-11
+                    shrink-0
                     items-center
                     justify-center
-                    rounded-2xl
+                    rounded-xl
                     text-white
                     ${action.color}
                 `}
             >
-                <Icon size={24} />
+                <Icon size={20} />
             </div>
 
-            <h3
-                className="
-                    mt-5
-                    text-lg
-                    font-semibold
-                    text-gray-900
-                "
-            >
-                {action.title}
-            </h3>
 
-            <p
+            {/* Content */}
+
+            <div className="min-w-0 flex-1">
+
+                <h3
+                    className="
+                        truncate
+                        text-sm
+                        font-semibold
+                        text-slate-900
+                    "
+                >
+                    {action.title}
+                </h3>
+
+                <p
+                    className="
+                        mt-0.5
+                        truncate
+                        text-xs
+                        text-slate-500
+                    "
+                >
+                    {action.description}
+                </p>
+
+            </div>
+
+
+            {/* Arrow */}
+
+            <FiArrowRight
+                size={17}
                 className="
-                    mt-2
-                    text-sm
-                    leading-6
-                    text-gray-500
+                    shrink-0
+                    text-slate-300
+                    transition
+                    duration-200
+                    group-hover:translate-x-1
+                    group-hover:text-brand-green
                 "
-            >
-                {action.description}
-            </p>
+            />
+
         </Link>
     );
 }

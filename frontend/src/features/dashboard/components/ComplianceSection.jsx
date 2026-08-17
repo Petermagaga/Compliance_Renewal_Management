@@ -7,25 +7,20 @@ import RemindersPanel
 from "../../../components/compliance/RemindersPanel";
 
 import {useDashboard} from "../hooks/useDashboard";
-
 function ComplianceSection() {
 
     const {
-
         reminders,
-
         complianceItems,
-
     } = useDashboard();
 
     return (
-
         <DashboardSection
             title="Compliance Workspace"
             subtitle="Track every compliance item and upcoming renewal."
         >
 
-            <div className="space-y-6">
+            <div className="space-y-0">
 
                 <ComplianceTable
                     items={complianceItems}
@@ -38,9 +33,7 @@ function ComplianceSection() {
             </div>
 
         </DashboardSection>
-
     );
-
 }
 
 export default ComplianceSection;
