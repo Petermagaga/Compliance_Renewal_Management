@@ -59,7 +59,7 @@ export function AuthProvider({ children }) {
 
     /*
     |--------------------------------------------------------------------------
-    | Load current authenticated user
+    | Fetch authenticated user
     |--------------------------------------------------------------------------
     */
 
@@ -70,19 +70,19 @@ export function AuthProvider({ children }) {
 
                 setLoadingUser(true);
 
-                const response =
+                const currentUser =
                     await authService.getCurrentUser();
 
-                const currentUser =
-                    response.data;
+                console.log(
+                    "CURRENT USER:",
+                    currentUser
+                );
 
                 setUser(currentUser);
 
                 localStorage.setItem(
                     "user",
-                    JSON.stringify(
-                        currentUser
-                    )
+                    JSON.stringify(currentUser)
                 );
 
                 return currentUser;
@@ -117,24 +117,25 @@ export function AuthProvider({ children }) {
     |--------------------------------------------------------------------------
     */
 
-    const login = (
-        access,
-        refresh
-    ) => {
-
-        tokenService.setAccessToken(
-            access
-        );
-
-        tokenService.setRefreshToken(
+    const login =
+        async (
+            access,
             refresh
-        );
+        ) => {
 
-        setAccessToken(access);
+            tokenService.setAccessToken(
+                access
+            );
 
-        setRefreshToken(refresh);
+            tokenService.setRefreshToken(
+                refresh
+            );
 
-    };
+            setAccessToken(access);
+
+            setRefreshToken(refresh);
+
+        };
 
 
     /*
@@ -162,7 +163,7 @@ export function AuthProvider({ children }) {
 
     /*
     |--------------------------------------------------------------------------
-    | Restore authenticated user after page refresh
+    | Restore user after page refresh
     |--------------------------------------------------------------------------
     */
 
@@ -178,10 +179,12 @@ export function AuthProvider({ children }) {
 
         fetchCurrentUser()
             .catch(() => {
+
                 /*
-                 * Token may be expired or invalid.
-                 * Your API layer can handle refresh.
+                 * API/token layer can handle
+                 * token refresh later.
                  */
+
             });
 
     }, [accessToken]);

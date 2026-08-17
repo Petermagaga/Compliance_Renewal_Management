@@ -21,18 +21,7 @@ class AuthService {
             }
         );
 
-        const {
-            access,
-            refresh,
-        } = response.data;
-
-        tokenService.setAccessToken(access);
-        tokenService.setRefreshToken(refresh);
-
-        return {
-            access,
-            refresh,
-        };
+        return response.data;
     }
 
 

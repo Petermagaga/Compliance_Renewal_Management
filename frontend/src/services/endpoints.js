@@ -1,9 +1,9 @@
 const ENDPOINTS = {
   AUTH: {
-    LOGIN: "/api/token/",          // ✅ correc
-    REFRESH: "/api/token/refresh/", 
+    LOGIN: "/token/",          // ✅ corrected
+    REFRESH: "/token/refresh/", 
     REGISTER: "/auth/register/",
-    CURRENT_USER: "/auth/me/",
+    CURRENT_USER: "auth/me/",
   },
 
   DASHBOARD: "/api/analytics/dashboard/",   

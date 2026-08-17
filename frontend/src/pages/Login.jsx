@@ -8,8 +8,10 @@ import {
     FiShield,
 } from "react-icons/fi";
 
-import api from "../services/api";
+import authService from "../services/authService";
+
 import { useAuth } from "../context/AuthContext";
+
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -36,16 +38,16 @@ function Login() {
         setLoading(true);
 
         try {
-            const response = await api.post("/token/", {
-                email: email.trim(),
+            const result = await authService.login(
+                email,
                 password,
-            });
+            );
 
-            const result = response.data;
+
 
             console.log("Login response:", result);
 
-            login(
+            await login(
                 result.access,
                 result.refresh,
             );
