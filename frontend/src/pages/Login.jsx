@@ -48,7 +48,6 @@ function Login() {
             login(
                 result.access,
                 result.refresh,
-                result.user || null
             );
 
             navigate("/dashboard", { replace: true });
