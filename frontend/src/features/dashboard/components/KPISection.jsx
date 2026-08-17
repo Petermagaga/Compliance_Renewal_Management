@@ -12,6 +12,7 @@ import DashboardErrorState from "./DashboardErrorState";
 import { useDashboard } from "../hooks/useDashboard";
 
 function KPISection() {
+
     const {
         summary,
         dashboardLoading,
@@ -19,42 +20,49 @@ function KPISection() {
         refresh,
     } = useDashboard();
 
+
     // ---------------------------------------
-    // 1. Loading
+    // Loading
     // ---------------------------------------
+
     if (dashboardLoading && !summary) {
+
         return (
             <div
                 className="
                     grid
-                    grid-cols-1
-                    gap-4
-                    md:grid-cols-2
-                    xl:grid-cols-4
+                    grid-cols-2
+                    gap-3
+                    lg:grid-cols-4
                 "
             >
+
                 {[1, 2, 3, 4].map((item) => (
+
                     <div
                         key={item}
                         className="
                             h-32
                             animate-pulse
                             rounded-2xl
-                            border
-                            border-slate-200
                             bg-white
-                            shadow-sm
+                            shadow-[0_1px_3px_rgba(15,23,42,0.06)]
                         "
                     />
+
                 ))}
+
             </div>
         );
     }
 
+
     // ---------------------------------------
-    // 2. Error
+    // Error
     // ---------------------------------------
+
     if (dashboardError && !summary) {
+
         return (
             <DashboardErrorState
                 title="Unable to load compliance summary"
@@ -64,38 +72,44 @@ function KPISection() {
         );
     }
 
+
     // ---------------------------------------
-    // 3. Empty
+    // Empty
     // ---------------------------------------
+
     if (!summary) {
         return <KPIEmptyState />;
     }
 
+
     // ---------------------------------------
-    // 4. Success
+    // Success
     // ---------------------------------------
+
     return (
+
         <div
             className="
                 grid
-                grid-cols-1
-                gap-4
-                md:grid-cols-2
-                xl:grid-cols-4
+                grid-cols-2
+                gap-3
+                lg:grid-cols-4
+                lg:gap-4
             "
         >
+
             <StatCard
-                title="Total Compliance Items"
+                title="Total Items"
                 value={summary.total_items ?? 0}
-                subtitle="All registered items"
+                subtitle="Registered compliance items"
                 icon={
                     <FiShield
-                        size={21}
-                        className="text-white"
+                        size={19}
                     />
                 }
-                color="bg-brand-green"
+                color="neutral"
             />
+
 
             <StatCard
                 title="Expiring Soon"
@@ -103,25 +117,26 @@ function KPISection() {
                 subtitle="Requires attention"
                 icon={
                     <FiClock
-                        size={21}
-                        className="text-white"
+                        size={19}
                     />
                 }
-                color="bg-amber-500"
+                color="warning"
             />
+
 
             <StatCard
                 title="Expired"
                 value={summary.expired ?? 0}
-                subtitle="Requires immediate action"
+                subtitle="Immediate action required"
                 icon={
                     <FiAlertTriangle
-                        size={21}
-                        className="text-white"
+                        size={19}
                     />
                 }
-                color="bg-red-500"
+                color="danger"
+                emphasis
             />
+
 
             <StatCard
                 title="Active"
@@ -129,12 +144,12 @@ function KPISection() {
                 subtitle="Currently compliant"
                 icon={
                     <FiCheckCircle
-                        size={21}
-                        className="text-white"
+                        size={19}
                     />
                 }
-                color="bg-emerald-500"
+                color="success"
             />
+
         </div>
     );
 }
