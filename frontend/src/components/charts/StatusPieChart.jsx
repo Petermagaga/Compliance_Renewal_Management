@@ -14,12 +14,10 @@ const COLORS = [
 ];
 
 function StatusPieChart({ data = [] }) {
-
     return (
-        <div className="h-[360px] w-full">
+        <div className="w-full">
 
             <div className="mb-5">
-
                 <h2 className="text-lg font-semibold text-slate-900">
                     Compliance Status
                 </h2>
@@ -27,16 +25,13 @@ function StatusPieChart({ data = [] }) {
                 <p className="mt-1 text-sm text-slate-500">
                     Current distribution of compliance items.
                 </p>
-
             </div>
 
             <div className="h-[270px]">
-
                 <ResponsiveContainer
                     width="100%"
                     height="100%"
                 >
-
                     <PieChart>
 
                         <Pie
@@ -49,18 +44,14 @@ function StatusPieChart({ data = [] }) {
                             cx="50%"
                             cy="50%"
                         >
-
                             {data.map((entry, index) => (
-
                                 <Cell
                                     key={`cell-${index}`}
                                     fill={
                                         COLORS[index % COLORS.length]
                                     }
                                 />
-
                             ))}
-
                         </Pie>
 
                         <Tooltip />
@@ -71,9 +62,7 @@ function StatusPieChart({ data = [] }) {
                         />
 
                     </PieChart>
-
                 </ResponsiveContainer>
-
             </div>
 
         </div>
