@@ -9,16 +9,7 @@ function ComplianceTable({
 
     return (
 
-        <div
-            className="
-                overflow-hidden
-                rounded-2xl
-                border
-                border-gray-200
-                bg-white
-                shadow-sm
-            "
-        >
+
 
             <div className="overflow-x-auto">
 
@@ -27,7 +18,8 @@ function ComplianceTable({
                     <thead
                         className="
                             border-b
-                            bg-gray-50
+                            border-slate-200
+                            bg-slate-50/70
                             text-left
                             text-xs
                             font-semibold
@@ -39,31 +31,31 @@ function ComplianceTable({
 
                         <tr>
 
-                            <th className="px-6 py-4">
+                           <th className="whitespace-nowrap px-6 py-4">
                                 Compliance
                             </th>
 
-                            <th className="px-6 py-4">
+                            <th className="whitespace-nowrap px-6 py-4">
                                 Category
                             </th>
 
-                            <th className="px-6 py-4">
+                            <th className="whitespace-nowrap px-6 py-4">
                                 Department
                             </th>
 
-                            <th className="px-6 py-4">
+                            <th className="whitespace-nowrap px-6 py-4">
                                 Expiry
                             </th>
 
-                            <th className="px-6 py-4">
+                            <th className="whitespace-nowrap px-6 py-4">
                                 Status
                             </th>
 
-                            <th className="px-6 py-4">
+                            <th className="whitespace-nowrap px-6 py-4">
                                 Priority
                             </th>
 
-                            <th className="px-6 py-4 text-right">
+                            <th className="whitespace-nowrap px-6 py-4">
                                 Actions
                             </th>
 
@@ -108,7 +100,7 @@ function ComplianceTable({
 
             </div>
 
-        </div>
+        
 
     );
 
