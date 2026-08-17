@@ -352,7 +352,7 @@ function Login() {
                                 </div>
 
 
-                                {/* Password &me */}
+                                {/* Password & me */}
 
                                 <div>
 
@@ -508,7 +508,7 @@ function Login() {
                                             text-slate-600
                                         "
                                     >
-                                        Rememberme
+                                        Remember me
                                     </span>
 
                                 </label>
