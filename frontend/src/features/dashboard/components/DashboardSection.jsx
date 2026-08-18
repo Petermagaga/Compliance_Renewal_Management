@@ -3,38 +3,34 @@ function DashboardSection({
     subtitle,
     action,
     children,
-    className = "",
 }) {
     return (
         <section
-            className={`
+            className="
                 overflow-hidden
                 rounded-2xl
                 border
-                border-slate-200/80
+                border-slate-200
                 bg-white
-                ${className}
-            `}
+            "
         >
             <div
                 className="
                     flex
-                    items-start
+                    items-center
                     justify-between
                     gap-4
                     border-b
                     border-slate-100
                     px-6
-                    py-5
+                    py-4
                 "
             >
-                <div className="min-w-0">
-
+                <div>
                     <h2
                         className="
-                            text-lg
+                            text-base
                             font-semibold
-                            tracking-tight
                             text-slate-900
                         "
                     >
@@ -44,16 +40,14 @@ function DashboardSection({
                     {subtitle && (
                         <p
                             className="
-                                mt-1
-                                text-sm
-                                leading-5
+                                mt-0.5
+                                text-xs
                                 text-slate-500
                             "
                         >
                             {subtitle}
                         </p>
                     )}
-
                 </div>
 
                 {action && (
@@ -61,10 +55,9 @@ function DashboardSection({
                         {action}
                     </div>
                 )}
-
             </div>
 
-            <div className="px-6 py-6">
+            <div className="p-5">
                 {children}
             </div>
         </section>
@@ -72,4 +65,3 @@ function DashboardSection({
 }
 
 export default DashboardSection;
-

@@ -9,7 +9,7 @@ function QuickActionsSection() {
             title="Quick Actions"
             subtitle="Common compliance tasks"
         >
-            <div className="space-y-3">
+            <div className="space-y-2.5">
                 {dashboardActions.map((action) => (
                     <ActionCard
                         key={action.id}
