@@ -1,12 +1,15 @@
 import DashboardSection from "./DashboardSection";
 
 import ComplianceTable
-from "../../../components/compliance/ComplianceTable";
+    from "../../../components/compliance/ComplianceTable";
 
 import RemindersPanel
-from "../../../components/compliance/RemindersPanel";
+    from "../../../components/compliance/RemindersPanel";
 
-import {useDashboard} from "../hooks/useDashboard";
+import { useDashboard }
+    from "../hooks/useDashboard";
+
+
 function ComplianceSection() {
 
     const {
@@ -14,7 +17,20 @@ function ComplianceSection() {
         complianceItems,
     } = useDashboard();
 
+
+    console.log(
+        "COMPLIANCE SECTION reminders:",
+        reminders
+    );
+
+    console.log(
+        "COMPLIANCE SECTION complianceItems:",
+        complianceItems
+    );
+
+
     return (
+
         <DashboardSection
             title="Compliance Workspace"
             subtitle="Track every compliance item and upcoming renewal."
@@ -33,7 +49,9 @@ function ComplianceSection() {
             </div>
 
         </DashboardSection>
+
     );
 }
+
 
 export default ComplianceSection;
