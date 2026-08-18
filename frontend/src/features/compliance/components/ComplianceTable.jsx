@@ -1,109 +1,103 @@
 import ComplianceRow from "./ComplianceRow";
 
 function ComplianceTable({
-
-    items,
+    items = [],
     onDelete,
-
 }) {
-
     return (
+        <div className="overflow-x-auto">
+
+            <table className="min-w-full text-sm">
+
+                <thead
+                    className="
+                        border-b
+                        border-slate-200
+                        text-left
+                        text-xs
+                        font-semibold
+                        uppercase
+                        tracking-wider
+                        text-slate-500
+                    "
+                >
+                    <tr>
+
+                        <th className="px-4 py-4">
+                            Item Name
+                        </th>
+
+                        <th className="px-4 py-4">
+                            Category
+                        </th>
+
+                        <th className="px-4 py-4">
+                            Department
+                        </th>
+
+                        <th className="px-4 py-4">
+                            Expiry Date
+                        </th>
+
+                        <th className="px-4 py-4">
+                            Days Left
+                        </th>
+
+                        <th className="px-4 py-4">
+                            Status
+                        </th>
+
+                        <th className="px-4 py-4">
+                            Priority
+                        </th>
+
+                        <th className="px-4 py-4 text-right">
+                            Actions
+                        </th>
+
+                    </tr>
+                </thead>
 
 
+                <tbody>
 
-            <div className="overflow-x-auto">
-
-                <table className="min-w-full">
-
-                    <thead
-                        className="
-                            border-b
-                            border-slate-200
-                            bg-slate-50/70
-                            text-left
-                            text-xs
-                            font-semibold
-                            uppercase
-                            tracking-wider
-                            text-gray-500
-                        "
-                    >
+                    {items.length === 0 ? (
 
                         <tr>
-
-                           <th className="whitespace-nowrap px-6 py-4">
-                                Compliance
-                            </th>
-
-                            <th className="whitespace-nowrap px-6 py-4">
-                                Category
-                            </th>
-
-                            <th className="whitespace-nowrap px-6 py-4">
-                                Department
-                            </th>
-
-                            <th className="whitespace-nowrap px-6 py-4">
-                                Expiry
-                            </th>
-
-                            <th className="whitespace-nowrap px-6 py-4">
-                                Status
-                            </th>
-
-                            <th className="whitespace-nowrap px-6 py-4">
-                                Priority
-                            </th>
-
-                            <th className="whitespace-nowrap px-6 py-4">
-                                Actions
-                            </th>
-
+                            <td
+                                colSpan={8}
+                                className="
+                                    px-4
+                                    py-12
+                                    text-center
+                                    text-sm
+                                    text-slate-500
+                                "
+                            >
+                                No recent compliance items.
+                            </td>
                         </tr>
 
-                    </thead>
+                    ) : (
 
-                    <tbody>
+                        items.map((item, index) => (
 
-                        {items.length === 0 ? (
+                            <ComplianceRow
+                                key={item.id ?? index}
+                                item={item}
+                                onDelete={onDelete}
+                            />
 
-                            <tr>
+                        ))
 
-                                <td
-                                    colSpan={7}
-                                    className="py-12 text-center text-gray-500"
-                                >
+                    )}
 
-                                    No compliance items found.
+                </tbody>
 
-                                </td>
+            </table>
 
-                            </tr>
-
-                        ) : (
-
-                            items.map(item => (
-
-                                <ComplianceRow
-                                    key={item.id}
-                                    item={item}
-                                    onDelete={onDelete}
-                                />
-
-                            ))
-
-                        )}
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        
-
+        </div>
     );
-
 }
 
 export default ComplianceTable;
