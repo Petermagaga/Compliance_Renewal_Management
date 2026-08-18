@@ -26,77 +26,62 @@ function Dashboard() {
                         className="
                             mx-auto
                             max-w-7xl
-                            space-y-10
-                            px-6
+                            px-5
                             py-8
+                            sm:px-6
                             lg:px-8
+                            lg:py-10
                         "
                     >
 
+                        {/* -------------------------------- */}
                         {/* Header */}
+                        {/* -------------------------------- */}
 
                         <DashboardHeader />
 
 
-                        {/* Overview */}
+                        {/* -------------------------------- */}
+                        {/* Compliance Overview */}
+                        {/* -------------------------------- */}
 
-                        <section>
-
-                            <div className="mb-4">
-
-                                <h2 className="text-lg font-semibold text-slate-900">
-                                    Compliance Overview
-                                </h2>
-
-                                <p className="mt-1 text-sm text-slate-500">
-                                    Your current compliance position at a glance.
-                                </p>
-
-                            </div>
-
+                        <DashboardPageSection
+                            title="Compliance Overview"
+                            subtitle="Your current compliance position at a glance."
+                        >
                             <KPISection />
+                        </DashboardPageSection>
 
-                        </section>
 
-
+                        {/* -------------------------------- */}
                         {/* Analytics */}
+                        {/* -------------------------------- */}
 
-                        <section>
-
-                            <div className="mb-4">
-
-                                <h2 className="text-lg font-semibold text-slate-900">
-                                    Analytics
-                                </h2>
-
-                                <p className="mt-1 text-sm text-slate-500">
-                                    Compliance status and upcoming expiry trends.
-                                </p>
-
-                            </div>
-
+                        <DashboardPageSection
+                            title="Analytics"
+                            subtitle="Compliance status and upcoming expiry trends."
+                        >
                             <ChartsSection />
+                        </DashboardPageSection>
 
-                        </section>
 
+                        {/* -------------------------------- */}
+                        {/* Attention Required */}
+                        {/* -------------------------------- */}
 
-                        {/* Attention */}
+                        <DashboardPageSection
+                            title="Attention Required"
+                            subtitle="Review upcoming renewals and compliance risks."
+                        >
 
-                        <section>
-
-                            <div className="mb-4">
-
-                                <h2 className="text-lg font-semibold text-slate-900">
-                                    Attention Required
-                                </h2>
-
-                                <p className="mt-1 text-sm text-slate-500">
-                                    Review upcoming renewals and compliance risks.
-                                </p>
-
-                            </div>
-
-                            <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
+                            <div
+                                className="
+                                    grid
+                                    grid-cols-1
+                                    gap-6
+                                    xl:grid-cols-12
+                                "
+                            >
 
                                 <div className="xl:col-span-8">
                                     <ComplianceSection />
@@ -108,38 +93,38 @@ function Dashboard() {
 
                             </div>
 
-                        </section>
+                        </DashboardPageSection>
 
 
+                        {/* -------------------------------- */}
                         {/* Operations */}
+                        {/* -------------------------------- */}
 
-                        <section>
+                        <DashboardPageSection
+                            title="Operations"
+                            subtitle="Recent activity and common compliance tasks."
+                        >
 
-                            <div className="mb-4">
+                            <div
+                                className="
+                                    grid
+                                    grid-cols-1
+                                    gap-6
+                                    xl:grid-cols-8
+                                "
+                            >
 
-                                <h2 className="text-lg font-semibold text-slate-900">
-                                    Recent Activity
-                                </h2>
-
-                                <p className="mt-1 text-sm text-slate-500">
-                                    Recent compliance and notification activity.
-                                </p>
-
-                            </div>
-
-                            <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-
-                                <div className="xl:col-span-8">
+                                <div className="xl:col-span-5">
                                     <ActivitySection />
                                 </div>
 
-                                <div className="xl:col-span-4">
+                                <div className="xl:col-span-3">
                                     <QuickActionsSection />
                                 </div>
 
                             </div>
 
-                        </section>
+                        </DashboardPageSection>
 
                     </div>
 
@@ -150,5 +135,61 @@ function Dashboard() {
         </MainLayout>
     );
 }
+
+
+/*
+|--------------------------------------------------------------------------
+| Dashboard page section
+|--------------------------------------------------------------------------
+|
+| This is deliberately NOT a card.
+|
+| It creates hierarchy between major areas of the dashboard without
+| introducing another visual container.
+|
+*/
+
+function DashboardPageSection({
+    title,
+    subtitle,
+    children,
+}) {
+
+    return (
+        <section className="mt-12">
+
+            <div className="mb-5">
+
+                <h2
+                    className="
+                        text-xl
+                        font-semibold
+                        tracking-tight
+                        text-slate-900
+                    "
+                >
+                    {title}
+                </h2>
+
+                <p
+                    className="
+                        mt-1
+                        max-w-2xl
+                        text-sm
+                        leading-6
+                        text-slate-500
+                    "
+                >
+                    {subtitle}
+                </p>
+
+            </div>
+
+            {children}
+
+        </section>
+    );
+}
+
 
 export default Dashboard;

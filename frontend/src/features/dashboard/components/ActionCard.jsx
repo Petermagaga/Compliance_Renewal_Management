@@ -16,21 +16,20 @@ function ActionCard({ action }) {
                 border
                 border-slate-200
                 bg-white
-                p-4
-                transition
+                px-4
+                py-3
+                transition-all
                 duration-200
                 hover:border-brand-green/40
                 hover:bg-brand-light/20
                 hover:shadow-sm
             "
         >
-            {/* Icon */}
-
             <div
                 className={`
                     flex
-                    h-11
-                    w-11
+                    h-10
+                    w-10
                     shrink-0
                     items-center
                     justify-center
@@ -39,17 +38,12 @@ function ActionCard({ action }) {
                     ${action.color}
                 `}
             >
-                <Icon size={20} />
+                <Icon size={19} />
             </div>
 
-
-            {/* Content */}
-
             <div className="min-w-0 flex-1">
-
                 <h3
                     className="
-                        truncate
                         text-sm
                         font-semibold
                         text-slate-900
@@ -68,24 +62,18 @@ function ActionCard({ action }) {
                 >
                     {action.description}
                 </p>
-
             </div>
 
-
-            {/* Arrow */}
-
             <FiArrowRight
-                size={17}
+                size={16}
                 className="
                     shrink-0
                     text-slate-300
                     transition
-                    duration-200
                     group-hover:translate-x-1
                     group-hover:text-brand-green
                 "
             />
-
         </Link>
     );
 }
