@@ -2,21 +2,30 @@ import StatusBadge from "./badges/StatusBadge";
 import PriorityBadge from "./badges/PriorityBadge";
 import ActionButtons from "./ActionButtons";
 
-function formatExpiryDate(date) {
-    if (!date) return "—";
+function ComplianceRow({
+    item,
+    onDelete,
+}) {
 
-    return new Date(date).toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-    });
-}
+    const department =
+        item.department_name ??
+        item.department ??
+        "—";
 
-function ComplianceRow({ item, onDelete }) {
+    const expiryDate =
+        item.expiry_date ??
+        item.expiry ??
+        "—";
 
-    const daysRemaining = Number(item.days_remaining ?? 0);
-    const overdue = daysRemaining < 0;
-    const urgent = daysRemaining >= 0 && daysRemaining <= 7;
+    const daysRemaining =
+        item.days_remaining ??
+        item.daysLeft ??
+        null;
+
+    const overdue =
+        typeof daysRemaining === "number" &&
+        daysRemaining < 0;
+
 
     return (
         <tr
@@ -28,19 +37,21 @@ function ComplianceRow({ item, onDelete }) {
             "
         >
 
-            {/* Compliance */}
+            {/* Item */}
 
-            <td className="px-6 py-4">
+            <td className="px-4 py-4">
 
-                <div className="min-w-[180px]">
+                <div>
 
                     <p className="font-semibold text-slate-900">
-                        {item.name}
+                        {item.name ?? "Unnamed item"}
                     </p>
 
-                    <p className="mt-1 text-xs text-slate-400">
-                        {item.company_name || "OpenComply"}
-                    </p>
+                    {item.company_name && (
+                        <p className="mt-1 text-xs text-slate-500">
+                            {item.company_name}
+                        </p>
+                    )}
 
                 </div>
 
@@ -49,22 +60,10 @@ function ComplianceRow({ item, onDelete }) {
 
             {/* Category */}
 
-            <td className="px-6 py-4">
+            <td className="px-4 py-4">
 
-                <span
-                    className="
-                        inline-flex
-                        rounded-md
-                        bg-slate-100
-                        px-2.5
-                        py-1
-                        text-xs
-                        font-medium
-                        capitalize
-                        text-slate-600
-                    "
-                >
-                    {item.category || "—"}
+                <span className="capitalize text-slate-700">
+                    {item.category ?? "—"}
                 </span>
 
             </td>
@@ -72,71 +71,94 @@ function ComplianceRow({ item, onDelete }) {
 
             {/* Department */}
 
-            <td className="px-6 py-4">
-
-                <span className="whitespace-nowrap text-sm text-slate-600">
-                    {item.department_name || "—"}
-                </span>
-
+            <td className="px-4 py-4 text-slate-700">
+                {department}
             </td>
 
 
             {/* Expiry */}
 
-            <td className="px-6 py-4">
+            <td className="px-4 py-4">
 
-                <div className="min-w-[130px]">
+                <div>
 
-                    <p className="text-sm font-medium text-slate-800">
-                        {formatExpiryDate(item.expiry_date)}
+                    <p className="text-slate-800">
+                        {expiryDate}
                     </p>
 
-                    <p
-                        className={`
-                            mt-1
-                            text-xs
-                            font-medium
-                            ${
-                                overdue
-                                    ? "text-red-600"
-                                    : urgent
-                                    ? "text-amber-600"
-                                    : "text-slate-400"
+                    {daysRemaining !== null && (
+                        <p
+                            className={`
+                                mt-1
+                                text-xs
+                                ${
+                                    overdue
+                                        ? "text-red-600"
+                                        : "text-slate-500"
+                                }
+                            `}
+                        >
+                            {overdue
+                                ? `${Math.abs(daysRemaining)} days overdue`
+                                : `${daysRemaining} days left`
                             }
-                        `}
-                    >
-                        {overdue
-                            ? `${Math.abs(daysRemaining)} days overdue`
-                            : `${daysRemaining} days left`
-                        }
-                    </p>
+                        </p>
+                    )}
 
                 </div>
 
             </td>
 
 
+            {/* Days */}
+
+            <td className="px-4 py-4">
+
+                <span
+                    className={`
+                        text-sm
+                        font-medium
+                        ${
+                            overdue
+                                ? "text-red-600"
+                                : "text-slate-700"
+                        }
+                    `}
+                >
+                    {daysRemaining !== null
+                        ? daysRemaining
+                        : "—"
+                    }
+                </span>
+
+            </td>
+
+
             {/* Status */}
 
-            <td className="px-6 py-4">
+            <td className="px-4 py-4">
 
-                <StatusBadge status={item.status} />
+                <StatusBadge
+                    status={item.status}
+                />
 
             </td>
 
 
             {/* Priority */}
 
-            <td className="px-6 py-4">
+            <td className="px-4 py-4">
 
-                <PriorityBadge priority={item.priority} />
+                <PriorityBadge
+                    priority={item.priority}
+                />
 
             </td>
 
 
             {/* Actions */}
 
-            <td className="px-6 py-4 text-right">
+            <td className="px-4 py-4 text-right">
 
                 <ActionButtons
                     item={item}

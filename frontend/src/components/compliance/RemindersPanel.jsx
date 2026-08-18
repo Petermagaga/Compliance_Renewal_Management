@@ -1,23 +1,22 @@
-
 import ReminderCard from "../../features/dashboard/components/ReminderCard";
+
 function RemindersPanel({ items = [] }) {
 
     return (
         <div className="border-t border-slate-200 pt-6">
 
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-4">
 
-                <div>
-                    <h3 className="text-base font-semibold text-slate-900">
-                        Upcoming Reminders
-                    </h3>
+                <h3 className="text-base font-semibold text-slate-900">
+                    Upcoming Reminders
+                </h3>
 
-                    <p className="mt-1 text-sm text-slate-500">
-                        Compliance items requiring attention soon.
-                    </p>
-                </div>
+                <p className="mt-1 text-sm text-slate-500">
+                    Compliance items requiring attention soon.
+                </p>
 
             </div>
+
 
             {items.length === 0 ? (
 
@@ -29,7 +28,7 @@ function RemindersPanel({ items = [] }) {
                         border-slate-200
                         bg-slate-50
                         px-6
-                        py-10
+                        py-8
                         text-center
                     "
                 >
@@ -42,10 +41,10 @@ function RemindersPanel({ items = [] }) {
 
                 <div className="space-y-3">
 
-                    {items.map((reminder) => (
+                    {items.map((reminder, index) => (
 
                         <ReminderCard
-                            key={reminder.id}
+                            key={reminder.id ?? index}
                             reminder={reminder}
                         />
 

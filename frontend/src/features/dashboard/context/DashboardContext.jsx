@@ -103,20 +103,28 @@ export function DashboardProvider({ children }) {
 
             const complianceData =
                 response.data;
+            console.log(
+                "Complaince payload:",complianceData
+            );
+
+            let items=[];
 
             if (Array.isArray(complianceData)) {
 
-                setComplianceItems(
-                    complianceData
-                );
+                 items = complianceData;
 
-            } else {
 
-                setComplianceItems(
-                    complianceData?.results || []
-                );
+                
+            } 
+            
+            console.log(
+                "Normalized compliance items:",items
+            );
+            
+            
+            setComplianceItems(items);
 
-            }
+            
 
         } catch (err) {
 
