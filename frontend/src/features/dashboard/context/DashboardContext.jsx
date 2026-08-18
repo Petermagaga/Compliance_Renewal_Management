@@ -8,7 +8,9 @@ import {
 import dashboardService from "../services/dashboardService";
 import complianceService from "../services/complianceService";
 
+
 const DashboardContext = createContext(null);
+
 
 export function DashboardProvider({ children }) {
 
@@ -58,11 +60,36 @@ export function DashboardProvider({ children }) {
                 response
             );
 
+
+            /*
+             * dashboardService already returns the API body:
+             *
+             * {
+             *     success: true,
+             *     message: "Dashboard loaded successfully",
+             *     data: {
+             *         summary: {...},
+             *         charts: {...},
+             *         upcoming_reminders: [...],
+             *         recent_activity: [...],
+             *         system_health: {...}
+             *     }
+             * }
+             */
+
+
             const dashboardData =
-                response.data;
+                response?.data ?? null;
+
+
+            console.log(
+                "Normalized dashboard data:",
+                dashboardData
+            );
+
 
             setDashboard(
-                dashboardData || null
+                dashboardData
             );
 
         } catch (err) {
@@ -73,6 +100,8 @@ export function DashboardProvider({ children }) {
             );
 
             setDashboardError(err);
+
+            setDashboard(null);
 
         } finally {
 
@@ -96,35 +125,52 @@ export function DashboardProvider({ children }) {
             const response =
                 await complianceService.getItems();
 
+
             console.log(
                 "Compliance API response:",
                 response
             );
 
-            const complianceData =
-                response.data;
+
+            /*
+             * complianceService already returns:
+             *
+             * {
+             *     count: 7,
+             *     next: null,
+             *     previous: null,
+             *     results: [...]
+             * }
+             */
+
+
+            const payload =
+                response ?? null;
+
+
             console.log(
-                "Complaince payload:",complianceData
+                "Compliance payload:",
+                payload
             );
 
-            let items=[];
 
-            if (Array.isArray(complianceData)) {
+            const items =
+                Array.isArray(payload)
+                    ? payload
+                    : Array.isArray(payload?.results)
+                        ? payload.results
+                        : [];
 
-                 items = complianceData;
 
-
-                
-            } 
-            
             console.log(
-                "Normalized compliance items:",items
+                "Normalized compliance items:",
+                items
             );
-            
-            
-            setComplianceItems(items);
 
-            
+
+            setComplianceItems(
+                items
+            );
 
         } catch (err) {
 
@@ -134,6 +180,8 @@ export function DashboardProvider({ children }) {
             );
 
             setComplianceError(err);
+
+            setComplianceItems([]);
 
         } finally {
 
@@ -185,7 +233,10 @@ export function DashboardProvider({ children }) {
 
     const value = {
 
+        // ------------------------------------------------
         // Dashboard
+        // ------------------------------------------------
+
         dashboard,
 
         summary:
@@ -207,23 +258,35 @@ export function DashboardProvider({ children }) {
             dashboard?.critical_count ?? 0,
 
 
+        // ------------------------------------------------
         // Compliance
+        // ------------------------------------------------
+
         complianceItems,
 
 
-        // Separate loading states
+        // ------------------------------------------------
+        // Loading
+        // ------------------------------------------------
+
         dashboardLoading,
 
         complianceLoading,
 
 
-        // Separate errors
+        // ------------------------------------------------
+        // Errors
+        // ------------------------------------------------
+
         dashboardError,
 
         complianceError,
 
 
+        // ------------------------------------------------
         // Backward compatibility
+        // ------------------------------------------------
+
         loading:
             dashboardLoading ||
             complianceLoading,
@@ -233,24 +296,36 @@ export function DashboardProvider({ children }) {
             complianceError,
 
 
+        // ------------------------------------------------
         // Actions
+        // ------------------------------------------------
+
         refresh,
 
     };
 
 
     return (
+
         <DashboardContext.Provider value={value}>
+
             {children}
+
         </DashboardContext.Provider>
+
     );
 }
 
+
+// ------------------------------------------------------
+// useDashboard
+// ------------------------------------------------------
 
 export function useDashboard() {
 
     const context =
         useContext(DashboardContext);
+
 
     if (!context) {
 
@@ -260,5 +335,7 @@ export function useDashboard() {
 
     }
 
+
     return context;
+
 }

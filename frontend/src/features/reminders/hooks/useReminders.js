@@ -32,20 +32,32 @@ function useReminders() {
                 response
             );
 
-            const reminderData =
-                response?.data;
+
+            const reminderData = response.data;
+
+            let reminderItems = [];
 
             if (Array.isArray(reminderData)) {
 
-                setReminders(reminderData);
+                reminderItems = reminderData;
 
-            } else {
+            } else if (Array.isArray(reminderData?.results)) {
 
-                setReminders(
-                    reminderData?.results || []
-                );
+                reminderItems = reminderData.results;
+
+            } else if (Array.isArray(reminderData?.data)) {
+
+                reminderItems = reminderData.data;
 
             }
+
+            console.log(
+                "Normalized reminders:",
+                reminderItems
+            );
+
+            setReminders(reminderItems);
+
 
         } catch (err) {
 
