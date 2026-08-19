@@ -1,10 +1,9 @@
-import MainLayout from "../components/layout/MainLayout";
 import Reports from "./Reports";
 function Settings() {
 
     return (
 
-        <MainLayout>
+       
 
             <div className="p-8">
 
@@ -22,7 +21,7 @@ function Settings() {
 
             </div>
 
-        </MainLayout>
+        
 
     );
 
