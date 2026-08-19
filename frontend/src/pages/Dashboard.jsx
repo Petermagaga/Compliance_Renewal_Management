@@ -1,4 +1,4 @@
-import MainLayout from "../components/layout/MainLayout";
+
 
 import DashboardHeader from "../features/dashboard/components/DashboardHeader";
 import KPISection from "../features/dashboard/components/KPISection";
@@ -16,7 +16,7 @@ import { DashboardProvider } from "../features/dashboard/context/DashboardContex
 function Dashboard() {
 
     return (
-        <MainLayout>
+   
 
             <DashboardProvider>
 
@@ -132,7 +132,7 @@ function Dashboard() {
 
             </DashboardProvider>
 
-        </MainLayout>
+  
     );
 }
 

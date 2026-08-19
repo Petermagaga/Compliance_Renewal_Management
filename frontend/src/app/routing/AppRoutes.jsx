@@ -1,76 +1,79 @@
 import {
-
     Routes,
-
     Route,
-
 } from "react-router-dom";
 
 import {
-
     routeRegistry,
-
 } from "./routeRegistry";
 
-import ProtectedRoute from "../../components/ProtectedRoute"
+import ProtectedRoute
+    from "../../components/ProtectedRoute";
+
+import MainLayout
+    from "../../components/layout/MainLayout";
+
+
 function AppRoutes() {
 
     return (
 
         <Routes>
 
-            {
+            {routeRegistry.map(route => {
 
-                routeRegistry.map(route => {
+                const Component = route.Component;
 
-                    const Component = route.Component;
-                    
-                    return (
+                let element = <Component />;
 
-                        <Route
 
-                            key={route.id}
+                // ----------------------------------------
+                // Dashboard layout
+                // ----------------------------------------
 
-                            path={route.path}
+                if (route.layout === "dashboard") {
 
-                            element={
-
-                                route.requiresAuth ?
-
-                                (
-
-                                    <ProtectedRoute>
-
-                                        <Component />
-
-                                    </ProtectedRoute>
-
-                                )
-
-                                :
-
-                                (
-
-                                    <Component />
-
-                                )
-
-                            }
-
-                        />
-
+                    element = (
+                        <MainLayout>
+                            {element}
+                        </MainLayout>
                     );
 
-                    
+                }
 
-                })
 
-            }
+                // ----------------------------------------
+                // Authentication
+                // ----------------------------------------
+
+                if (route.requiresAuth) {
+
+                    element = (
+                        <ProtectedRoute>
+                            {element}
+                        </ProtectedRoute>
+                    );
+
+                }
+
+
+                return (
+
+                    <Route
+                        key={route.id}
+                        path={route.path}
+                        element={element}
+                    />
+
+                );
+
+            })}
 
         </Routes>
 
     );
 
 }
+
 
 export default AppRoutes;
