@@ -400,10 +400,10 @@ function ComplianceForm({
 
     return (
 
-        <div className="min-h-screen bg-gray-50 p-6">
-
-            <div className="mx-auto max-w-5xl">
-
+        
+        <div className="w-full">
+            
+            <div className="mx-auto w-full max-w-6xl">
                 {/* Header */}
 
                 <div className="mb-8">
