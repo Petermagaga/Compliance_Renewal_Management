@@ -66,43 +66,92 @@ export const routeRegistry = [
     },
 
     
+{
+    id: "compliance",
 
-    {
-        id:"compliance",
+    path: "/compliance",
 
-        path:"/compliance",
+    Component: ComplianceItems,
 
-        Component:ComplianceItems,
+    title: "Compliance Items",
 
-        title:"Compliance Items",
+    icon: FiShield,
 
-        icon:FiShield,
+    layout: "dashboard",
 
-        layout:"dashboard",
+    requiresAuth: true,
 
-        requiresAuth:true,
+    showInSidebar: true,
 
-        showInSidebar:true,
+    roles: [
+        "administrator",
+        "manager",
+        "compliance_officer",
+    ],
 
-        roles:[
+    breadcrumb: [
+        "Dashboard",
+        "Compliance",
+    ],
+},
 
-            "administrator",
+{
+    id: "compliance-details",
 
-            "manager",
+    path: "/compliance/:id",
 
-            "compliance_officer"
+    Component: ComplianceDetails,
 
-        ],
+    title: "Compliance Details",
 
-        breadcrumb:[
+    layout: "dashboard",
 
-            "Dashboard",
+    requiresAuth: true,
 
-            "Compliance"
+    showInSidebar: false,
 
-        ]
+    roles: [
+        "administrator",
+        "manager",
+        "compliance_officer",
+        "viewer",
+    ],
 
-    }
+    breadcrumb: [
+        "Dashboard",
+        "Compliance",
+        "Details",
+    ],
+},
+
+{
+    id: "edit-compliance",
+
+    path: "/compliance/:id/edit",
+
+    Component: EditCompliance,
+
+    title: "Edit Compliance",
+
+    layout: "dashboard",
+
+    requiresAuth: true,
+
+    showInSidebar: false,
+
+    roles: [
+        "administrator",
+        "manager",
+        "compliance_officer",
+    ],
+
+    breadcrumb: [
+        "Dashboard",
+        "Compliance",
+        "Edit",
+    ],
+},
+
     ,
 
     {
@@ -216,31 +265,6 @@ export const routeRegistry = [
         ],
     },
     
-
-
-    {
-        id: "compliance-details",
-
-        path: "/compliance/:id",
-
-        Component: ComplianceDetails,
-
-        requiresAuth: true,
-
-        showInSidebar: false,
-    },
-
-    {
-        id: "edit-compliance",
-
-        path: "/compliance/:id/edit",
-
-        Component: EditCompliance,
-
-        requiresAuth: true,
-
-        showInSidebar: false,
-    },
 
     
     {

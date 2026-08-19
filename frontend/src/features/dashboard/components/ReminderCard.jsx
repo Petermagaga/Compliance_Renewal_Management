@@ -7,6 +7,7 @@ import {
 } from "react-icons/fi";
 
 
+import { Link } from "react-router-dom";
 function getPriorityStyles(priority) {
 
     const value = priority?.toLowerCase();
@@ -329,25 +330,26 @@ function ReminderCard({ reminder }) {
 
                     {/* Review */}
 
-                    <button
-                        type="button"
+                    <Link
+                        to={`/compliance/${reminder.id}`}
                         className="
                             inline-flex
                             items-center
                             gap-1
-                            whitespace-nowrap
-                            text-sm
+                            text-xs
                             font-semibold
                             text-slate-400
-                            hover:text-brand-green
+                            transition
+                            group-hover:text-brand-green
                         "
                     >
-
                         Review
 
-                        <FiArrowRight size={15} />
+                        <FiArrowRight
+                            size={14}
+                        />
+                    </Link>
 
-                    </button>
 
                 </div>
 
