@@ -405,27 +405,27 @@ function ComplianceForm({
             
             <div className="mx-auto w-full max-w-6xl">
                 {/* Header */}
-
                 <div className="mb-8">
 
-                    <h1 className="text-3xl font-bold text-gray-900">
+                    <p className="text-sm font-medium text-brand-green">
+                        Compliance Management
+                    </p>
 
+                    <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900">
                         {mode === "edit"
                             ? "Edit Compliance Item"
-                            : "Add Compliance Item"}
-
+                            : "Add Compliance Item"
+                        }
                     </h1>
 
-                    <p className="mt-1 text-gray-500">
-
+                    <p className="mt-2 max-w-2xl text-sm text-slate-500">
                         {mode === "edit"
-                            ? "Update the compliance record."
-                            : "Register a new compliance record."}
-
+                            ? "Update the compliance record and keep its renewal information accurate."
+                            : "Register a license, permit, certificate, insurance policy, or contract for ongoing compliance tracking."
+                        }
                     </p>
 
                 </div>
-
 
                 {/* Error */}
 
@@ -584,6 +584,7 @@ function ComplianceForm({
                                 name="expiry_date"
                                 value={form.expiry_date}
                                 onChange={handleChange}
+                                min={form.issue_date}
                                 required
                             />
 
@@ -670,7 +671,7 @@ function ComplianceForm({
 
                         <button
                             type="button"
-                            onClick={() => window.history.back()}
+                            onClick={() => Navigate("/compliance")}
                             className="
                                 rounded-xl
                                 border
