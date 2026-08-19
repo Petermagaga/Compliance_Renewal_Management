@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import MainLayout from "../../../components/layout/MainLayout";
 
 import ComplianceHeader from "../components/ComplianceHeader";
 import ExecutiveStats from "../components/ExecutiveStats";
@@ -77,7 +76,7 @@ function ComplianceItems() {
 
     return (
 
-        <MainLayout>
+        
 
             <div className="space-y-6 p-8">
 
@@ -127,7 +126,7 @@ function ComplianceItems() {
                 onConfirm={confirmDelete}
             />
 
-        </MainLayout>
+        
 
     );
 

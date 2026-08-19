@@ -1,4 +1,3 @@
-import MainLayout from "../../../components/layout/MainLayout";
 import SettingsHeader from "../components/SettingsHeader";
 import OrganizationSettings from "../components/OrganizationSettings";
 import SettingsSection from "../components/SettingsSection";
@@ -311,11 +310,11 @@ function SettingsContent() {
 
 function Settings() {
     return (
-        <MainLayout>
+        
             <SettingsProvider>
                 <SettingsContent />
             </SettingsProvider>
-        </MainLayout>
+        
     );
 }
 
