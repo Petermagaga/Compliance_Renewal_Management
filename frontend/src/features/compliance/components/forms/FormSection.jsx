@@ -7,30 +7,59 @@ function FormSection({
     return (
         <section
             className="
+                overflow-hidden
                 rounded-2xl
                 border
-                border-gray-200
+                border-slate-200
                 bg-white
-                p-6
                 shadow-sm
             "
         >
 
-            <div className="mb-6">
+            <div
+                className="
+                    border-b
+                    border-slate-100
+                    px-6
+                    py-5
+                "
+            >
 
-                <h2 className="text-lg font-bold text-gray-900">
+                <h2
+                    className="
+                        text-base
+                        font-semibold
+                        tracking-tight
+                        text-slate-900
+                    "
+                >
                     {title}
                 </h2>
 
                 {description && (
-                    <p className="mt-1 text-sm text-gray-500">
+
+                    <p
+                        className="
+                            mt-1.5
+                            max-w-2xl
+                            text-sm
+                            leading-6
+                            text-slate-500
+                        "
+                    >
                         {description}
                     </p>
+
                 )}
 
             </div>
 
-            {children}
+
+            <div className="px-6 py-6">
+
+                {children}
+
+            </div>
 
         </section>
     );
