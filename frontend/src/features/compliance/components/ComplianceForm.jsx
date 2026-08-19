@@ -515,6 +515,7 @@ function ComplianceForm({
                                     label: company.name,
 
                                 }))}
+                                helperText="The organization responsible for this compliance item."
                                 required
                                 disabled={loadingOptions}
                             />
