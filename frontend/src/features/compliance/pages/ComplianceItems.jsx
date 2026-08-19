@@ -74,61 +74,48 @@ function ComplianceItems() {
         }
     };
 
-    return (
+return (
+  <>
+    <div className="space-y-6 p-8">
+      <ComplianceHeader />
 
-        
+      <ExecutiveStats items={filteredItems} />
 
-            <div className="space-y-6 p-8">
+      <ComplianceToolbar />
 
-                <ComplianceHeader />
+      {loading ? (
+        <>
+          <ComplianceSkeleton />
+          <ComplianceTableSkeleton />
+        </>
+      ) : filteredItems.length === 0 ? (
+        <EmptyState />
+      ) : (
+        <>
+          <ComplianceTable
+            items={filteredItems}
+            onDelete={openDeleteModal}
+          />
 
-                <ExecutiveStats
-                    items={filteredItems}
-                />
+          <CompliancePagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        </>
+      )}
+    </div>
 
-                <ComplianceToolbar />
+    <ComplianceDeleteModal
+      open={showDeleteModal}
+      item={selectedItem}
+      loading={deleting}
+      onClose={closeDeleteModal}
+      onConfirm={confirmDelete}
+    />
+  </>
+);
 
-                {loading ? (
-
-                    <ComplianceSkeleton />,
-                    <ComplianceTableSkeleton />
-
-                ) : filteredItems.length === 0 ? (
-
-                    <EmptyState />
-
-                ) : (
-                    <>
-                        <ComplianceTable
-                            items={filteredItems}
-                            onDelete={openDeleteModal}
-                        />
-
-                        <CompliancePagination
-                        page={page}
-                        totalPages={totalPages}
-                        onPageChange={setPage}
-                        />
-
-                    </>
-                )}
-
-                
-
-
-            </div>
-
-            <ComplianceDeleteModal
-                open={showDeleteModal}
-                item={selectedItem}
-                loading={deleting}
-                onClose={closeDeleteModal}
-                onConfirm={confirmDelete}
-            />
-
-        
-
-    );
 
 }
 
