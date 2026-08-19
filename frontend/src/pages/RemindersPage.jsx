@@ -3,8 +3,6 @@ import {
     FiBell,
 } from "react-icons/fi";
 
-import MainLayout
-    from "../components/layout/MainLayout";
 
 import ReminderList
     from "../features/reminders/components/ReminderList";
@@ -28,7 +26,7 @@ function RemindersPage() {
 
     return (
 
-        <MainLayout>
+        
 
             <main
                 className="
@@ -188,7 +186,6 @@ function RemindersPage() {
 
             </main>
 
-        </MainLayout>
 
     );
 

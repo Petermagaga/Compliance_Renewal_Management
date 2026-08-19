@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 
-import MainLayout from "../components/layout/MainLayout"
 
 import { useNotifications } from "../features/notifications/context/NotificationContext";
 
@@ -142,7 +141,6 @@ function NotificationCenter() {
 
     return (
 
-        <MainLayout>
 
             <div className="space-y-8 p-8">
 
@@ -224,7 +222,6 @@ function NotificationCenter() {
 
             </div>
 
-        </MainLayout>
 
     );
 
