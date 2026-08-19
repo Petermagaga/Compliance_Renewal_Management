@@ -9,52 +9,53 @@ import {
 
 function getPriorityStyles(priority) {
 
-    switch (priority?.toLowerCase()) {
+    const value = priority?.toLowerCase();
 
-        case "critical":
-            return {
-                badge: "bg-red-50 text-red-700 border-red-200",
-                icon: "text-red-600",
-                accent: "border-l-red-500",
-            };
-
-        case "high":
-            return {
-                badge: "bg-orange-50 text-orange-700 border-orange-200",
-                icon: "text-orange-600",
-                accent: "border-l-orange-500",
-            };
-
-        case "medium":
-            return {
-                badge: "bg-amber-50 text-amber-700 border-amber-200",
-                icon: "text-amber-600",
-                accent: "border-l-amber-400",
-            };
-
-        default:
-            return {
-                badge: "bg-slate-50 text-slate-600 border-slate-200",
-                icon: "text-slate-500",
-                accent: "border-l-slate-300",
-            };
+    if (value === "critical") {
+        return {
+            badge: "bg-red-50 text-red-700 border-red-200",
+            icon: "text-red-600",
+            border: "border-l-red-500",
+        };
     }
+
+    if (value === "high") {
+        return {
+            badge: "bg-orange-50 text-orange-700 border-orange-200",
+            icon: "text-orange-600",
+            border: "border-l-orange-500",
+        };
+    }
+
+    if (value === "medium") {
+        return {
+            badge: "bg-amber-50 text-amber-700 border-amber-200",
+            icon: "text-amber-600",
+            border: "border-l-amber-400",
+        };
+    }
+
+    return {
+        badge: "bg-slate-50 text-slate-600 border-slate-200",
+        icon: "text-slate-500",
+        border: "border-l-slate-300",
+    };
 }
 
 
-function formatExpiryDate(date) {
+function formatDate(date) {
 
     if (!date) {
         return "—";
     }
 
-    const parsedDate = new Date(date);
+    const parsed = new Date(date);
 
-    if (Number.isNaN(parsedDate.getTime())) {
+    if (Number.isNaN(parsed.getTime())) {
         return "—";
     }
 
-    return parsedDate.toLocaleDateString("en-GB", {
+    return parsed.toLocaleDateString("en-GB", {
         day: "2-digit",
         month: "short",
         year: "numeric",
@@ -63,6 +64,12 @@ function formatExpiryDate(date) {
 
 
 function ReminderCard({ reminder }) {
+
+    console.log(
+        "REMINDER CARD RECEIVED:",
+        reminder
+    );
+
 
     if (!reminder) {
         return null;
@@ -74,38 +81,56 @@ function ReminderCard({ reminder }) {
 
 
     const daysRemaining =
-        Number(
-            reminder.days_remaining ??
-            reminder.daysRemaining ??
-            0
-        );
+        Number(reminder.days_remaining);
 
 
-    const isOverdue =
-        daysRemaining < 0;
+    let urgencyText;
+    let urgencyColor;
 
 
-    const isUrgent =
-        !isOverdue &&
-        daysRemaining <= 7;
+    if (daysRemaining < 0) {
+
+        urgencyText =
+            `${Math.abs(daysRemaining)} days overdue`;
+
+        urgencyColor =
+            "text-red-600";
+
+    } else if (daysRemaining === 0) {
+
+        urgencyText =
+            "Expires today";
+
+        urgencyColor =
+            "text-red-600";
+
+    } else {
+
+        urgencyText =
+            `${daysRemaining} days remaining`;
+
+        urgencyColor =
+            daysRemaining <= 7
+                ? "text-amber-600"
+                : "text-slate-700";
+    }
 
 
     return (
 
         <article
             className={`
-                group
-                border-l-4
-                ${styles.accent}
-                border-y
-                border-r
+                w-full
+                border
                 border-slate-200
+                border-l-4
+                ${styles.border}
+                rounded-xl
                 bg-white
-                px-5
-                py-4
+                p-5
+                shadow-sm
                 transition
-                duration-200
-                hover:bg-slate-50
+                hover:shadow-md
             `}
         >
 
@@ -113,18 +138,20 @@ function ReminderCard({ reminder }) {
                 className="
                     flex
                     flex-col
-                    gap-4
+                    gap-5
                     lg:flex-row
                     lg:items-center
                     lg:justify-between
                 "
             >
 
-                {/* ---------------------------------- */}
-                {/* Main information                   */}
-                {/* ---------------------------------- */}
+                {/* -------------------------------- */}
+                {/* LEFT SIDE                         */}
+                {/* -------------------------------- */}
 
                 <div className="min-w-0 flex-1">
+
+                    {/* Name + Priority */}
 
                     <div
                         className="
@@ -137,56 +164,49 @@ function ReminderCard({ reminder }) {
 
                         <h3
                             className="
-                                text-sm
+                                text-base
                                 font-semibold
                                 text-slate-900
                             "
                         >
-                            {reminder.name || "Unnamed compliance item"}
+                            {reminder.name}
                         </h3>
 
 
-                        {reminder.priority && (
-
-                            <span
-                                className={`
-                                    inline-flex
-                                    rounded-full
-                                    border
-                                    px-2
-                                    py-0.5
-                                    text-[11px]
-                                    font-semibold
-                                    ${styles.badge}
-                                `}
-                            >
-                                {reminder.priority}
-                            </span>
-
-                        )}
+                        <span
+                            className={`
+                                rounded-full
+                                border
+                                px-2.5
+                                py-1
+                                text-xs
+                                font-semibold
+                                ${styles.badge}
+                            `}
+                        >
+                            {reminder.priority}
+                        </span>
 
                     </div>
 
 
-                    {/* -------------------------------- */}
-                    {/* Metadata                          */}
-                    {/* -------------------------------- */}
+                    {/* Details */}
 
                     <div
                         className="
-                            mt-2
+                            mt-3
                             flex
                             flex-wrap
-                            gap-x-5
+                            gap-x-6
                             gap-y-2
-                            text-xs
+                            text-sm
                             text-slate-500
                         "
                     >
 
                         {/* Category */}
 
-                        <span
+                        <div
                             className="
                                 flex
                                 items-center
@@ -194,18 +214,18 @@ function ReminderCard({ reminder }) {
                             "
                         >
 
-                            <FiBriefcase size={13} />
+                            <FiBriefcase size={14} />
 
                             <span className="capitalize">
-                                {reminder.category || "No category"}
+                                {reminder.category}
                             </span>
 
-                        </span>
+                        </div>
 
 
                         {/* Responsible person */}
 
-                        <span
+                        <div
                             className="
                                 flex
                                 items-center
@@ -213,17 +233,19 @@ function ReminderCard({ reminder }) {
                             "
                         >
 
-                            <FiUser size={13} />
+                            <FiUser size={14} />
 
-                            {reminder.responsible_person ||
-                                "Unassigned"}
+                            <span>
+                                {reminder.responsible_person ||
+                                    "Unassigned"}
+                            </span>
 
-                        </span>
+                        </div>
 
 
-                        {/* Expiry date */}
+                        {/* Expiry */}
 
-                        <span
+                        <div
                             className="
                                 flex
                                 items-center
@@ -231,13 +253,15 @@ function ReminderCard({ reminder }) {
                             "
                         >
 
-                            <FiCalendar size={13} />
+                            <FiCalendar size={14} />
 
-                            {formatExpiryDate(
-                                reminder.expiry_date
-                            )}
+                            <span>
+                                {formatDate(
+                                    reminder.expiry_date
+                                )}
+                            </span>
 
-                        </span>
+                        </div>
 
                     </div>
 
@@ -247,30 +271,34 @@ function ReminderCard({ reminder }) {
                     <p
                         className="
                             mt-2
-                            text-[11px]
+                            text-xs
                             text-slate-400
                         "
                     >
+                        Department:{" "}
                         {reminder.department ||
-                            "No department assigned"}
+                            "Unassigned"}
                     </p>
 
                 </div>
 
 
-                {/* ---------------------------------- */}
-                {/* Urgency                             */}
-                {/* ---------------------------------- */}
+                {/* -------------------------------- */}
+                {/* RIGHT SIDE                        */}
+                {/* -------------------------------- */}
 
                 <div
                     className="
                         flex
+                        shrink-0
                         items-center
                         justify-between
-                        gap-4
+                        gap-6
                         lg:justify-end
                     "
                 >
+
+                    {/* Urgency */}
 
                     <div
                         className="
@@ -281,33 +309,20 @@ function ReminderCard({ reminder }) {
                     >
 
                         <FiAlertCircle
-                            size={17}
+                            size={18}
                             className={styles.icon}
                         />
 
-
-                        <div>
-
-                            <p
-                                className={`
-                                    text-sm
-                                    font-semibold
-                                    ${
-                                        isOverdue
-                                            ? "text-red-600"
-                                            : isUrgent
-                                            ? "text-amber-600"
-                                            : "text-slate-800"
-                                    }
-                                `}
-                            >
-                                {isOverdue
-                                    ? `${Math.abs(daysRemaining)} days overdue`
-                                    : `${daysRemaining} days remaining`
-                                }
-                            </p>
-
-                        </div>
+                        <span
+                            className={`
+                                whitespace-nowrap
+                                text-sm
+                                font-semibold
+                                ${urgencyColor}
+                            `}
+                        >
+                            {urgencyText}
+                        </span>
 
                     </div>
 
@@ -320,19 +335,17 @@ function ReminderCard({ reminder }) {
                             inline-flex
                             items-center
                             gap-1
-                            text-xs
+                            whitespace-nowrap
+                            text-sm
                             font-semibold
                             text-slate-400
-                            transition
-                            group-hover:text-brand-green
+                            hover:text-brand-green
                         "
                     >
 
                         Review
 
-                        <FiArrowRight
-                            size={14}
-                        />
+                        <FiArrowRight size={15} />
 
                     </button>
 
