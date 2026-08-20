@@ -684,7 +684,7 @@ function ComplianceForm({
 
                         <button
                             type="button"
-                            onClick={() => Navigate("/compliance")}
+                            onClick={() => navigate("/compliance")}
                             className="
                                 rounded-xl
                                 border

@@ -30,12 +30,7 @@ function FormSelect({
                 {label}
 
                 {required && (
-                    <span
-                        className="
-                            ml-1
-                            text-red-500
-                        "
-                    >
+                    <span className="ml-1 text-red-500">
                         *
                     </span>
                 )}
@@ -73,8 +68,6 @@ function FormSelect({
                     transition-all
                     duration-200
 
-                    hover:border-slate-400
-
                     disabled:cursor-not-allowed
                     disabled:bg-slate-50
                     disabled:text-slate-400
@@ -89,6 +82,7 @@ function FormSelect({
                             `
                             : `
                                 border-slate-300
+                                hover:border-slate-400
                                 focus:border-brand-green
                                 focus:ring-2
                                 focus:ring-brand-green/20
@@ -101,7 +95,7 @@ function FormSelect({
                     Select {label}
                 </option>
 
-                {options.map(option => (
+                {options.map((option) => (
 
                     <option
                         key={option.value}
@@ -115,7 +109,7 @@ function FormSelect({
             </select>
 
 
-            {/* Helper */}
+            {/* Helper text */}
 
             {helperText && !error && (
 
