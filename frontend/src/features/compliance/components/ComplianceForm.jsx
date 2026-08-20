@@ -535,6 +535,12 @@ function ComplianceForm({
 
                                     })
                                 )}
+
+                                helperText={
+                                    form.company
+                                        ? "Select the department responsible for managing this item."
+                                        : "Select a company first."
+                                }
                                 required
                                 disabled={
                                     loadingOptions ||
@@ -548,7 +554,9 @@ function ComplianceForm({
                                 name="responsible_person"
                                 value={form.responsible_person}
                                 onChange={handleChange}
-                                placeholder="Responsible person"
+                                placeholder="e.g. PETER"
+                                helperText="Person responsible for monitoring and renewing this item."
+                                
                                 required
                             />
 
@@ -574,7 +582,9 @@ function ComplianceForm({
                                 label="Issue Date"
                                 name="issue_date"
                                 value={form.issue_date}
+                                helperText="Date the compliance document or authorization was issued."
                                 onChange={handleChange}
+
                                 required
                             />
 
@@ -585,6 +595,7 @@ function ComplianceForm({
                                 name="expiry_date"
                                 value={form.expiry_date}
                                 onChange={handleChange}
+                                helperText="Date after which this compliance item is no longer valid."
                                 min={form.issue_date}
                                 required
                             />
@@ -649,7 +660,8 @@ function ComplianceForm({
                             type="file"
                             onChange={handleChange}
                             accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                        />
+                            helperText="Upload the supporting document. PDF, DOC, DOCX, JPG or PNG."
+                            />
 
                     </FormSection>
 
