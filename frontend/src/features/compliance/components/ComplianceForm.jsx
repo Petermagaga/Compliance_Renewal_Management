@@ -6,6 +6,7 @@ import FormSelect from "./forms/FormSelect";
 
 import api from "../../../services/api";
 
+import { useNavigate } from "react-router-dom";
 
 function ComplianceForm({
     mode = "create",
@@ -20,6 +21,7 @@ function ComplianceForm({
 
     const [submitting, setSubmitting] = useState(false);
 
+    const navigate=useNavigate();
     const [error, setError] = useState("");
 
     const [form, setForm] = useState({
