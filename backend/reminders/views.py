@@ -17,7 +17,7 @@ class ReminderListView(APIView):
 
         try:
 
-            reminders = get_upcoming_reminders()
+            reminders = get_upcoming_reminders(request.user)
 
             serializer = ReminderSerializer(
                 reminders,

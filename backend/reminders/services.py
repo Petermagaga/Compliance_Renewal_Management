@@ -1,14 +1,15 @@
 from datetime import date
 
-from compliance.models import ComplianceItem
+from compliance.querysets import ComplianceQuerySet
 
 
-def get_upcoming_reminders():
+def get_upcoming_reminders(user):
 
     today = date.today()
 
     items = (
-        ComplianceItem.objects
+        ComplianceQuerySet
+        .visible_to(user)
         .select_related("department")
         .filter(
             expiry_date__isnull=False,
@@ -24,24 +25,18 @@ def get_upcoming_reminders():
             item.expiry_date - today
         ).days
 
-        # Ignore items that are more than
-        # 90 days away.
         if days_remaining > 90:
             continue
 
-        # Ignore already-renewed items.
         if item.status == "renewed":
             continue
 
         if days_remaining <= 7:
             priority = "Critical"
-
         elif days_remaining <= 30:
             priority = "High"
-
         elif days_remaining <= 60:
             priority = "Medium"
-
         else:
             priority = "Low"
 
