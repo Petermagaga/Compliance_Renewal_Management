@@ -5,11 +5,13 @@ import {
     FiAlertCircle,
     FiArrowRight,
 } from "react-icons/fi";
-
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function getPriorityStyles(priority) {
-
+    const navigate = useNavigate();
     const value = priority?.toLowerCase();
+    
 
     if (value === "critical") {
         return {
@@ -329,25 +331,24 @@ function ReminderCard({ reminder }) {
 
                     {/* Review */}
 
-                    <button
-                        type="button"
+                    <Link
+                        to={`/compliance/${reminder.id}`}
                         className="
                             inline-flex
                             items-center
                             gap-1
-                            whitespace-nowrap
-                            text-sm
+                            text-xs
                             font-semibold
                             text-slate-400
-                            hover:text-brand-green
+                            transition
+                            group-hover:text-brand-green
                         "
                     >
-
                         Review
 
                         <FiArrowRight size={15} />
+                    </Link>
 
-                    </button>
 
                 </div>
 
