@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
     FiEye,
     FiEyeOff,
@@ -23,6 +23,8 @@ function Login() {
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
+    const location=useLocation();
+    const from =location.state?.from?.pathname || "/dashboard";
     const { login } = useAuth();
 
     const handleLogin = async (e) => {
@@ -52,7 +54,8 @@ function Login() {
                 result.refresh,
             );
 
-            navigate("/dashboard", { replace: true });
+            
+            navigate(from, { replace: true });
 
         } catch (err) {
             console.error("Login failed:", err);
