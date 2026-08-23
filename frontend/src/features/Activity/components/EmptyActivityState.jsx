@@ -69,7 +69,7 @@ function EmptyActivityState() {
 
                 Compliance events, reminders, approvals,
                 renewals and notifications will appear
-                here once your team starts working.
+                here once your team start working.
 
             </p>
 

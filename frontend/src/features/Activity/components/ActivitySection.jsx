@@ -33,7 +33,7 @@ function ActivitySection() {
             >
                 <DashboardErrorState
                     title="Unable to load activity"
-                    message="Recent compliance activity could not be retrieved."
+                    message="Recent compliance activit could not be retrieved."
                     onRetry={refresh}
                 />
             </DashboardSection>
