@@ -11,7 +11,7 @@ from accounts.models import Department,Company
 from django.contrib.auth.models import  (
     AbstractBaseUser,PermissionsMixin
 )
-
+from authentication.utils.phone import normalize_phone
 from authentication.managers import UserManager
 
 
@@ -74,3 +74,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+    @property
+    def normalized_phone(self):
+        return normalize_phone(self.phone)
