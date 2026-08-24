@@ -11,6 +11,7 @@ SECRET_KEY=config("SECRET_KEY")
 RESEND_API_KEY= config("RESEND_API_KEY")
 
 DEBUG = config("DEBUG", default=False, cast=bool)
+SCHEDULER_SECRET=config("SCHEDULER_SECRET")
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
