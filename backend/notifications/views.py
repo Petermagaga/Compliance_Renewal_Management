@@ -221,7 +221,13 @@ def run_reminders(request):
 
     scheduler_token=request.headers.get("X-Scheduler-Token")
     if scheduler_token!= settings.SCHEDULER_SECRET:
-        return
+        return Response(
+            {
+                "success":False,
+                "message":"Unauthorized scheduler request",
+            },
+            status=status.HTTP_401_UNAUTHORIZED,
+        )
 
     try:
         ReminderService().run()
