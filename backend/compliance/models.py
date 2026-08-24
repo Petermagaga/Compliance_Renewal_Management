@@ -50,6 +50,7 @@ class ComplianceItem(models.Model):
 class ReminderLog(models.Model):
     compliance_item=models.ForeignKey(ComplianceItem,on_delete=models.CASCADE,
                                       related_name="reminder_logs")
+    recipient=models.ForeignKey("authentication.User",on_delete=models.CASCADE,related_name="reminder_logs")
     days_before=models.IntegerField()
     channel=models.CharField(max_length=50,choices=CHANNEL_CHOICES)
     sent_at=models.DateTimeField(auto_now_add=True)

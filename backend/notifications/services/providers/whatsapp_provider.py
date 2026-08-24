@@ -17,7 +17,7 @@ class WhatsAppProvider(NotificationProvider):
         metadata = notification.metadata or {}
 
         print("========== WHATSAPP PROVIDER ==========")
-        print("Recipient:", notification.recipient.phone)
+        print("Recipient:", notification.recipient.normalized_phone)
         print("Item:", metadata.get("item_name"))
         print("Days:", metadata.get("days_remaining"))
 
@@ -36,7 +36,7 @@ class WhatsAppProvider(NotificationProvider):
             message = self.client.messages.create(
                 body=body,
                 from_=settings.TWILIO_WHATSAPP_NUMBER,
-                to=f"whatsapp:{notification.recipient.phone}",
+                to=f"whatsapp:{notification.recipient.normalized_phone}",
             )
 
             print("WhatsApp SID:", message.sid)
