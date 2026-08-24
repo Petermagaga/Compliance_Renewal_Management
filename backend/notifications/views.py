@@ -14,7 +14,7 @@ from .services.notification_service import NotificationService
 from core.responses import ApiResponse
 from .pagination import NotificationPagination
 from django.db.models import Count
-
+from django.conf import settings
 class NotificationListAPIView(APIView):
 
     permission_classes = [IsAuthenticated]
@@ -218,6 +218,11 @@ class NotificationDeleteReadAPIView(APIView):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def run_reminders(request):
+
+    scheduler_token=request.headers.get("X-Scheduler-Token")
+    if scheduler_token!= settings.SCHEDULER_SECRET:
+        return
+
     try:
         ReminderService().run()
         return Response(
