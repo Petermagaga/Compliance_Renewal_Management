@@ -86,14 +86,13 @@ class ReminderService:
 
             channels = ["email"]
 
-            if user.normalized_phone:
+            if user.normalized:
                 channels.append("whatsapp")
 
             for channel in channels:
-                recipient=user.email if channel=="email" else user.normalized_phone
 
                 notification = NotificationService.send_compliance_reminder(
-                    recipient=recipient,
+                    recipient=user,
                     item=item,
                     days_left=days_remaining,
                     channel=channel,
