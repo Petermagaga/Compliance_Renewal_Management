@@ -42,6 +42,7 @@ urlpatterns = [
     path(
         "stats/",
         NotificationStatsAPIView.as_view(),
+        
         name="notification-stats",
     ),
 
@@ -49,6 +50,7 @@ urlpatterns = [
     path(
         "read/",
         NotificationDeleteReadAPIView.as_view(),
+
         name="notification-delete-read",
     ),
     path("run-reminders/",run_reminders,name="run-reminders"),
