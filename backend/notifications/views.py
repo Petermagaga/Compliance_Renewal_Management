@@ -15,6 +15,7 @@ from core.responses import ApiResponse
 from .pagination import NotificationPagination
 from django.db.models import Count
 from django.conf import settings
+
 class NotificationListAPIView(APIView):
 
     permission_classes = [IsAuthenticated]
