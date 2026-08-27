@@ -86,7 +86,7 @@ class ReminderService:
 
             channels = ["email"]
 
-            if user.normalized:
+            if user.normalized_phone:
                 channels.append("whatsapp")
 
             for channel in channels:
