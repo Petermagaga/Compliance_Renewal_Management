@@ -19,6 +19,8 @@ urlpatterns = [
     path("api/auth/",include("authentication.urls")),
     path( "api/internal/",include("notifications.internal_urls") ),
 
+    path("health/",include("cores.urls")),
+
 ]
 
 if settings.DEBUG:

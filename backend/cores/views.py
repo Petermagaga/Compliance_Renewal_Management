@@ -1,9 +1,9 @@
-from django.shortcuts import render
+
 from django.http import JsonResponse
 
 def health_check(request):
     return JsonResponse({
         "status":"ok",
-        "message":"compliance backend is working"
+        "message":"compliance backend is working",
 
     })
