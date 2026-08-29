@@ -26,7 +26,7 @@ class EmailProvider(NotificationProvider):
             "recipient": notification.recipient,
             "item": item,
             "days_left": metadata.get("days_remaining"),
-            "dashboard_url": "https://frontpage-gnzt.onrender.com/",
+            "dashboard_url": "https://compliance-renewal-management.vercel.app/",
             "logo_url": (
                 "https://res.cloudinary.com/cz2q5slp/image/upload/"
                 "f_auto,q_auto/logo_jiuujm"
