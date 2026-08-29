@@ -1,5 +1,6 @@
+import requests
+
 from django.conf import settings
-from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
 from compliance.models import ComplianceItem
@@ -32,12 +33,6 @@ class EmailProvider(NotificationProvider):
             ),
         }
 
-
-        print(metadata)
-        print(item)
-        print(metadata.get("days_remaining"))
-        
-
         html = render_to_string(
             "emails/notification.html",
             context,
@@ -48,32 +43,48 @@ class EmailProvider(NotificationProvider):
             context,
         )
 
+        payload = {
+            "sender": {
+                "name": settings.BREVO_SENDER_NAME,
+                "email": settings.BREVO_SENDER_EMAIL,
+            },
+            "to": [
+                {
+                    "email": notification.recipient.email,
+                    "name": notification.recipient.full_name,
+                }
+            ],
+            "subject": notification.title,
+            "htmlContent": html,
+            "textContent": text,
+        }
+
+        headers = {
+            "accept": "application/json",
+            "api-key": settings.BREVO_API_KEY,
+            "content-type": "application/json",
+        }
+
         try:
 
-            email = EmailMultiAlternatives(
-                subject=notification.title,
-                body=text,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                to=[notification.recipient.email],
+            response = requests.post(
+                "https://api.brevo.com/v3/smtp/email",
+                headers=headers,
+                json=payload,
+                timeout=15,
             )
 
-            email.attach_alternative(
-                html,
-                "text/html",
-            )
+            print("========== BREVO EMAIL ==========")
+            print("Status:", response.status_code)
+            print("Response:", response.text)
 
-            email.send(
-                fail_silently=False
-            )
+            response.raise_for_status()
 
             return True
 
-        except Exception as exc:
+        except requests.RequestException as exc:
 
-            print("========== EMAIL ERROR ==========")
+            print("========== BREVO EMAIL ERROR ==========")
             print(exc)
 
             return False
-
-
-        
