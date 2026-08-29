@@ -1,12 +1,9 @@
 from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-
-import resend
 
 from compliance.models import ComplianceItem
 from notifications.services.providers import NotificationProvider
-
-resend.api_key = settings.RESEND_API_KEY
 
 
 class EmailProvider(NotificationProvider):
@@ -18,7 +15,7 @@ class EmailProvider(NotificationProvider):
         item = None
 
         if metadata.get("compliance_item_id"):
-            item=ComplianceItem.objects.get(
+            item = ComplianceItem.objects.get(
                 id=metadata["compliance_item_id"]
             )
 
@@ -29,8 +26,12 @@ class EmailProvider(NotificationProvider):
             "item": item,
             "days_left": metadata.get("days_remaining"),
             "dashboard_url": "https://frontpage-gnzt.onrender.com/",
-            "logo_url":"https://res.cloudinary.com/cz2q5slp/image/upload/f_auto,q_auto/logo_jiuujm"
+            "logo_url": (
+                "https://res.cloudinary.com/cz2q5slp/image/upload/"
+                "f_auto,q_auto/logo_jiuujm"
+            ),
         }
+
 
         print(metadata)
         print(item)
@@ -49,18 +50,30 @@ class EmailProvider(NotificationProvider):
 
         try:
 
-            resend.Emails.send({
-                "from": "Compliance System <onboarding@resend.dev>",
-                "to": [notification.recipient.email],
-                "subject": notification.title,
-                "html": html,
-                "text": text,
-            })
+            email = EmailMultiAlternatives(
+                subject=notification.title,
+                body=text,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=[notification.recipient.email],
+            )
+
+            email.attach_alternative(
+                html,
+                "text/html",
+            )
+
+            email.send(
+                fail_silently=False
+            )
 
             return True
 
         except Exception as exc:
 
+            print("========== EMAIL ERROR ==========")
             print(exc)
 
             return False
+
+
+        
