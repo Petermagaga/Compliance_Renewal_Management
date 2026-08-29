@@ -147,7 +147,7 @@ REST_FRAMEWORK = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
+'''
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 EMAIL_HOST = config("EMAIL_HOST")
@@ -168,7 +168,7 @@ DEFAULT_FROM_EMAIL = config(
     "DEFAULT_FROM_EMAIL"
 )
 
-
+'''
 BREVO_API_KEY = config("BREVO_API_KEY")
 
 BREVO_SENDER_EMAIL = config(
