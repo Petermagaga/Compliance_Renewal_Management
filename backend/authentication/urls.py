@@ -1,6 +1,50 @@
 from django.urls import path
-from .views import CurrentUserView
+
+from .views import (
+    LoginAPIView,
+    LogoutAPIView,
+    CurrentUserAPIView,
+    ChangePasswordAPIView,
+    ForgotPasswordAPIView,
+    ResetPasswordAPIView,
+)
+
 
 urlpatterns = [
-    path("me/",CurrentUserView.as_view(),name='current-user')
+
+    path(
+        "login/",
+        LoginAPIView.as_view(),
+        name="login",
+    ),
+
+    path(
+        "logout/",
+        LogoutAPIView.as_view(),
+        name="logout",
+    ),
+
+    path(
+        "me/",
+        CurrentUserAPIView.as_view(),
+        name="current-user",
+    ),
+
+    path(
+        "change-password/",
+        ChangePasswordAPIView.as_view(),
+        name="change-password",
+    ),
+
+    path(
+        "forgot-password/",
+        ForgotPasswordAPIView.as_view(),
+        name="forgot-password",
+    ),
+
+    path(
+        "reset-password/",
+        ResetPasswordAPIView.as_view(),
+        name="reset-password",
+    ),
 ]
