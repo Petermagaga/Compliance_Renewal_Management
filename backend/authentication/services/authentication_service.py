@@ -80,3 +80,27 @@ class AuthenticationService:
 
 
 
+    @staticmethod
+    def request_password_reset(email: str):
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return None
+
+        if not user.is_active:
+            return None
+
+        uid = urlsafe_base64_encode(
+            force_bytes(user.pk)
+        )
+
+        token = default_token_generator.make_token(user)
+
+        return {
+            "user": user,
+            "uid": uid,
+            "token": token,
+        }
+
+    
