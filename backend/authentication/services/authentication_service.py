@@ -103,4 +103,27 @@ class AuthenticationService:
             "token": token,
         }
 
-    
+
+
+    @staticmethod
+    def reset_password(
+        user,
+        token: str,
+        new_password: str,
+    ):
+
+        if not default_token_generator.check_token(
+            user,
+            token,
+        ):
+            raise ValueError(
+                "Password reset link is invalid or expired."
+            )
+
+        user.set_password(new_password)
+
+        user.save(
+            update_fields=["password"]
+        )
+
+        return user
