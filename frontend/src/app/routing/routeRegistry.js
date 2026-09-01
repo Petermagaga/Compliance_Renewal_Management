@@ -9,7 +9,7 @@ import ComplianceItems from "../../features/compliance/pages/ComplianceItems";
 import Reports from "../../pages/Reports";
 import AddCompliance from "../../pages/AddComplianceItem";
 import NotificationPage from "../../pages/Notifications";
-
+import ForgotPassword from "../../pages/ForgotPassword";
 
 import Settings from "../../features/settings/pages/Settings";
 import ComplianceDetails from "../../features/compliance/pages/ComplianceDetails";
@@ -382,5 +382,21 @@ export const routeRegistry = [
             showInSidebar: false,
         }
 
+,
+        {
+            id: "forgot-password",
+
+            path: "/forgot-password",
+
+            Component: ForgotPassword,
+
+            title: "ForgotPassword /",
+
+            layout: "auth",
+
+            requiresAuth: false,
+
+            showInSidebar: false,
+        }
 
 ];
