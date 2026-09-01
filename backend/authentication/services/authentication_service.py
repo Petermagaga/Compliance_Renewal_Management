@@ -4,7 +4,11 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.conf import settings
 
+from authentication.services.password_reset_service import (
+    PasswordResetEmailService
+)
 from authentication.models import User
 class AuthenticationService:
     """
@@ -79,7 +83,6 @@ class AuthenticationService:
         return user
 
 
-
     @staticmethod
     def request_password_reset(email: str):
 
@@ -97,11 +100,17 @@ class AuthenticationService:
 
         token = default_token_generator.make_token(user)
 
-        return {
-            "user": user,
-            "uid": uid,
-            "token": token,
-        }
+        reset_url = (
+            f"{settings.FRONTEND_URL}"
+            f"/reset-password/{uid}/{token}/"
+        )
+
+        PasswordResetEmailService.send(
+            user=user,
+            reset_url=reset_url,
+        )
+
+        return True
 
 
 

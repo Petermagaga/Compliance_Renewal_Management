@@ -178,3 +178,5 @@ BREVO_SENDER_EMAIL = config(
 BREVO_SENDER_NAME = config(
     "BREVO_SENDER_NAME"
 )
+
+FRONTEND_URL="http://localhost:5173"
