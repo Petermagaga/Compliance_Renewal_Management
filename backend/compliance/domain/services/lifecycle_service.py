@@ -1,4 +1,6 @@
 from datetime import datetime
+from django.utils import timezone
+from  compliance.models import ComplianceItem
 from compliance.domain.events.compliance_events import (ComplianceExpired,)
 from compliance.domain.events.dispatcher import (dispatcher)
 from compliance.domain.statuses import ComplianceStatus
@@ -173,3 +175,62 @@ class LifecycleService:
             },
 
         )
+
+    @staticmethod
+    def process_expirations(actor=None):
+        """
+        Automatically updates compliance items based on expiry date.
+
+        ACTIVE -> EXPIRING
+        EXPIRING -> EXPIRED
+        """
+
+        today = timezone.now().date()
+
+        items_processed = 0
+        items_expiring = 0
+        items_expired = 0
+
+        items = ComplianceItem.objects.filter(
+            status__in=[
+                ComplianceStatus.ACTIVE.value,
+                ComplianceStatus.EXPIRING.value,
+            ]
+        )
+
+        for item in items:
+
+            days_remaining = (item.expiry_date - today).days
+
+            # ACTIVE -> EXPIRING
+            if (
+                item.status == ComplianceStatus.ACTIVE.value
+                and days_remaining <= 30
+                and days_remaining >= 0
+            ):
+                LifecycleService.mark_expiring(
+                    item,
+                    actor=actor,
+                )
+
+                items_expiring += 1
+                items_processed += 1
+
+            # EXPIRING -> EXPIRED
+            elif (
+                item.status == ComplianceStatus.EXPIRING.value
+                and days_remaining < 0
+            ):
+                LifecycleService.expire(
+                    item,
+                    actor=actor,
+                )
+
+                items_expired += 1
+                items_processed += 1
+
+        return {
+            "processed": items_processed,
+            "expiring": items_expiring,
+            "expired": items_expired,
+        }
