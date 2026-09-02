@@ -22,6 +22,7 @@ ALLOWED_TRANSITIONS = {
 
     ComplianceStatus.ACTIVE: {
         ComplianceStatus.EXPIRING,
+        ComplianceStatus.EXPIRED,
         ComplianceStatus.ARCHIVED,
     },
 
