@@ -248,4 +248,3 @@ class LifecycleService:
                 "expiring": items_expiring,
                 "expired": items_expired,
         }
-
