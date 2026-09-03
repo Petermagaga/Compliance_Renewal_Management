@@ -63,7 +63,7 @@ class LifecycleService:
             title="Compliance Status Changed",
             description=(
                 f"{item.name} changed to "
-                f"{target_status.label}."
+                f"{target_status.name.replace('_', ' ').title()}."
             ),
             user=actor,
         )
@@ -201,12 +201,23 @@ class LifecycleService:
         for item in items:
 
             days_remaining = (item.expiry_date - today).days
-
-            # ACTIVE -> EXPIRING
+            # ACTIVE -> EXPIRED
             if (
                 item.status == ComplianceStatus.ACTIVE.value
-                and days_remaining <= 30
-                and days_remaining >= 0
+                and days_remaining < 0
+            ):
+                LifecycleService.expire(
+                    item,
+                    actor=actor,
+                )
+
+                items_expired += 1
+                items_processed += 1
+
+            # ACTIVE -> EXPIRING
+            elif (
+                item.status == ComplianceStatus.ACTIVE.value
+                and 0 <= days_remaining <= 30
             ):
                 LifecycleService.mark_expiring(
                     item,
@@ -227,10 +238,13 @@ class LifecycleService:
                 )
 
                 items_expired += 1
+
                 items_processed += 1
 
-        return {
-            "processed": items_processed,
-            "expiring": items_expiring,
-            "expired": items_expired,
+
+
+            return {
+                "processed": items_processed,
+                "expiring": items_expiring,
+                "expired": items_expired,
         }
