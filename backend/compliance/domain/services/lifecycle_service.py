@@ -248,3 +248,11 @@ class LifecycleService:
                 "expiring": items_expiring,
                 "expired": items_expired,
         }
+
+    @staticmethod
+    def start_renewal(item,actor=None):
+        return LifecycleService.transition(
+            item,
+            ComplianceStatus.RENEWAL_IN_PROGRESS,
+            actor,
+        )
