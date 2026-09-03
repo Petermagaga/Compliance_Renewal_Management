@@ -16,6 +16,9 @@ from .pagination import NotificationPagination
 from django.db.models import Count
 from django.conf import settings
 
+from notifications.services.reminder_service import ReminderService
+
+
 class NotificationListAPIView(APIView):
 
     permission_classes = [IsAuthenticated]
