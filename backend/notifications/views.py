@@ -17,7 +17,7 @@ from django.db.models import Count
 from django.conf import settings
 
 from notifications.services.reminder_service import ReminderService
-
+from compliance.domain.services.lifecycle_service import LifecycleService 
 
 class NotificationListAPIView(APIView):
 
@@ -234,13 +234,18 @@ def run_reminders(request):
         )
 
     try:
-        ReminderService().run()
+        lifecycle_result=LifecycleService.process_expirations()
+        reminder_result=ReminderService().run()
         return Response(
             {
                 "success":True,
+                
                 "message":"Compliance reminder job completed successfully",
+                "lifecycle":lifecycle_result,
+                "reminders":reminder_result,
 
             },
+
             status=status.HTTP_200_OK,
         )
     except Exception as error:
