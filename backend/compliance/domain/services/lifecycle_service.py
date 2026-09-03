@@ -243,8 +243,9 @@ class LifecycleService:
 
 
 
-            return {
+        return {
                 "processed": items_processed,
                 "expiring": items_expiring,
                 "expired": items_expired,
         }
+
