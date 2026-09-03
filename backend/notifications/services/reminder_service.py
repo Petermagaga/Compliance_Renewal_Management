@@ -113,15 +113,21 @@ class ReminderService:
 
         items = self.get_expiring_items()
 
+        items_checked = 0
+        reminders_triggered = 0
 
         for item in items:
+
+            items_checked += 1
+
             days_left = self.calculate_days_remaining(item)
 
             if not self.should_send(days_left):
                 continue
 
-            message=format_expiry_message(
-                item,days_left
+            message = format_expiry_message(
+                item,
+                days_left
             )
 
             print(message)
@@ -130,4 +136,10 @@ class ReminderService:
                 item,
                 days_left
             )
-        
+
+            reminders_triggered += 1
+
+        return {
+            "items_checked": items_checked,
+            "reminders_triggered": reminders_triggered,
+        }

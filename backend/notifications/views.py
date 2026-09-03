@@ -240,7 +240,7 @@ def run_reminders(request):
             {
                 "success":True,
                 
-                "message":"Compliance reminder job completed successfully",
+                "message":"Compliance automation job completed successfully",
                 "lifecycle":lifecycle_result,
                 "reminders":reminder_result,
 
@@ -252,8 +252,8 @@ def run_reminders(request):
         return Response(
             {
                 "success":False,
-                "message":"Compliance reminder job failed",
-                "Error": str(error)
+                "message":"Compliance automation job failed",
+                "error": str(error)
             },
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
