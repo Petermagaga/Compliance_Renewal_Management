@@ -65,6 +65,7 @@ class LifecycleService:
                 f"{item.name} changed to "
                 f"{target_status.name.replace('_', ' ').title()}."
             ),
+            compliance_item=item,
             user=actor,
         )
 

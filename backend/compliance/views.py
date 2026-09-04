@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 
-from .serializers import ReminderLogSerializer,ComplianceItemSerializer
+from .serializers import ReminderLogSerializer,ComplianceItemSerializer,ComplianceRenewalSerializer
 from .models import ComplianceItem,ReminderLog
 from .querysets import ComplianceQuerySet
 from .pagination import CompliancePagination  
@@ -87,6 +87,23 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
         )
 
         return Response(serializer.data)
+
+
+    @action(detail=True,methods=["post"])
+    def renew(self,request,pk=None):
+        item=self.get_object()
+        serializer=ComplianceRenewalSerializer(
+            data=request.data
+        )
+        serializer.is_valid(raise_exception=True)
+
+        return Response(
+            {
+                "success":True,
+                "message":"Renewal request is valid",
+                "data":serializer.validated_data
+            }
+        )
 
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]

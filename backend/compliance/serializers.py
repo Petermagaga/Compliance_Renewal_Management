@@ -118,3 +118,18 @@ class ReminderLogSerializer(serializers.ModelSerializer):
             "status",
             "sent_at",
         )
+
+
+class ComplianceRenewalSerializer(serializers.Serializer):
+    new_issue_date =serializers.DateField()
+    new_expiry_date =serializers.DateField()
+    document=serializers.FileField(required=False,allow_null=True)
+
+    def validate(self,attrs):
+        if attrs["new_expiry_date"] < attrs["new_issue_date"]:
+            raise serializers.ValidationError(
+                {
+                    "new_expiry_date":"Expiry date cannot be earlier than issue date"
+                }
+            )
+        return attrs
