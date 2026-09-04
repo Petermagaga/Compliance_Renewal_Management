@@ -257,3 +257,12 @@ class LifecycleService:
             ComplianceStatus.RENEWAL_IN_PROGRESS,
             actor,
         )
+    @staticmethod
+    def complete_renewal(item,actor=None):
+        return LifecycleService.transition(
+            item,
+            ComplianceStatus.ACTIVE,
+            actor,
+        )
+
+    
