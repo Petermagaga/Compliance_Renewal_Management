@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
+from compliance.domain.services.lifecycle_service import LifecycleService
 
 from .serializers import ReminderLogSerializer,ComplianceItemSerializer,ComplianceRenewalSerializer
 from .models import ComplianceItem,ReminderLog
@@ -97,11 +97,20 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
         )
         serializer.is_valid(raise_exception=True)
 
+        LifecycleService.start_renewal(
+            item,
+            actor=request.user,
+        )
+
         return Response(
             {
                 "success":True,
-                "message":"Renewal request is valid",
-                "data":serializer.validated_data
+                "message":"Compliance item renewal started.",
+                "data":{
+
+                    "id":item.id,
+                    "status":item.status
+                }
             }
         )
 
