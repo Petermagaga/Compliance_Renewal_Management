@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from compliance.domain.services.lifecycle_service import LifecycleService
 
 from .serializers import ReminderLogSerializer,ComplianceItemSerializer,ComplianceRenewalSerializer
-from .models import ComplianceItem,ReminderLog
+from .models import ComplianceItem,ReminderLog,ComplianceRenewal
 from .querysets import ComplianceQuerySet
 from .pagination import CompliancePagination  
 
@@ -91,7 +91,6 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["post"])
     def renew(self, request, pk=None):
-
         item = self.get_object()
 
         serializer = ComplianceRenewalSerializer(
@@ -102,11 +101,25 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
 
         data = serializer.validated_data
 
+        # Save the old information before changing it
+        renewal = ComplianceRenewal.objects.create(
+            compliance_item=item,
+            old_issue_date=item.issue_date,
+            old_expiry_date=item.expiry_date,
+            new_issue_date=data["new_issue_date"],
+            new_expiry_date=data["new_expiry_date"],
+            old_document=item.document,
+            renewed_by=request.user,
+        )
+
+        # Update the current compliance information
         item.issue_date = data["new_issue_date"]
         item.expiry_date = data["new_expiry_date"]
 
         if data.get("document"):
             item.document = data["document"]
+            renewal.new_document = data["document"]
+            renewal.save(update_fields=["new_document"])
 
         item.save(
             update_fields=[
@@ -117,6 +130,7 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
             ]
         )
 
+        # Complete the renewal lifecycle
         LifecycleService.complete_renewal(
             item,
             actor=request.user,
@@ -132,6 +146,8 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
                 "status": item.status,
             }
         })
+
+
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     serializer_class=ReminderLogSerializer
