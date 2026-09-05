@@ -89,31 +89,49 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-    @action(detail=True,methods=["post"])
-    def renew(self,request,pk=None):
-        item=self.get_object()
-        serializer=ComplianceRenewalSerializer(
+    @action(detail=True, methods=["post"])
+    def renew(self, request, pk=None):
+
+        item = self.get_object()
+
+        serializer = ComplianceRenewalSerializer(
             data=request.data
         )
+
         serializer.is_valid(raise_exception=True)
 
-        LifecycleService.start_renewal(
+        data = serializer.validated_data
+
+        item.issue_date = data["new_issue_date"]
+        item.expiry_date = data["new_expiry_date"]
+
+        if data.get("document"):
+            item.document = data["document"]
+
+        item.save(
+            update_fields=[
+                "issue_date",
+                "expiry_date",
+                "document",
+                "updated_at",
+            ]
+        )
+
+        LifecycleService.complete_renewal(
             item,
             actor=request.user,
         )
 
-        return Response(
-            {
-                "success":True,
-                "message":"Compliance item renewal started.",
-                "data":{
-
-                    "id":item.id,
-                    "status":item.status
-                }
+        return Response({
+            "success": True,
+            "message": "Compliance item renewed successfully.",
+            "data": {
+                "id": item.id,
+                "issue_date": item.issue_date,
+                "expiry_date": item.expiry_date,
+                "status": item.status,
             }
-        )
-
+        })
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     serializer_class=ReminderLogSerializer
