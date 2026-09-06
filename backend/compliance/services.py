@@ -12,6 +12,7 @@ def update_compliance_status():
     for item in items:
         days_left=(item.expiry_date - date.today()).days
 
+
         if days_left<=0:
             item.status = "expired"
 

@@ -145,6 +145,7 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
                 "expiry_date": item.expiry_date,
                 "status": item.status,
             }
+            
         })
 
 
