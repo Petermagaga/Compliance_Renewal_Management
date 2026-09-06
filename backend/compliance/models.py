@@ -71,6 +71,7 @@ class ComplianceRenewal(models.Model):
     new_issue_date=models.DateField()
     new_expiry_date =models.DateField()
 
+
     old_daocument=models.FileField(
         upload_to="compliance_renewals/old/",blank=True,null=True,
     )
