@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from compliance.domain.services.lifecycle_service import LifecycleService
-
+from compliance.domain.statuses import ComplianceStatus
 from .serializers import ReminderLogSerializer,ComplianceItemSerializer,ComplianceRenewalSerializer
 from .models import ComplianceItem,ReminderLog,ComplianceRenewal
 from .querysets import ComplianceQuerySet
@@ -88,6 +88,25 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    @action(detail=True,methods=["post"])
+    def start_renewal(self,request,pk=None):
+        item=self.get_object()
+        LifecycleService.start_renewal(
+            item,
+            actor=request.user,
+        )
+
+        return Response(
+            {
+                "success":True,
+                "message":"Compliance item renewal started.",
+                "data":{
+                    "id":item.id,
+                    "status":item.status,
+                }
+            }
+        )
+
 
     @action(detail=True, methods=["post"])
     def renew(self, request, pk=None):
@@ -96,6 +115,17 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
         serializer = ComplianceRenewalSerializer(
             data=request.data
         )
+
+        if item.status != ComplianceStatus.RENEWAL_IN_PROGRESS:
+            return Response(
+                {
+                    "success":False,
+                    "message":(
+                        "Compliance item must be in "
+                        "renewal in progress status"
+                    )
+                }
+            )
 
         serializer.is_valid(raise_exception=True)
 
