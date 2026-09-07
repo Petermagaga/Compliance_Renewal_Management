@@ -178,6 +178,34 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
             
         })
 
+    @action(detail=True,methods=["post"])
+    def start_renewal(self, request,pk=None):
+        item=self.get_object()
+
+        try:
+            LifecycleService.start_renewal(
+                item,
+                actor=request.user,
+            )
+        except Exception as error:
+            return Response(
+                {
+                    "success":False,
+                    "message": str(error),
+                },
+                status=400,
+            )
+
+        return Response(
+            {
+                "success":True,
+                "message":"Compliance item renewal started.",
+                "data":{
+                    "id":item.id,
+                    "status":item.status,
+                }
+            }
+        )
 
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
