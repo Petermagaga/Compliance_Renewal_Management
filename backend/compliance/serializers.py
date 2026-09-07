@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ReminderLog,ComplianceItem
+from .models import ReminderLog,ComplianceItem,ComplianceRenewal
 from django.utils import timezone
 
 class ComplianceItemSerializer(serializers.ModelSerializer):
@@ -134,3 +134,34 @@ class ComplianceRenewalSerializer(serializers.Serializer):
                 }
             )
         return attrs
+
+
+class ComplianceRenewalHistorySerializer(serializers.ModelSerializer):
+    compliance_item_name = serializers.CharField(
+        source="compliance_item.name",
+        read_only=True,
+    )
+
+    renewed_by_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ComplianceRenewal
+        fields = (
+            "id",
+            "compliance_item",
+            "compliance_item_name",
+            "old_issue_date",
+            "old_expiry_date",
+            "new_issue_date",
+            "new_expiry_date",
+            "old_document",
+            "new_document",
+            "renewed_by",
+            "renewed_by_name",
+            "renewed_at",
+        )
+
+    def get_renewed_by_name(self, obj):
+        if obj.renewed_by:
+            return obj.renewed_by.get_full_name() or obj.renewed_by.email
+        return None
