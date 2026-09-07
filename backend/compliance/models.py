@@ -79,6 +79,8 @@ class ComplianceRenewal(models.Model):
     new_document=models.FileField(
         upload_to="compliance_renewals/new/",blank=True,null=True
     )
+    renewed_at=models.DateTimeField(auto_now_add=True)
+    
 
     renewed_by=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,
                                  null=True,blank=True,related_name="compliance_renewals",)
