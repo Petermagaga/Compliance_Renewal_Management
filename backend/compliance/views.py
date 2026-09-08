@@ -6,7 +6,10 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from compliance.domain.services.lifecycle_service import LifecycleService
 from compliance.domain.statuses import ComplianceStatus
-from .serializers import ReminderLogSerializer,ComplianceItemSerializer,ComplianceRenewalSerializer
+from .serializers import (ReminderLogSerializer,
+                          ComplianceItemSerializer,
+                          ComplianceRenewalSerializer,
+                          ComplianceRenewalHistorySerializer)
 from .models import ComplianceItem,ReminderLog,ComplianceRenewal
 from .querysets import ComplianceQuerySet
 from .pagination import CompliancePagination  
@@ -203,9 +206,24 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
                 "data":{
                     "id":item.id,
                     "status":item.status,
-                }
+                } 
             }
         )
+
+    @action(detail=True, methods=["get"])
+    def renewal_history(self, request, pk=None):
+        item = self.get_object()
+
+        renewals = ComplianceRenewal.objects.filter(
+            compliance_item=item
+        ).order_by("-renewed_at")
+
+        serializer = ComplianceRenewalHistorySerializer(
+            renewals,
+            many=True,
+        )
+
+        return Response(serializer.data)
 
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
