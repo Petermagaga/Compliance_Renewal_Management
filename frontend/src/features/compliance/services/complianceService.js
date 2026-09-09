@@ -22,6 +22,7 @@ const complianceService = {
         );
     },
 
+
     updateItem(id, data) {
         return api.put(
             `/compliance/items/${id}/`,
@@ -56,6 +57,10 @@ const complianceService = {
 
     getReminderHistory(id) {
         return api.get(`/compliance/items/${id}/reminders/`);
+    },
+
+    getRenewalHistory(id) {
+        return api.get(`/compliance/items/${id}/renewal_history/`);
     },
 
 };
