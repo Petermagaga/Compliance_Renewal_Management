@@ -163,5 +163,5 @@ class ComplianceRenewalHistorySerializer(serializers.ModelSerializer):
 
     def get_renewed_by_name(self, obj):
         if obj.renewed_by:
-            return obj.renewed_by.get_full_name() or obj.renewed_by.email
+            return obj.renewed_by.full_name or obj.renewed_by.email
         return None

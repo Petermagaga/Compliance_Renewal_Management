@@ -91,25 +91,6 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    @action(detail=True,methods=["post"])
-    def start_renewal(self,request,pk=None):
-        item=self.get_object()
-        LifecycleService.start_renewal(
-            item,
-            actor=request.user,
-        )
-
-        return Response(
-            {
-                "success":True,
-                "message":"Compliance item renewal started.",
-                "data":{
-                    "id":item.id,
-                    "status":item.status,
-                }
-            }
-        )
-
 
     @action(detail=True, methods=["post"])
     def renew(self, request, pk=None):
