@@ -9,7 +9,8 @@ function Reports() {
         expired: 0,
     });
     const [statusDistribution,setStatusDistribution]=useState([]);
-
+    const[expiryRanges,setExpiryRanges] =useState([]);
+    const []=useState()
     const totalItems = summary.total_items || 0;
 
     const statusPercentages = statusDistribution.map((status) => ({
@@ -36,6 +37,11 @@ function Reports() {
                 setStatusDistribution(
                     response.data?.charts?.status_distribution ?? []
                 );
+
+                setExpiryRanges(
+                    response.data?.charts?.expiry_ranges ??[]
+                );
+
             } catch (error) {
                 console.error(
                     "Report summary loading failed:",
@@ -156,10 +162,34 @@ function Reports() {
                         Overview of upcoming and past expirations.
                     </p>
 
-                    <div className="mt-8 flex h-48 items-center justify-center rounded-xl bg-slate-50 text-sm text-slate-400">
-                        Expiry chart coming next
-                    </div>
+                <div className="mt-8 space-y-4">
+                    {expiryRanges.map((range) => (
+                        <div key={range.range}>
+                            <div className="mb-2 flex items-center justify-between">
+                                <span className="text-sm font-medium text-slate-700">
+                                    {range.range} days
+                                </span>
 
+                                <span className="text-sm font-semibold text-slate-900">
+                                    {range.items}
+                                </span>
+                            </div>
+
+                            <div className="h-3 overflow-hidden rounded-full bg-slate-100">
+                                <div
+                                    className="h-full rounded-full bg-green-600"
+                                    style={{
+                                        width: `${
+                                            summary.total_items
+                                                ? (range.items / summary.total_items) * 100
+                                                : 0
+                                        }%`,
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    ))}
+                </div>
                 </div>
 
             </div>
