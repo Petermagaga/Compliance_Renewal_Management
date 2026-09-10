@@ -9,6 +9,17 @@ function Reports() {
         expired: 0,
     });
     const [statusDistribution,setStatusDistribution]=useState([]);
+
+    const totalItems = summary.total_items || 0;
+
+    const statusPercentages = statusDistribution.map((status) => ({
+        ...status,
+        percentage: totalItems
+            ? Math.round((status.value / totalItems) * 100)
+            : 0,
+    }));
+
+
     useEffect(() => {
         const fetchReportSummary = async () => {
             try {
