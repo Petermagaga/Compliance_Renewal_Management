@@ -117,10 +117,31 @@ function Reports() {
             <div className="grid gap-6 lg:grid-cols-2">
 
                 {/* Compliance Status */}
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-
+                
+                <div>
                     <StatusPieChart data={statusDistribution} />
 
+                    <div className="mt-6 grid grid-cols-3 gap-3">
+                        {statusPercentages.map((status) => (
+                            <div
+                                key={status.name}
+                                className="rounded-xl bg-slate-50 p-4 text-center"
+                            >
+                                <p className="text-xs font-medium text-slate-500">
+                                    {status.name}
+                                </p>
+
+                                <p className="mt-1 text-xl font-bold text-slate-900">
+                                    {status.percentage}%
+                                </p>
+
+                                <p className="mt-1 text-xs text-slate-400">
+                                    {status.value} item
+                                    {status.value === 1 ? "" : "s"}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
 
