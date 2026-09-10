@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import dashboardService from "../features/dashboard/services/dashboardService";
-
+import StatusPieChart from "../components/charts/StatusPieChart";
 function Reports() {
     const [summary, setSummary] = useState({
         total_items: 0,
@@ -8,7 +8,7 @@ function Reports() {
         expiring: 0,
         expired: 0,
     });
-
+    const [statusDistribution,setStatusDistribution]=useState([]);
     useEffect(() => {
         const fetchReportSummary = async () => {
             try {
@@ -21,6 +21,9 @@ function Reports() {
                         expiring: 0,
                         expired: 0,
                     }
+                );
+                setStatusDistribution(
+                    response.data?.charts?.status_distribution ?? []
                 );
             } catch (error) {
                 console.error(
@@ -105,17 +108,7 @@ function Reports() {
                 {/* Compliance Status */}
                 <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
 
-                    <h2 className="text-lg font-semibold text-slate-900">
-                        Compliance Status
-                    </h2>
-
-                    <p className="mt-1 text-sm text-slate-500">
-                        Distribution of compliance items by status.
-                    </p>
-
-                    <div className="mt-8 flex h-48 items-center justify-center rounded-xl bg-slate-50 text-sm text-slate-400">
-                        Status chart coming next
-                    </div>
+                    <StatusPieChart data={statusDistribution} />
 
                 </div>
 
