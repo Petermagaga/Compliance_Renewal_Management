@@ -1,4 +1,39 @@
+import { useEffect, useState } from "react";
+import dashboardService from "../features/dashboard/services/dashboardService";
+
 function Reports() {
+    const [summary, setSummary] = useState({
+        total_items: 0,
+        active: 0,
+        expiring: 0,
+        expired: 0,
+    });
+
+    useEffect(() => {
+        const fetchReportSummary = async () => {
+            try {
+                const response = await dashboardService.getDashboard();
+
+                setSummary(
+                    response.data?.summary ?? {
+                        total_items: 0,
+                        active: 0,
+                        expiring: 0,
+                        expired: 0,
+                    }
+                );
+            } catch (error) {
+                console.error(
+                    "Report summary loading failed:",
+                    error
+                );
+            }
+        };
+
+        fetchReportSummary();
+    }, []);
+   
+   
     return (
         <div className="space-y-6 p-8">
 
@@ -24,7 +59,7 @@ function Reports() {
                     </p>
 
                     <p className="mt-2 text-3xl font-bold text-slate-900">
-                        —
+                        {summary.total_items}
                     </p>
                 </div>
 
@@ -35,7 +70,7 @@ function Reports() {
                     </p>
 
                     <p className="mt-2 text-3xl font-bold text-slate-900">
-                        —
+                        {summary.active}
                     </p>
                 </div>
 
@@ -46,7 +81,7 @@ function Reports() {
                     </p>
 
                     <p className="mt-2 text-3xl font-bold text-slate-900">
-                        —
+                        {summary.expiring}
                     </p>
                 </div>
 
@@ -57,7 +92,7 @@ function Reports() {
                     </p>
 
                     <p className="mt-2 text-3xl font-bold text-slate-900">
-                        —
+                        {summary.expired}
                     </p>
                 </div>
 
