@@ -206,6 +206,17 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    @action(detail=False, methods=["get"], url_path="renewals")
+    def all_renewals(self, request):
+        renewals = ComplianceRenewal.objects.all().order_by("-renewed_at")
+
+        serializer = ComplianceRenewalHistorySerializer(
+            renewals,
+            many=True,
+        )
+
+        return Response(serializer.data)
+
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     serializer_class=ReminderLogSerializer
