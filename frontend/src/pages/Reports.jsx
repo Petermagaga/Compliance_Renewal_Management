@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import dashboardService from "../features/dashboard/services/dashboardService";
+import complianceService from "../features/compliance/services/complianceService";
 import StatusPieChart from "../components/charts/StatusPieChart";
 function Reports() {
     const [summary, setSummary] = useState({
@@ -10,6 +11,8 @@ function Reports() {
     });
     const [statusDistribution,setStatusDistribution]=useState([]);
     const[expiryRanges,setExpiryRanges] =useState([]);
+    const[renewals,setRenewals] =useState([]);
+
     const []=useState()
     const totalItems = summary.total_items || 0;
 
@@ -40,6 +43,12 @@ function Reports() {
 
                 setExpiryRanges(
                     response.data?.charts?.expiry_ranges ??[]
+                );
+
+                const renewalResponse = await complianceService.getAllRenewals();
+
+                setRenewals(
+                    renewalResponse.data ?? []
                 );
 
             } catch (error) {

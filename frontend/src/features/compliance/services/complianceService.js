@@ -62,6 +62,9 @@ const complianceService = {
     getRenewalHistory(id) {
         return api.get(`/compliance/items/${id}/renewal_history/`);
     },
+    getAllRenewal() {
+        return api.get("/compliance/items/renewals/");
+    }
 
 };
 
