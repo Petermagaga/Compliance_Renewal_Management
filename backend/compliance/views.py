@@ -226,7 +226,7 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
         data=[
             {
                 "id":reminder.id,
-                "Compliance_item":reminder.compliance_item.id,
+                "compliance_item":reminder.compliance_item.id,
                 "compliance_item_name":reminder.compliance_item.name,
                 "days_before":reminder.days_before,
                 "channel":reminder.channel,

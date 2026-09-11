@@ -67,6 +67,11 @@ const complianceService = {
     return api.get("/compliance/items/renewals/");
 },
 
+    getAllReminders() {
+        return api.get("/compliance/items/reminders/");
+
+    },
+
 };
 
 export default complianceService;

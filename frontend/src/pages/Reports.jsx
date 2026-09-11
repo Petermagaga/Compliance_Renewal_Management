@@ -12,9 +12,28 @@ function Reports() {
     const [statusDistribution,setStatusDistribution]=useState([]);
     const[expiryRanges,setExpiryRanges] =useState([]);
     const[renewals,setRenewals] =useState([]);
-
+    const[reminders,setReminders]=useState([]);
     const []=useState()
     const totalItems = summary.total_items || 0;
+
+    const totalReminders = reminders.length;
+
+    const sentReminders = reminders.filter(
+        (reminder) => reminder.status === "sent"
+    ).length;
+
+    const failedReminders = reminders.filter(
+        (reminder) => reminder.status === "failed"
+    ).length;
+
+    const emailReminders = reminders.filter(
+        (reminder) => reminder.channel === "email"
+    ).length;
+
+    const whatsappReminders = reminders.filter(
+        (reminder) => reminder.channel === "whatsapp"
+    ).length;
+
 
     const statusPercentages = statusDistribution.map((status) => ({
         ...status,
@@ -50,6 +69,14 @@ function Reports() {
                 setRenewals(
                     renewalResponse.data ?? []
                 );
+
+                const reminderResponse = await complianceService.getAllReminders();
+
+                setReminders(
+                    reminderResponse.data ?? []
+                );
+
+                
 
             } catch (error) {
                 console.error(
