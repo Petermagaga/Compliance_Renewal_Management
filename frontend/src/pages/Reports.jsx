@@ -205,68 +205,71 @@ function Reports() {
 
 
             {/* Renewal History */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
 
-                <div>
-                    <h2 className="text-lg font-semibold text-slate-900">
-                        Renewal History
-                    </h2>
-
-                    <p className="mt-1 text-sm text-slate-500">
-                        Historical record of compliance renewals.
-                    </p>
-                </div>
-
-                <div className="mt-6 overflow-x-auto">
-
-                    <table className="w-full text-left text-sm">
-
-                        <thead className="border-b border-slate-200 text-slate-500">
-
-                            <tr>
-                                <th className="px-4 py-3 font-medium">
+            <div className="mt-6 overflow-x-auto">
+                {renewals.length === 0 ? (
+                    <div className="flex h-24 items-center justify-center rounded-xl bg-slate-50 text-sm text-slate-400">
+                        No renewal history available.
+                    </div>
+                ) : (
+                    <table className="w-full text-left">
+                        <thead>
+                            <tr className="border-b border-slate-200 text-xs text-slate-500">
+                                <th className="px-3 py-3 font-medium">
                                     Compliance Item
                                 </th>
 
-                                <th className="px-4 py-3 font-medium">
+                                <th className="px-3 py-3 font-medium">
                                     Previous Expiry
                                 </th>
 
-                                <th className="px-4 py-3 font-medium">
+                                <th className="px-3 py-3 font-medium">
                                     New Expiry
                                 </th>
 
-                                <th className="px-4 py-3 font-medium">
+                                <th className="px-3 py-3 font-medium">
                                     Renewed By
                                 </th>
 
-                                <th className="px-4 py-3 font-medium">
+                                <th className="px-3 py-3 font-medium">
                                     Date
                                 </th>
                             </tr>
-
                         </thead>
 
-
                         <tbody>
-
-                            <tr>
-                                <td
-                                    colSpan="5"
-                                    className="px-4 py-8 text-center text-slate-400"
+                            {renewals.map((renewal) => (
+                                <tr
+                                    key={renewal.id}
+                                    className="border-b border-slate-100 last:border-0"
                                 >
-                                    Renewal history will appear here.
-                                </td>
-                            </tr>
+                                    <td className="px-3 py-4 text-sm font-medium text-slate-900">
+                                        {renewal.compliance_item_name}
+                                    </td>
 
+                                    <td className="px-3 py-4 text-sm text-slate-600">
+                                        {renewal.old_expiry_date}
+                                    </td>
+
+                                    <td className="px-3 py-4 text-sm text-slate-600">
+                                        {renewal.new_expiry_date}
+                                    </td>
+
+                                    <td className="px-3 py-4 text-sm text-slate-600">
+                                        {renewal.renewed_by_name || "System"}
+                                    </td>
+
+                                    <td className="px-3 py-4 text-sm text-slate-600">
+                                        {new Date(
+                                            renewal.renewed_at
+                                        ).toLocaleDateString()}
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
-
                     </table>
-
-                </div>
-
+                )}
             </div>
-
 
             {/* Activity Reports */}
             <div className="grid gap-6 lg:grid-cols-2">
