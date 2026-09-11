@@ -307,12 +307,51 @@ function Reports() {
                         Reminder Activity
                     </h2>
 
-                    <p className="mt-1 text-sm text-slate-500">
-                        Email and WhatsApp reminder activity.
-                    </p>
+                    <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-5">
+                        <div className="rounded-xl bg-slate-50 p-4">
+                            <p className="text-xs font-medium text-slate-500">
+                                Total Reminders
+                            </p>
+                            <p className="mt-2 text-2xl font-bold text-slate-900">
+                                {totalReminders}
+                            </p>
+                        </div>
 
-                    <div className="mt-6 flex h-32 items-center justify-center rounded-xl bg-slate-50 text-sm text-slate-400">
-                        Reminder report coming next
+                        <div className="rounded-xl bg-slate-50 p-4">
+                            <p className="text-xs font-medium text-slate-500">
+                                Sent
+                            </p>
+                            <p className="mt-2 text-2xl font-bold text-green-600">
+                                {sentReminders}
+                            </p>
+                        </div>
+
+                        <div className="rounded-xl bg-slate-50 p-4">
+                            <p className="text-xs font-medium text-slate-500">
+                                Failed
+                            </p>
+                            <p className="mt-2 text-2xl font-bold text-red-500">
+                                {failedReminders}
+                            </p>
+                        </div>
+
+                        <div className="rounded-xl bg-slate-50 p-4">
+                            <p className="text-xs font-medium text-slate-500">
+                                Email
+                            </p>
+                            <p className="mt-2 text-2xl font-bold text-slate-900">
+                                {emailReminders}
+                            </p>
+                        </div>
+
+                        <div className="rounded-xl bg-slate-50 p-4">
+                            <p className="text-xs font-medium text-slate-500">
+                                WhatsApp
+                            </p>
+                            <p className="mt-2 text-2xl font-bold text-slate-900">
+                                {whatsappReminders}
+                            </p>
+                        </div>
                     </div>
 
                 </div>
