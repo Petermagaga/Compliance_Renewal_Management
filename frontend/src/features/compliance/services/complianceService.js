@@ -72,6 +72,13 @@ const complianceService = {
 
     },
 
-};
+    getAllAudit() {
+        return api.get("/compliance/items/audit/");
+    },
+
+
+
+
+};  
 
 export default complianceService;

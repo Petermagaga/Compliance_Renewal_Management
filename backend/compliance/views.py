@@ -237,6 +237,19 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
         ]
         return Response(data)
     
+    @action(detail=False,methods=["get"],url_path="audit")
+    def all_audit(self,request):
+        activities=(
+            Activity.objects.select_related("user","compliance_item")
+            .order_by("-created_at")
+        )
+        serializer=ActivitySerializer(
+            activities,
+            many=True,
+        )
+
+        return Response(serializer.data)
+
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     serializer_class=ReminderLogSerializer

@@ -13,6 +13,8 @@ function Reports() {
     const[expiryRanges,setExpiryRanges] =useState([]);
     const[renewals,setRenewals] =useState([]);
     const[reminders,setReminders]=useState([]);
+    const [audit,setAudit] =useState([]);
+
     const []=useState()
     const totalItems = summary.total_items || 0;
 
@@ -34,6 +36,20 @@ function Reports() {
         (reminder) => reminder.channel === "whatsapp"
     ).length;
 
+
+    const totalAudit = audit.length;
+
+    const createdAudit = audit.filter(
+        (entry) => entry.activity_type === "created"
+    ).length;
+
+    const updatedAudit = audit.filter(
+        (entry) => entry.activity_type === "updated"
+    ).length;
+
+    const renewedAudit = audit.filter(
+        (entry) => entry.activity_type === "renewed"
+    ).length;
 
     const statusPercentages = statusDistribution.map((status) => ({
         ...status,
@@ -76,6 +92,12 @@ function Reports() {
                     reminderResponse.data ?? []
                 );
 
+
+                const auditResponse = await complianceService.getAllAudit();
+
+                setAudit(
+                    auditResponse.data ?? []
+                );
                 
 
             } catch (error) {
@@ -353,98 +375,192 @@ function Reports() {
                             </p>
                         </div>
                     </div>
+                    <div className="mt-8 overflow-x-auto">
+                        {reminders.length === 0 ? (
+                            <div className="flex h-24 items-center justify-center rounded-xl bg-slate-50 text-sm text-slate-400">
+                                No reminder activity available.
+                            </div>
+                        ) : (
+                            <table className="w-full text-left">
+                                <thead>
+                                    <tr className="border-b border-slate-200 text-xs text-slate-500">
+                                        <th className="px-3 py-3 font-medium">
+                                            Compliance Item
+                                        </th>
 
-<div className="mt-8 overflow-x-auto">
-    {reminders.length === 0 ? (
-        <div className="flex h-24 items-center justify-center rounded-xl bg-slate-50 text-sm text-slate-400">
-            No reminder activity available.
-        </div>
-    ) : (
-        <table className="w-full text-left">
-            <thead>
-                <tr className="border-b border-slate-200 text-xs text-slate-500">
-                    <th className="px-3 py-3 font-medium">
-                        Compliance Item
-                    </th>
+                                        <th className="px-3 py-3 font-medium">
+                                            Reminder
+                                        </th>
 
-                    <th className="px-3 py-3 font-medium">
-                        Reminder
-                    </th>
+                                        <th className="px-3 py-3 font-medium">
+                                            Channel
+                                        </th>
 
-                    <th className="px-3 py-3 font-medium">
-                        Channel
-                    </th>
+                                        <th className="px-3 py-3 font-medium">
+                                            Status
+                                        </th>
 
-                    <th className="px-3 py-3 font-medium">
-                        Status
-                    </th>
+                                        <th className="px-3 py-3 font-medium">
+                                            Date
+                                        </th>
+                                    </tr>
+                                </thead>
 
-                    <th className="px-3 py-3 font-medium">
-                        Date
-                    </th>
-                </tr>
-            </thead>
+                                <tbody>
+                                    {reminders.map((reminder) => (
+                                        <tr
+                                            key={reminder.id}
+                                            className="border-b border-slate-100 last:border-0"
+                                        >
+                                            <td className="px-3 py-4 text-sm font-medium text-slate-900">
+                                                {reminder.compliance_item_name}
+                                            </td>
 
-            <tbody>
-                {reminders.map((reminder) => (
-                    <tr
-                        key={reminder.id}
-                        className="border-b border-slate-100 last:border-0"
-                    >
-                        <td className="px-3 py-4 text-sm font-medium text-slate-900">
-                            {reminder.compliance_item_name}
-                        </td>
+                                            <td className="px-3 py-4 text-sm text-slate-600">
+                                                {reminder.days_before} days before
+                                            </td>
 
-                        <td className="px-3 py-4 text-sm text-slate-600">
-                            {reminder.days_before} days before
-                        </td>
+                                            <td className="px-3 py-4 text-sm capitalize text-slate-600">
+                                                {reminder.channel}
+                                            </td>
 
-                        <td className="px-3 py-4 text-sm capitalize text-slate-600">
-                            {reminder.channel}
-                        </td>
+                                            <td className="px-3 py-4">
+                                                <span
+                                                    className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
+                                                        reminder.status === "sent"
+                                                            ? "bg-green-100 text-green-700"
+                                                            : "bg-red-100 text-red-700"
+                                                    }`}
+                                                >
+                                                    {reminder.status}
+                                                </span>
+                                            </td>
 
-                        <td className="px-3 py-4">
-                            <span
-                                className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
-                                    reminder.status === "sent"
-                                        ? "bg-green-100 text-green-700"
-                                        : "bg-red-100 text-red-700"
-                                }`}
-                            >
-                                {reminder.status}
-                            </span>
-                        </td>
+                                            <td className="px-3 py-4 text-sm text-slate-600">
+                                                {new Date(
+                                                    reminder.sent_at
+                                                ).toLocaleDateString()}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
+                    </div>
 
-                        <td className="px-3 py-4 text-sm text-slate-600">
-                            {new Date(
-                                reminder.sent_at
-                            ).toLocaleDateString()}
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
-    )}
-</div>
 
                 </div>
 
 
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-
+            <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div>
                     <h2 className="text-lg font-semibold text-slate-900">
                         Audit Activity
                     </h2>
 
                     <p className="mt-1 text-sm text-slate-500">
-                        Recent compliance system activity.
+                        Historical record of compliance actions and system activity.
                     </p>
+                </div>
 
-                    <div className="mt-6 flex h-32 items-center justify-center rounded-xl bg-slate-50 text-sm text-slate-400">
-                        Audit report coming next
+                <div className="mt-6 grid grid-cols-3 gap-3">
+                    <div className="rounded-xl bg-slate-50 p-4 text-center">
+                        <p className="text-xs font-medium text-slate-500">
+                            Total Activity
+                        </p>
+                        <p className="mt-1 text-xl font-bold text-slate-900">
+                            {totalAudit}
+                        </p>
                     </div>
 
+                    <div className="rounded-xl bg-slate-50 p-4 text-center">
+                        <p className="text-xs font-medium text-slate-500">
+                            Created
+                        </p>
+                        <p className="mt-1 text-xl font-bold text-slate-900">
+                            {createdAudit}
+                        </p>
+                    </div>
+
+                    <div className="rounded-xl bg-slate-50 p-4 text-center">
+                        <p className="text-xs font-medium text-slate-500">
+                            Updated
+                        </p>
+                        <p className="mt-1 text-xl font-bold text-slate-900">
+                            {updatedAudit}
+                        </p>
+                    </div>
                 </div>
+
+                <div className="mt-8 overflow-x-auto">
+                    {audit.length === 0 ? (
+                        <div className="flex h-24 items-center justify-center rounded-xl bg-slate-50 text-sm text-slate-400">
+                            No audit activity available.
+                        </div>
+                    ) : (
+                        <table className="w-full text-left">
+                            <thead>
+                                <tr className="border-b border-slate-200 text-xs text-slate-500">
+                                    <th className="px-3 py-3 font-medium">
+                                        Activity
+                                    </th>
+
+                                    <th className="px-3 py-3 font-medium">
+                                        Compliance Item
+                                    </th>
+
+                                    <th className="px-3 py-3 font-medium">
+                                        User
+                                    </th>
+
+                                    <th className="px-3 py-3 font-medium">
+                                        Description
+                                    </th>
+
+                                    <th className="px-3 py-3 font-medium">
+                                        Date
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {audit.map((entry) => (
+                                    <tr
+                                        key={entry.id}
+                                        className="border-b border-slate-100 last:border-0"
+                                    >
+                                        <td className="px-3 py-4">
+                                            <span className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium capitalize text-slate-700">
+                                                {entry.activity_type.replace("_", " ")}
+                                            </span>
+                                        </td>
+
+                                        <td className="px-3 py-4 text-sm font-medium text-slate-900">
+                                            {entry.compliance_item
+                                                ? `Item #${entry.compliance_item}`
+                                                : "System"}
+                                        </td>
+
+                                        <td className="px-3 py-4 text-sm text-slate-600">
+                                            {entry.user_name || "System"}
+                                        </td>
+
+                                        <td className="max-w-md px-3 py-4 text-sm text-slate-600">
+                                            {entry.description}
+                                        </td>
+
+                                        <td className="px-3 py-4 text-sm text-slate-600">
+                                            {new Date(
+                                                entry.created_at
+                                            ).toLocaleDateString()}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                </div>
+            </div>
 
             </div>
 
