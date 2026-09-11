@@ -217,6 +217,26 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    @action(detail=False,methods=["get"],url_path="reminders")
+    def all_reminders(self,request):
+        reminders=ReminderLog.objects.select_related(
+            "compliance_item"
+        ).order_by("-sent_at")
+
+        data=[
+            {
+                "id":reminder.id,
+                "Compliance_item":reminder.compliance_item.id,
+                "compliance_item_name":reminder.compliance_item.name,
+                "days_before":reminder.days_before,
+                "channel":reminder.channel,
+                "status":reminder.status,
+                "sent_at":reminder.sent_at,
+            }
+            for reminder in reminders
+        ]
+        return Response(data)
+    
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     serializer_class=ReminderLogSerializer
