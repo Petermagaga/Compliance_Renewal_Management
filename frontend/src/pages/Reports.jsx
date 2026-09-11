@@ -463,8 +463,8 @@ function Reports() {
                     </p>
                 </div>
 
-                <div className="mt-6 grid grid-cols-3 gap-3">
-                    <div className="rounded-xl bg-slate-50 p-4 text-center">
+                <div className="mt-6 grid grid-cols-4 gap-3">
+                <div className="rounded-xl bg-slate-50 p-4 text-center">
                         <p className="text-xs font-medium text-slate-500">
                             Total Activity
                         </p>
@@ -490,6 +490,17 @@ function Reports() {
                             {updatedAudit}
                         </p>
                     </div>
+
+                    <div className="rounded-xl bg-slate-50 p-4 text-center">
+                        <p className="text-xs font-medium text-slate-500">
+                            Renewed
+                        </p>
+
+                        <p className="mt-1 text-xl font-bold text-slate-900">
+                            {renewedAudit}
+                        </p>
+                    </div>
+
                 </div>
 
                 <div className="mt-8 overflow-x-auto">
@@ -530,15 +541,36 @@ function Reports() {
                                         className="border-b border-slate-100 last:border-0"
                                     >
                                         <td className="px-3 py-4">
-                                            <span className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium capitalize text-slate-700">
-                                                {entry.activity_type.replace("_", " ")}
+
+                                            <span
+                                                className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
+                                                    entry.activity_type === "created"
+                                                        ? "bg-green-100 text-green-700"
+                                                        : entry.activity_type === "updated"
+                                                        ? "bg-blue-100 text-blue-700"
+                                                        : entry.activity_type === "renewed"
+                                                        ? "bg-purple-100 text-purple-700"
+                                                        : entry.activity_type === "expired"
+                                                        ? "bg-red-100 text-red-700"
+                                                        : entry.activity_type === "email_sent" ||
+                                                        entry.activity_type === "whatsapp_sent"
+                                                        ? "bg-emerald-100 text-emerald-700"
+                                                        : entry.activity_type === "email_failed" ||
+                                                        entry.activity_type === "whatsapp_failed"
+                                                        ? "bg-red-100 text-red-700"
+                                                        : "bg-slate-100 text-slate-700"
+                                                }`}
+                                            >
+                                                {entry.activity_type
+                                                    .replace(/_/g, " ")
+                                                    .replace(/\b\w/g, (char) => char.toUpperCase())}
                                             </span>
+
+
                                         </td>
 
                                         <td className="px-3 py-4 text-sm font-medium text-slate-900">
-                                            {entry.compliance_item
-                                                ? `Item #${entry.compliance_item}`
-                                                : "System"}
+                                            {entry.compliance_item_name || "System"}
                                         </td>
 
                                         <td className="px-3 py-4 text-sm text-slate-600">

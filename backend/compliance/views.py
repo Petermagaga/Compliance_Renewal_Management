@@ -237,18 +237,39 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
         ]
         return Response(data)
     
-    @action(detail=False,methods=["get"],url_path="audit")
-    def all_audit(self,request):
-        activities=(
-            Activity.objects.select_related("user","compliance_item")
+    @action(detail=False, methods=["get"], url_path="audit")
+    def all_audit(self, request):
+        activities = (
+            Activity.objects
+            .select_related("user", "compliance_item")
             .order_by("-created_at")
         )
-        serializer=ActivitySerializer(
-            activities,
-            many=True,
-        )
 
-        return Response(serializer.data)
+        data = [
+            {
+                "id": activity.id,
+                "activity_type": activity.activity_type,
+                "title": activity.title,
+                "description": activity.description,
+                "user": activity.user.id if activity.user else None,
+                "user_name": activity.user.full_name if activity.user else "System",
+                "user_role": activity.user.role if activity.user else None,
+                "compliance_item": (
+                    activity.compliance_item.id
+                    if activity.compliance_item
+                    else None
+                ),
+                "compliance_item_name": (
+                    activity.compliance_item.name
+                    if activity.compliance_item
+                    else None
+                ),
+                "created_at": activity.created_at,
+            }
+            for activity in activities
+        ]
+
+        return Response(data)
 
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
