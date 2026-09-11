@@ -354,6 +354,79 @@ function Reports() {
                         </div>
                     </div>
 
+<div className="mt-8 overflow-x-auto">
+    {reminders.length === 0 ? (
+        <div className="flex h-24 items-center justify-center rounded-xl bg-slate-50 text-sm text-slate-400">
+            No reminder activity available.
+        </div>
+    ) : (
+        <table className="w-full text-left">
+            <thead>
+                <tr className="border-b border-slate-200 text-xs text-slate-500">
+                    <th className="px-3 py-3 font-medium">
+                        Compliance Item
+                    </th>
+
+                    <th className="px-3 py-3 font-medium">
+                        Reminder
+                    </th>
+
+                    <th className="px-3 py-3 font-medium">
+                        Channel
+                    </th>
+
+                    <th className="px-3 py-3 font-medium">
+                        Status
+                    </th>
+
+                    <th className="px-3 py-3 font-medium">
+                        Date
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {reminders.map((reminder) => (
+                    <tr
+                        key={reminder.id}
+                        className="border-b border-slate-100 last:border-0"
+                    >
+                        <td className="px-3 py-4 text-sm font-medium text-slate-900">
+                            {reminder.compliance_item_name}
+                        </td>
+
+                        <td className="px-3 py-4 text-sm text-slate-600">
+                            {reminder.days_before} days before
+                        </td>
+
+                        <td className="px-3 py-4 text-sm capitalize text-slate-600">
+                            {reminder.channel}
+                        </td>
+
+                        <td className="px-3 py-4">
+                            <span
+                                className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
+                                    reminder.status === "sent"
+                                        ? "bg-green-100 text-green-700"
+                                        : "bg-red-100 text-red-700"
+                                }`}
+                            >
+                                {reminder.status}
+                            </span>
+                        </td>
+
+                        <td className="px-3 py-4 text-sm text-slate-600">
+                            {new Date(
+                                reminder.sent_at
+                            ).toLocaleDateString()}
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    )}
+</div>
+
                 </div>
 
 
