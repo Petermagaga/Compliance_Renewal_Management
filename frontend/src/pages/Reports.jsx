@@ -510,6 +510,7 @@ function Reports() {
                         </div>
                     ) : (
                         <table className="w-full text-left">
+                            
                             <thead>
                                 <tr className="border-b border-slate-200 text-xs text-slate-500">
                                     <th className="px-3 py-3 font-medium">
@@ -545,6 +546,7 @@ function Reports() {
                                             <span
                                                 className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
                                                     entry.activity_type === "created"
+                                                    
                                                         ? "bg-green-100 text-green-700"
                                                         : entry.activity_type === "updated"
                                                         ? "bg-blue-100 text-blue-700"
