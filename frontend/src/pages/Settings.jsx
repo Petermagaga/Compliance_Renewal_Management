@@ -15,7 +15,7 @@ function Settings() {
 
                 <p className="mt-4 text-gray-500">
 
-                    Reports module coming soon.
+                    jk
 
                 </p>
 
