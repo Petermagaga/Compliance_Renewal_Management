@@ -28,6 +28,13 @@ export function useCompliance() {
 
     } = useComplianceFilters();
 
+    useEffect(() => {
+        setPage(1);
+    },
+
+    [search]
+    );
+
 
     const filteredItems = items.filter(item => {
 

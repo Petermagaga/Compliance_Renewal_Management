@@ -30,7 +30,7 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
     search_fields =[
         "name",
         "responsible_person",
-        "department",
+        "department__name",
     ]
 
     def get_queryset(self):
