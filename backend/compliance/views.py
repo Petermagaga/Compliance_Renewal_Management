@@ -34,10 +34,14 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
     ]
 
     def get_queryset(self):
-        return (
+
+        queryset = (
             ComplianceQuerySet
             .visible_to(self.request.user).order_by("-created_at"))
-
+        status=self.request.query_params.get("status")
+        if status:
+            queryset= queryset.filter(status=status)
+        return queryset
     def perform_create(self, serializer):
 
         item = serializer.save()
