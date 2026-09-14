@@ -103,7 +103,7 @@ export function useCompliance() {
         try {
 
 
-            const response = await complianceService.getItems(page);
+            const response = await complianceService.getItems(page,search);
 
             console.log("Compliance API:", response.data);
 
@@ -125,7 +125,7 @@ export function useCompliance() {
 
         fetchItems();
 
-    }, [page]);
+    }, [page, search]);
 
     const deleteItem = async (id) => {
 

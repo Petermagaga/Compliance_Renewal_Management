@@ -2,8 +2,13 @@ import api from "../../../services/api";
 
 const complianceService = {
 
-    getItems(page = 1) {
-        return api.get(`/compliance/items/?page=${page}`);
+    getItems(page = 1, search= "") {
+        return api.get("/compliance/items/", {
+            params: {
+                page,
+                search,
+            }
+        });
     },
 
     getItem(id) {
