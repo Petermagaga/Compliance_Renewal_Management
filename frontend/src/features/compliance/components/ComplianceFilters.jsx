@@ -45,22 +45,25 @@ function ComplianceFilters() {
         [items]
     );
 
-    const departments = useMemo(
-        () =>
-            [
-                ...new Set(
-                    items
-                        .map(
-                            (item) =>
-                                item.department_name ??
-                                item.department
-                        )
-                        .filter(Boolean)
-                ),
-            ],
-        [items]
-    );
 
+    const departments = useMemo(
+        () => {
+            const departmentMap = new Map();
+
+            items.forEach((item) => {
+                if (item.department && item.department_name) {
+                    departmentMap.set(item.department, {
+                        id: item.department,
+                        name: item.department_name,
+                    });
+                }
+            });
+
+            return Array.from(departmentMap.values());
+        },
+        [items]
+    );    
+    
     return (
         <div
             className="
@@ -197,10 +200,10 @@ function ComplianceFilters() {
 
                 {departments.map((departmentValue) => (
                     <option
-                        key={departmentValue}
-                        value={departmentValue}
+                        key={departmentValue.id}
+                        value={departmentValue.id}
                     >
-                        {label(departmentValue)}
+                        {label(departmentValue.name)}
                     </option>
                 ))}
             </select>
