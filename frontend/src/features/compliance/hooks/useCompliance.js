@@ -113,7 +113,8 @@ export function useCompliance() {
             const response = await complianceService.getItems(page,
                 search,
                 status,
-                priority
+                priority,
+                
         );
 
             console.log("Compliance API:", response.data);
