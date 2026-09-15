@@ -48,9 +48,10 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
         if priority:
             queryset=queryset.filter(priority=priority)
 
-        category=self.request.query_params.get("category")
-        if category:
-            queryset=queryset.filter(category=category)
+        department=self.request.query_params.get("department")
+
+        if department:
+            queryset=queryset.filter(department_id=department)
 
         return queryset
     def perform_create(self, serializer):
