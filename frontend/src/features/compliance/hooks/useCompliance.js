@@ -32,7 +32,7 @@ export function useCompliance() {
         setPage(1);
     },
 
-    [search,status,priority]
+    [search,status,priority,department]
     );
 
 
@@ -114,6 +114,7 @@ export function useCompliance() {
                 search,
                 status,
                 priority,
+                department
                 
         );
 
