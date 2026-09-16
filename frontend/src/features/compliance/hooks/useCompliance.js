@@ -36,72 +36,13 @@ export function useCompliance() {
     );
 
 
-    const filteredItems = items.filter(item => {
-
-        const matchesSearch =
-
-            (item.name ?? "")
-
-                .toLowerCase()
-
-                .includes(search.toLowerCase())
-
-            ||
-
-            (item.responsible_person
-
-                ?? "") .toLowerCase()
-
-                .includes(search.toLowerCase())
-
-            ||
-
-            (item.department
-
-                ?? "") .toLowerCase()
-
-                .includes(search.toLowerCase());
-
-        const matchesStatus =
-
-            !status ||
-
-            item.status === status;
-
-        const matchesPriority =
-
-            !priority ||
-
-            item.priority === priority;
-
+    const filteredItems = items.filter((item) => {
         const matchesCategory =
+            !category || item.category === category;
 
-            !category ||
-
-            item.category === category;
-
-        const matchesDepartment =
-
-            !department ||
-
-            item.department === department;
-
-        return (
-
-            matchesSearch &&
-
-            matchesStatus &&
-
-            matchesPriority &&
-
-            matchesCategory &&
-
-            matchesDepartment
-
-        );
-
+        return matchesCategory;
     });
-
+    
 
 
 
