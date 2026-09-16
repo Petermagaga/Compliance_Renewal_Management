@@ -2,9 +2,9 @@ import { useMemo } from "react";
 import { FiFilter, FiRotateCcw } from "react-icons/fi";
 
 import { useComplianceFilters } from "../context/ComplianceFilterContext";
-import { useCompliance } from "../hooks/useCompliance";
 
-function ComplianceFilters() {
+
+function ComplianceFilters({ items=[] }) {
     const {
         status,
         priority,
@@ -19,7 +19,7 @@ function ComplianceFilters() {
         clearFilters,
     } = useComplianceFilters();
 
-    const { items } = useCompliance();
+    
 
     // Format labels nicely
     function label(text) {

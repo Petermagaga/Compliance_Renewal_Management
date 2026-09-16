@@ -82,7 +82,7 @@ return (
 
       <ExecutiveStats items={filteredItems} />
 
-      <ComplianceToolbar />
+      <ComplianceToolbar items={items}/>
 
       {loading ? (
         <>
