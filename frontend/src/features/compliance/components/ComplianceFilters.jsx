@@ -62,7 +62,8 @@ function ComplianceFilters() {
             return Array.from(departmentMap.values());
         },
         [items]
-    );    
+    );  
+    console.log("Departments:", departments);  
     
     return (
         <div
