@@ -79,7 +79,7 @@ export function useCompliance() {
 
         fetchItems();
 
-    }, [page, search,status,priority]);
+    }, [page, search,status,priority,department]);
 
     const deleteItem = async (id) => {
 
