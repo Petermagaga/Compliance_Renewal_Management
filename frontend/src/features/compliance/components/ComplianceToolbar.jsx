@@ -3,7 +3,7 @@ import ComplianceFilters from "./ComplianceFilters";
 
 import { useComplianceFilters } from "../context/ComplianceFilterContext";
 
-function ComplianceToolbar() {
+function ComplianceToolbar({items}) {
 
     const { clearFilters } = useComplianceFilters();
 
@@ -64,7 +64,7 @@ function ComplianceToolbar() {
 
             {/* Filters */}
 
-            <ComplianceFilters />
+            <ComplianceFilters  items={items} />
 
         </div>
 

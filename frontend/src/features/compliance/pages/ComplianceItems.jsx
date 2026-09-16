@@ -18,6 +18,7 @@ function ComplianceItems() {
 
     const {
         filteredItems,
+        items,
         loading,
         deleteItem,
         refresh,

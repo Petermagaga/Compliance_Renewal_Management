@@ -63,7 +63,6 @@ function ComplianceFilters() {
         },
         [items]
     );  
-    console.log("Departments:", departments);  
     
     return (
         <div
@@ -182,7 +181,9 @@ function ComplianceFilters() {
             {/* Department */}
             <select
                 value={department}
-                onChange={(e) => setDepartment(e.target.value)}
+                onChange={(e) => {
+                    
+                    setDepartment(e.target.value)}}
                 className="
                     rounded-lg
                     border
