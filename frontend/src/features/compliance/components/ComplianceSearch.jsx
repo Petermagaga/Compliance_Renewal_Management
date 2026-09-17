@@ -43,7 +43,7 @@ function ComplianceSearch() {
 
             <input
                 type="text"
-                value={search}
+                value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 placeholder="Search compliance items..."
                 className="

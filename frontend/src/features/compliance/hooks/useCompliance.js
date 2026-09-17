@@ -59,7 +59,7 @@ export function useCompliance() {
                 
         );
 
-            console.log("Compliance API:", response.data);
+           
 
             setItems(response.data.results ?? []);
             setCount(response.data.count ?? 0);
