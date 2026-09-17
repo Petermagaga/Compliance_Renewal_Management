@@ -1,5 +1,5 @@
 import { FiSearch, FiX } from "react-icons/fi";
-
+import { useEffect,useState } from "react";
 import { useComplianceFilters } from "../context/ComplianceFilterContext";
 
 
@@ -10,7 +10,19 @@ function ComplianceSearch() {
         setSearch,
     } = useComplianceFilters();
 
+
+    const [searchInput, setSearchInput] = useState(search);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setSearch(searchInput);
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [searchInput, setSearch]);
+
     const clearSearch = () => {
+        setSearchInput("");
         setSearch("");
     };
 
@@ -32,7 +44,7 @@ function ComplianceSearch() {
             <input
                 type="text"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearchInput(e.target.value)}
                 placeholder="Search compliance items..."
                 className="
                     w-full
