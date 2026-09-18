@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef,useState } from "react";
 import complianceService from "../services/complianceService";
 import { useComplianceFilters } from "../context/ComplianceFilterContext";
 export function useCompliance() {
@@ -12,6 +12,15 @@ export function useCompliance() {
     const PAGE_SIZE = 10;
 
     const [loading, setLoading] = useState(true);
+
+    const previousFilters = useRef({
+        search,
+        status,
+        priority,
+        department,
+    });
+
+
 
 
     const {
