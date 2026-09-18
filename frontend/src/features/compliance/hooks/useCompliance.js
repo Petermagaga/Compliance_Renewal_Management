@@ -13,12 +13,7 @@ export function useCompliance() {
 
     const [loading, setLoading] = useState(true);
 
-    const previousFilters = useRef({
-        search,
-        status,
-        priority,
-        department,
-    });
+
 
 
 
@@ -36,6 +31,14 @@ export function useCompliance() {
         department,
 
     } = useComplianceFilters();
+
+
+    const previousFilters = useRef({
+    search,
+    status,
+    priority,
+    department,
+    });
 
     useEffect(() => {
         setPage(1);
