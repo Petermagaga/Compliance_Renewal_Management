@@ -1,25 +1,27 @@
+import { useEffect, useState } from "react";
 import { FiSearch, FiX } from "react-icons/fi";
-import { useEffect,useState } from "react";
+
 import { useComplianceFilters } from "../context/ComplianceFilterContext";
 
-
 function ComplianceSearch() {
-
     const {
         search,
         setSearch,
     } = useComplianceFilters();
 
-
     const [searchInput, setSearchInput] = useState(search);
 
     useEffect(() => {
+        if (searchInput === search) {
+            return;
+        }
+
         const timer = setTimeout(() => {
             setSearch(searchInput);
         }, 500);
 
         return () => clearTimeout(timer);
-    }, [searchInput, setSearch]);
+    }, [searchInput, search, setSearch]);
 
     const clearSearch = () => {
         setSearchInput("");
@@ -27,9 +29,7 @@ function ComplianceSearch() {
     };
 
     return (
-
         <div className="relative w-full lg:max-w-md">
-
             <FiSearch
                 size={18}
                 className="
@@ -64,8 +64,7 @@ function ComplianceSearch() {
                 "
             />
 
-            {search && (
-
+            {searchInput && (
                 <button
                     type="button"
                     onClick={clearSearch}
@@ -81,15 +80,11 @@ function ComplianceSearch() {
                         hover:text-gray-600
                     "
                 >
-                    <FiX size={16}/>
+                    <FiX size={16} />
                 </button>
-
             )}
-
         </div>
-
     );
-
 }
 
 export default ComplianceSearch;
