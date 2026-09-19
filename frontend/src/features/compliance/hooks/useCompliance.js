@@ -40,12 +40,35 @@ export function useCompliance() {
     department,
     });
 
-    useEffect(() => {
-        setPage(1);
-    },
 
-    [search,status,priority,department]
-    );
+    useEffect(() => {
+        const filtersChanged =
+            previousFilters.current.search !== search ||
+            previousFilters.current.status !== status ||
+            previousFilters.current.priority !== priority ||
+            previousFilters.current.department !== department;
+
+        if (filtersChanged && page !== 1) {
+            previousFilters.current = {
+                search,
+                status,
+                priority,
+                department,
+            };
+
+            setPage(1);
+            return;
+        }
+
+        previousFilters.current = {
+            search,
+            status,
+            priority,
+            department,
+        };
+
+        fetchItems();
+    }, [page, search, status, priority, department]);
 
 
     const filteredItems = items.filter((item) => {
