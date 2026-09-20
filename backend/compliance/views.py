@@ -236,8 +236,9 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
     def all_renewals(self, request):
         visible_items=ComplianceQuerySet.visible_to(request.user)
 
-        renewals = (ComplianceRenewal.objects
-                    .filter(compliance_item_in=visible_items)
+        renewals = (
+            ComplianceRenewal.objects
+                    .filter(compliance_item__in=visible_items)
                     .order_by("-renewed_at"))
 
         serializer = ComplianceRenewalHistorySerializer(
@@ -249,9 +250,12 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
 
     @action(detail=False,methods=["get"],url_path="reminders")
     def all_reminders(self,request):
-        reminders=ReminderLog.objects.select_related(
-            "compliance_item"
-        ).order_by("-sent_at")
+        visible_items=ComplianceQuerySet.visible_to(request.user)
+        reminders=(ReminderLog.objects
+                   .select_related("compliance_item")
+                   .filter(compliance_item__in=visible_items)
+        .order_by("-sent_at")
+        )
 
         data=[
             {
