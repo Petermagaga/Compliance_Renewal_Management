@@ -234,7 +234,11 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["get"], url_path="renewals")
     def all_renewals(self, request):
-        renewals = ComplianceRenewal.objects.all().order_by("-renewed_at")
+        visible_items=ComplianceQuerySet.visible_to(request.user)
+
+        renewals = (ComplianceRenewal.objects
+                    .filter(compliance_item_in=visible_items)
+                    .order_by("-renewed_at"))
 
         serializer = ComplianceRenewalHistorySerializer(
             renewals,
