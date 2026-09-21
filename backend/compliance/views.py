@@ -273,9 +273,11 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
     
     @action(detail=False, methods=["get"], url_path="audit")
     def all_audit(self, request):
+        visible_items=ComplianceQuerySet.visible_to(request.user)
         activities = (
             Activity.objects
             .select_related("user", "compliance_item")
+            .filter(compliance_item__in=visible_items)
             .order_by("-created_at")
         )
 
@@ -310,4 +312,8 @@ class ReminderLogViewset(viewsets.ModelViewSet):
     serializer_class=ReminderLogSerializer
     queryset=ReminderLog.objects.all()
     def get_queryset(self):
-        return ReminderLog.objects.all()
+        visible_items=ComplianceQuerySet.visible_to(self.request.user)
+
+        return ReminderLog.objects.filter(
+            compliance_item__in=visible_items
+        )
