@@ -3,6 +3,7 @@ from .views import CurrentUserView,ForgotPasswordAPIView,ResetPasswordAPIView
 
 urlpatterns = [
     path("me/",
+         
          CurrentUserView.as_view(),name='current-user',),
     path("forgot-password/",
          ForgotPasswordAPIView.as_view(),name="forgot-password",),

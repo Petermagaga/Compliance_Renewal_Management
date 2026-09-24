@@ -8,6 +8,7 @@ class ComplianceQuerySet:
 
         if user.is_superuser:
             return ComplianceItem.objects.all()
+      
         
         return ComplianceItem.objects.filter(
             company=user.company
