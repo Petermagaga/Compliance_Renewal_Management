@@ -16,6 +16,7 @@ def update_compliance_status():
         if days_left<=0:
             item.status = "expired"
 
+
         elif days_left<=60:
             item.status= "expiring"
         else:

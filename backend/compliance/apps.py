@@ -5,5 +5,6 @@ class ComplianceConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'compliance'
 
+
     def ready(self):
         import compliance.domain.events.bootstrap

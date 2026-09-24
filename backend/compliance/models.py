@@ -76,6 +76,7 @@ class ComplianceRenewal(models.Model):
         upload_to="compliance_renewals/old/",blank=True,null=True,
     )
 
+
     new_document=models.FileField(
         upload_to="compliance_renewals/new/",blank=True,null=True
     )

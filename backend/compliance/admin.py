@@ -27,8 +27,8 @@ class ReminderLogAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return queryset
 
-        # Company admins/staff only see reminders
-        # belonging to their company's compliance items
+
+      # belonging to their company's compliance items
         return queryset.filter(
             compliance_item__company=request.user.company
         )
