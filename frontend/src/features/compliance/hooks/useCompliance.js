@@ -9,6 +9,7 @@ export function useCompliance() {
 
     const [count, setCount] = useState(0);
 
+    
     const PAGE_SIZE = 10;
 
     const [loading, setLoading] = useState(true);

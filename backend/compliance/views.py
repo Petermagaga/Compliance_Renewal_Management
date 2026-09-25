@@ -310,6 +310,7 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
 class ReminderLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     serializer_class=ReminderLogSerializer
+    
     queryset=ReminderLog.objects.all()
     def get_queryset(self):
         visible_items=ComplianceQuerySet.visible_to(self.request.user)

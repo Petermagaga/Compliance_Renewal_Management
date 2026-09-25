@@ -10,6 +10,7 @@ export function ComplianceFilterProvider({ children }) {
 
     const [category, setCategory] = useState("");
 
+    
     const [priority, setPriority] = useState("");
 
     const [department, setDepartment] = useState("");
