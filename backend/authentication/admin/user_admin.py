@@ -9,6 +9,15 @@ class CustomUserAdmin(UserAdmin):
     """
     Internal administration for platform users.
     """
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+
+        # System super admins can see all users
+        if request.user.is_superuser:
+            return queryset
+
+        # Company admins/staff only see users in their company
+        return queryset.filter(company=request.user.company)
 
     ordering = ("email",)
 
@@ -130,3 +139,4 @@ class CustomUserAdmin(UserAdmin):
             },
         ),
     )
+
