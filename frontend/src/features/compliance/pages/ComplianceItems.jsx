@@ -31,6 +31,7 @@ function ComplianceItems() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleting, setDeleting] = useState(false);
 
+
     const openDeleteModal = (item) => {
         setSelectedItem(item);
         setShowDeleteModal(true);
@@ -41,6 +42,7 @@ function ComplianceItems() {
         setShowDeleteModal(false);
     };
 
+    
     const confirmDelete = async () => {
 
         if (!selectedItem) {

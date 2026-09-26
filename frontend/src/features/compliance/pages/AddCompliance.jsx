@@ -11,7 +11,9 @@ function AddCompliance() {
 
     const [submitting, setSubmitting] = useState(false);
 
+
     const [error, setError] = useState(null);
+
 
 
     const handleCreate = async (data) => {
@@ -21,6 +23,7 @@ function AddCompliance() {
             setSubmitting(true);
             setError(null);
 
+            
             await complianceService.createItem(data);
 
             navigate("/compliance");

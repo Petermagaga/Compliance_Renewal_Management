@@ -11,9 +11,11 @@ function EditCompliance() {
     const navigate = useNavigate();
 
     const [item, setItem] = useState(null);
+    
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+
         const loadItem = async () => {
             try {
                 const response =
