@@ -140,3 +140,61 @@ class CustomUserAdmin(UserAdmin):
         ),
     )
 
+    def get_fieldsets(self, request, obj=None):
+        if request.user.is_superuser:
+            return super().get_fieldsets(request, obj)
+
+        return (
+            (
+                "Identity",
+                {
+                    "fields": (
+                        "id",
+                        "email",
+                        "password",
+                    )
+                },
+            ),
+            (
+                "Personal Information",
+                {
+                    "fields": (
+                        "first_name",
+                        "last_name",
+                        "phone",
+                        "profile_photo",
+                    )
+                },
+            ),
+            (
+                "Organization",
+                {
+                    "fields": (
+                        "company",
+                        "department",
+                        "role",
+                    )
+                },
+            ),
+            (
+                "Permissions",
+                {
+                    "fields": (
+                        "is_active",
+                        "is_verified",
+                    )
+                },
+            ),
+            (
+                "Audit",
+                {
+                    "fields": (
+                        "last_login",
+                        "date_joined",
+                        "created_at",
+                        "updated_at",
+                    )
+                },
+            ),
+        )
+
