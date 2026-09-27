@@ -206,3 +206,48 @@ class CustomUserAdmin(UserAdmin):
             ),
         )
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if (
+            db_field.name == "department"
+            and not request.user.is_superuser
+        ):
+            kwargs["queryset"] = db_field.remote_field.model.objects.filter(
+                company=request.user.company
+            )
+
+        return super().formfield_for_foreignkey(
+            db_field,
+            request,
+            **kwargs
+        )
+
+
+    def formfield_for_choice_field(self, db_field, request, **kwargs):
+        if (
+            db_field.name == "role"
+            and not request.user.is_superuser
+        ):
+            allowed_roles = {
+                "manager",
+                "compliance_officer",
+                "viewer",
+            }
+
+            kwargs["choices"] = [
+                choice
+                for choice in db_field.choices
+                if choice[0] in allowed_roles
+            ]
+
+        return super().formfield_for_choice_field(
+            db_field,
+            request,
+            **kwargs
+        )
+
+
+    def save_model(self, request, obj, form, change):
+        if not request.user.is_superuser and not change:
+            obj.company = request.user.company
+
+        super().save_model(request, obj, form, change)
