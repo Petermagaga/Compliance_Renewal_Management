@@ -19,6 +19,14 @@ class CustomUserAdmin(UserAdmin):
         # Company admins/staff only see users in their company
         return queryset.filter(company=request.user.company)
 
+    def get_readonly_fields(self, request, obj=None):
+        readonly = list(super().get_readonly_fields(request, obj))
+
+        if not request.user.is_superuser:
+            readonly.append("company")
+
+        return tuple(readonly)
+    
     ordering = ("email",)
 
     list_display = (
