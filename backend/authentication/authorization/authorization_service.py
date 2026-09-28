@@ -14,6 +14,7 @@ class AuthorizationService:
 
     @staticmethod
     def has_permission(user,permission):
+        
         """
         Return True if the user has thr given permission.
         """

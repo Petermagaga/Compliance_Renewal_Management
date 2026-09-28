@@ -14,6 +14,7 @@ class Permission(str, Enum):
     COMPLIANCE_CREATE = "compliance.create"
     COMPLIANCE_UPDATE = "compliance.update"
     COMPLIANCE_DELETE = "compliance.delete"
+    
     COMPLIANCE_APPROVE = "compliance.approve"
 
     # Reports

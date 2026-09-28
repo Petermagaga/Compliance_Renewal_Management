@@ -249,5 +249,4 @@ class CustomUserAdmin(UserAdmin):
     def save_model(self, request, obj, form, change):
         if not request.user.is_superuser and not change:
             obj.company = request.user.company
-
         super().save_model(request, obj, form, change)
