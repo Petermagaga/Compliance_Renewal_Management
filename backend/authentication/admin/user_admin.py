@@ -22,7 +22,7 @@ class CustomUserAdmin(UserAdmin):
     def get_readonly_fields(self, request, obj=None):
         readonly = list(super().get_readonly_fields(request, obj))
 
-        if not request.user.is_superuser:
+        if not request.user.is_superuser and obj is not None:
             readonly.append("company")
 
         return tuple(readonly)
