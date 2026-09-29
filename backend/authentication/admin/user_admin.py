@@ -149,8 +149,64 @@ class CustomUserAdmin(UserAdmin):
     )
 
     def get_fieldsets(self, request, obj=None):
+
+        # System superuser gets the normal/full admin form
         if request.user.is_superuser:
             return super().get_fieldsets(request, obj)
+
+        # ---------------------------------------------------------
+        # ADD USER
+        # ---------------------------------------------------------
+
+        if obj is None:
+            return (
+                (
+                    "Identity",
+                    {
+                        "fields": (
+                            "email",
+                            "password1",
+                            "password2",
+                        )
+                    },
+                ),
+
+                (
+                    "Personal Information",
+                    {
+                        "fields": (
+                            "first_name",
+                            "last_name",
+                            "phone",
+                            "profile_photo",
+                        )
+                    },
+                ),
+
+                (
+                    "Organization",
+                    {
+                        "fields": (
+                            "department",
+                            "role",
+                        )
+                    },
+                ),
+
+                (
+                    "Permissions",
+                    {
+                        "fields": (
+                            "is_active",
+                            "is_verified",
+                        )
+                    },
+                ),
+            )
+
+        # ---------------------------------------------------------
+        # EDIT EXISTING USER
+        # ---------------------------------------------------------
 
         return (
             (
@@ -163,6 +219,7 @@ class CustomUserAdmin(UserAdmin):
                     )
                 },
             ),
+
             (
                 "Personal Information",
                 {
@@ -174,6 +231,7 @@ class CustomUserAdmin(UserAdmin):
                     )
                 },
             ),
+
             (
                 "Organization",
                 {
@@ -184,6 +242,7 @@ class CustomUserAdmin(UserAdmin):
                     )
                 },
             ),
+
             (
                 "Permissions",
                 {
@@ -193,6 +252,7 @@ class CustomUserAdmin(UserAdmin):
                     )
                 },
             ),
+
             (
                 "Audit",
                 {
