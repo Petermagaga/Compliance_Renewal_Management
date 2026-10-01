@@ -56,7 +56,7 @@ class ComplianceItemViewSet(viewsets.ModelViewSet):
         return queryset
     def perform_create(self, serializer):
 
-        item = serializer.save()
+        item = serializer.save(company=self.request.user.company)
 
         ActivityService.log(
 
